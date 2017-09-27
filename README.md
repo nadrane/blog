@@ -1,0 +1,1 @@
+Hi! This is the source control for my blog over at [fromthestandingdesk](www.fromthestandingdesk.com). Please check it out!
