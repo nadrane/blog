@@ -3,9 +3,9 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: From the Standing Desk Of
+title: Nick Drane
 subtitle: Nick Drane
-description: A place to read and learn about programming
+description: A place to read and learn about programming, particularly modern web development and data structures and algorithms.
 author: Nick Drane
 language: English
 timezone:
@@ -77,7 +77,9 @@ theme: concise
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
-  type:
+  type: heroku
+  repo: https://git.heroku.com/fromthestandingdeskof.git
+
 
 feed:
   type: atom
