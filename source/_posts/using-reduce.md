@@ -47,7 +47,7 @@ Now we just need to complete the guts of the function such that it increments th
 const arrToSum = [1, 2, 3, 4, 5];
 arrToSum.reduce(function(currentSum, nextNumber) {
   // nextNumber is odd
-  if (nextNumber % 1 === 1) {
+  if (nextNumber % 2 === 1) {
     return currentSum + nextNumber
   // nextNumber is even
   } else {
@@ -85,8 +85,8 @@ const arrToConcat = ['a', 'b', 'c', 'd', 'e'];
 function join(arrToConcat, joinCharacter) {
   return arrToConcat.reduce(function(resultantString, nextCharacter) {
     return resultantString + joinCharacter + nextCharacter;
-  });
-}, "")
+  }, "");
+}
 ```
 
 ## Frequency Counter
@@ -113,7 +113,7 @@ Consulting the table above, we know that the starting accumulator needs to be an
 const frequencyArray = ['luke', 'anakin', 'chewy', 'luke', 'chewy', 'princess', 'leia', 'chewy'];
 frequencyArray.reduce(function(resultantObject, nextWord) {
 
-}, {}
+}, {})
 ```
 
 Every step of the higher order function needs to examine the next word and determine if it has been seen before. If it has not, then we need to add an entry to the accumulator and return it. If it has, then we need to increment the existing entry inside the accumulator object and return it.
@@ -123,12 +123,13 @@ frequencyArray.reduce(function(resultantObject, nextWord) {
   // If the word is not in the object
   if (!resultantObject.hasOwnProperty(nextWord)) {
     resultantObject[nextWord] = 1 //Set it to 1 since we have now seen the word 1 time.
+    return resultantObject
   } else {
     // Otherwise increment the counter for that word inside the resulting object
     resultantObject[nextWord]++
-    return resultObject
+    return resultantObject
   }
-}, {}
+}, {})
 ```
 
 Just like the first example, every code path returns the type that we ultimately expect (which is also the type of the initial accumulator).
@@ -165,7 +166,7 @@ function mergeTwo(obj1, obj2) {
 
 function merge(arr) {
   return arr.reduce(function(resultantObj, nextObj) {
-    return merge(resultantObj, nextObj)
+    return mergeTwo(resultantObj, nextObj)
   }, {})
 }
 ```
