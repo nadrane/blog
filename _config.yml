@@ -4,11 +4,11 @@
 
 # Site
 title: Nick Drane
-subtitle: Nick Drane
+subtitle: Learn web development and CS fundamentals
 description: A place to read and learn about programming, particularly modern web development and data structures and algorithms.
 author: Nick Drane
-language: English
-timezone:
+language: en
+timezone: America/Chicago
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
