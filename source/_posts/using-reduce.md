@@ -4,7 +4,7 @@ date: 2017-09-28 10:36:30
 categories: Functional Programming
 ---
 
-My first introduction to functional programming was a couple years ago when I read through the famous (SICP)[https://mitpress.mit.edu/sicp/full-text/book/book.html]. As someone who had up to this point worked with mostly in object oriented and imperative languages, I had rarely seen `map`, `fitler`, and `reduce` before that time. The purpose of the former two felt obvious; the latter one not so much. This blog post is geared for someone who knows how `reduce` works but feels like they struggle to use it practically. It's dedicated to teaching you how to write almost anything (not an understatement) using the `reduce` statement.
+My first introduction to functional programming was a couple years ago when I read through the famous [SICP](https://mitpress.mit.edu/sicp/full-text/book/book.html). As someone who had up to this point worked with mostly in object oriented and imperative languages, I had rarely seen `map`, `fitler`, and `reduce` before that time. The purpose of the former two felt obvious; the latter one not so much. This blog post is geared for someone who knows how `reduce` works but feels like they struggle to use it practically. It's dedicated to teaching you how to write almost anything (not an understatement) using the `reduce` statement.
 
 I think one of the reasons `map` and `filter` are easier than `reduce` is because they always return an array. That's not the case for `reduce`. `reduce` is ultimately designed to transform one type into another, but it's far more flexible than that.
 
@@ -181,4 +181,4 @@ To summarize
 
 
 ## Conclusion
-At the end of the day, just about everything you can do with reduce can be done with some combination of `map` and `fitler` and perhaps another (functional method)[https://lodash.com/docs/4.17.4]. And the alternative solution is almost always simpler and more readable. So, in practice, you probably don't want to use `reduce` that often. With that said, `reduce` is a building block on which every other functional method can be built, and we will explore this unique trait in my next blog post.
+At the end of the day, just about everything you can do with reduce can be done with some combination of `map` and `fitler` and perhaps another [functional method(https://lodash.com/docs/4.17.4]). And the alternative solution is almost always simpler and more readable. So, in practice, you probably don't want to use `reduce` that often. With that said, `reduce` is a building block on which every other functional method can be built, and we will explore this unique trait in my next blog post.
