@@ -1,0 +1,103 @@
+*
+  margin 0
+  padding 0
+
+body
+  background color-background
+  color color-font
+  font-family font-default
+  font-size 14px
+  text-shadow 0 0 1px transparent
+  @media screen and (max-width: 1260px)
+    margin 0 30px
+  @media screen and (max-width: 600px)
+    font-size 12px
+
+h1, h2, h3, h4, h5, h6
+  font-family font-title
+
+h1
+  font-size 1.8em
+
+h2
+  font-size 1.5em
+
+h3
+  font-size 1.3em
+
+a
+  text-decoration none
+  color color-link
+  &:hover
+    text-decoration none
+
+.alignleft
+  float left
+
+.alignright
+  float right
+
+.clearfix
+  clearfix()
+
+.inner
+  width page-width
+  margin 0 auto
+  position relative
+  @media screen and (max-width: 1260px)
+    width 100%
+
+#main-col
+  width 900px
+  @media screen and (max-width: 1260px)
+    width 100%
+    margin-right -300px
+  @media screen and (max-width: 900px)
+    margin-right 0
+    float none
+
+#wrapper
+  @media screen and (max-width: 1260px)
+    margin-right 300px
+  @media screen and (max-width: 900px)
+    margin-right 0
+
+#content
+  margin-top 20px
+
+table
+  font-family: 'Arial';
+  margin: 25px auto;
+  border-collapse: collapse;
+  border: 1px solid #eee;
+  tr
+     &:hover
+      background: #f4f4f4;
+      td
+        color: #555;
+  th, td
+    color: #999;
+    border: 1px solid #eee;
+    padding: 12px 35px;
+    border-collapse: collapse;
+  th
+    background: #2196f3;
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 12px;
+    &.last
+      border-right: none;
+
+.highlight table
+  margin: 0 0;
+  tr
+    &:hover
+      background: inherit;
+  td
+    padding-left: 0px
+  .gutter
+    padding-top: 0;
+    padding-bottom: 0;
+  .code
+    padding-top 0;
+    padding-bottom: 0;
