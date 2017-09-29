@@ -78,7 +78,7 @@ theme: concise
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: heroku
-  repo: https://git.heroku.com/fromthestandingdeskof.git
+  repo: https://git.heroku.com/nicks-blog.git
 
 
 feed:
