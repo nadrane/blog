@@ -87,5 +87,8 @@ feed:
   limit: 10
 
 alias:
-  2017/09/26/leveraging-immutability-in-react/: write-your-own-redux-connect/
+  2017/09/26/leveraging-immutability-in-react/: leveraging-immutability-in-react
   2017/09/28/using-reduce/: using-reduce/
+
+sitemap:
+    path: sitemap.xml
