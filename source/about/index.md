@@ -1,5 +1,5 @@
 ---
-title: about
+title: About
 date: 2017-10-04 10:12:19
 ---
 
