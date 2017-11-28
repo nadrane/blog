@@ -9,4 +9,4 @@ I live in Chicago. If you are in city, you should reach out and we should grab c
 
 I also do contract/consulting work for software companies.
 
-You can reach me at [nick@nickdrane.com](mailto://nick@nickdrane.com).
+You can reach me at [nicholasdrane@gmail.com](mailto://nicholasdrane@gmail.com).
