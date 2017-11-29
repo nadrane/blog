@@ -17,9 +17,9 @@ Here are some examples
 
 `matchOne('a', 'a')` -> `true`
 `matchOne('.', 'z')` -> `true`
-`matchOne('', 'h')` -> `true`
+`matchOne('', 'h')`  -> `true`
 `matchOne('a', 'b')` -> `false`
-`matchOne('p', '')` -> `false`
+`matchOne('p', '')`  -> `false`
 
 
 ```js
@@ -105,10 +105,10 @@ We want to be able to match 0 to 1 of the character before `?`.
 
 Here are some examples
 
-`search("ab?c", "ac")` -> `true`
-`search("ab?c", "abc")` -> `true`
+`search("ab?c", "ac")`    -> `true`
+`search("ab?c", "abc")`   -> `true`
 `search("a?b?c?", "abc")` -> `true`
-`search("a?b?c?", "")` -> `true`
+`search("a?b?c?", "")`    -> `true`
 
 The first step is to modify `match` to detect when a `?` character is present and then delegate to the `makeQuestion` function, which we will define shortly.
 
