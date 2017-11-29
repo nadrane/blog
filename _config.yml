@@ -13,7 +13,7 @@ timezone: America/Chicago
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
 url: http://nickdrane.com
-root: /
+root: blog/
 permalink: :title/
 permalink_defaults:
 
@@ -77,8 +77,9 @@ theme: concise
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
-  type: heroku
-  repo: https://git.heroku.com/nicks-blog.git
+  type: git
+  repo: git@github.com:nadrane/blog.git
+  branch: gh-pages
 
 
 feed:
