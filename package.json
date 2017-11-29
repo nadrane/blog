@@ -6,7 +6,7 @@
     "version": "3.3.9"
   },
   "scripts": {
-    "deploy": "hexo clean && hexo deploy"
+    "deploy": "hexo clean && hexo generate && touch public/CNAME && echo nickdrane.com > public/CNAME && hexo deploy"
   },
   "dependencies": {
     "hexo": "^3.2.0",
