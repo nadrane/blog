@@ -118,7 +118,6 @@ function match(pattern, text) {
     return true
   } else if (pattern === "$" && text === "") {
     return true
-  }
   // Notice that we are looking at pattern[1] instead of pattern[0].
   // pattern[0] is the character to match 0 or 1 of.
   } else if (pattern[1] === "?") {
@@ -200,8 +199,9 @@ function match(pattern, text) {
 Since there are two cases that both result in a match (0 matches OR more matches), we know that `matchStar` can be implemented with a boolean OR. Furthermore, case 1 for `matchStar` is exactly the same as it was for `matchQuestion` and can be implemented identically using `match(pattern.slice(2), text)`. That means we only need to formulate an expression that satisfies case 2.
 
 ```js
-function matchStar(pattern, text) { {
+function matchStar(pattern, text) {
   return (matchOne(pattern[0], text[0]) && match(pattern, text.slice(1))) || match(pattern.slice(2), text);
+}
 ```
 
 ## Refactoring
