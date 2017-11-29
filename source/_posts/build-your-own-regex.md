@@ -7,11 +7,20 @@ categories:
   - [Recursion]
 ---
 
-I stumbled upon an [article](https://www.cs.princeton.edu/courses/archive/spr09/cos333/beautiful.html) the other day where Rob Pike implements a rudimentary regular expression engine in c. I converted his code to Javascript and added test specs so that someone can self-guide themselves through the creation of the regex engine. The solution and specs can be found in this [GitHub repository](https://github.com/nadrane/build-your-own-regex). This blog post is a walkthrough on how my solution is implemented.
+I stumbled upon an [article](https://www.cs.princeton.edu/courses/archive/spr09/cos333/beautiful.html) the other day where Rob Pike implements a rudimentary regular expression engine in c. I converted his code to Javascript and added test specs so that someone can self-guide themselves through the creation of the regex engine. The solution and specs can be found in this [GitHub repository](https://github.com/nadrane/build-your-own-regex). This blog post walks through my solution.
 
 ## Matching One Character
 
-The first step is to write a function that can take in a one character pattern and a one character text string and return a boolean indicating if they match.
+The first step is to write a function that takes in a one character pattern and a one character text string and returns a boolean indicating if they match. A pattern of `.` is considered a wildcard and matches against any character literal.
+
+Here are some examples
+
+`matchOne('a', 'a')` -> `true`
+`matchOne('.', 'z')` -> `true`
+`matchOne('', 'h')` -> `true`
+`matchOne('a', 'b')` -> `false`
+`matchOne('p', '')` -> `false`
+
 
 ```js
 function matchOne(pattern, text) {
@@ -24,7 +33,7 @@ function matchOne(pattern, text) {
 
 ## Matching Same Length Strings
 
-Now we want to add support for patterns and text strings of arbitrary length. For now, let's only consider a pattern/text of the same length. I happen to know that the solution lends itself very naturally to recursion, so we will use it here. We are going to want to repeatedly invokes `matchOne` on successive characters in the inputed strings.
+Now we want to add support for patterns and text strings of greater length. For now, let's only consider a pattern/text pair of the same length. I happen to know that the solution lends itself very naturally to recursion, so we will use it here. We are going to want to repeatedly invoke `matchOne` on successive pairs of characters from the pattern/text combination.
 
 ```js
 function match(pattern, text) {
@@ -33,7 +42,7 @@ function match(pattern, text) {
 }
 ```
 
-The above code advances character by character across the the pattern/text pair. It first compares pattern[0] to text[0] and then pattern[1] to text[1] and continue comparing pattern[i] to text[i] until i === pattern.length.. If they ever don't match, then we know that the pattern cannot match text.
+The above code advances character by character across the the pattern/text pair. It first compares pattern[0] to text[0] and then pattern[1] to text[1] and continues comparing pattern[i] to text[i] until i === pattern.length. If they ever don't match, then we know that the pattern cannot match the text.
 
 Let's take an example. Suppose we invoke `match('a.c', 'abc')`, which returns `matchOne('a', 'a') && match('.c', 'bc')`.
 
@@ -45,7 +54,7 @@ Let's add support for the special pattern character `$` that allows us to match 
 
 ```js
 function match(pattern, text) {
-  if (pattern === "") return true  // Our base case - If the pattern is empty, any inputted text is a match
+  if (pattern === "") return true
   if (pattern === "$" && text === "") return true
   else return matchOne(pattern[0], text[0]) && match(pattern.slice(1), text.slice(1))
 }
@@ -63,17 +72,18 @@ function search(pattern, text) {
 }
 ```
 
-This function will be the entry point to our code. Up till this point, we were only matching patterns that began at the beginning of the text. We are simply making that more clear now by forcing the user to preface the pattern with a `^`. But how do we support patterns that appear anywhere within the text?
+This function will be the new entry point to our code. Up till this point, we were only matching patterns that began at the beginning of the text. We are simply making that more clear now by forcing the user to preface the pattern with a `^`. But how do we support patterns that appear anywhere within the text?
 
 ## Matches Starting Anywhere
 
 Currently, the following return `true`
+
 `search("^abc", "abc")`
 `search("^abcd", "abcd")`
 
-But `search("bc", "abcd")` will just return undefined. We want it to return `true`
+But `search("bc", "abcd")` will just return `undefined`. We want it to return `true`
 
-If the user does not specify that the pattern matches the beginning of the text, then we want to search for that pattern at every possible starting point within the text. We will default to this behavior if the pattern does not begin with `^`.
+If the user does not specify that the pattern matches the beginning of the text, then we want to search for that pattern at every possible starting point within the text. We will default to this behavior if the pattern does not begin with `^`<sup>[1](#footnote1)</sup>.
 
 ```js
 function search(pattern, text) {
@@ -81,7 +91,7 @@ function search(pattern, text) {
     return match(pattern.slice(1), text)
   } else {
     // This code will run match(pattern, text.slice(index)) on every index of the text.
-    // This means that we test the pattern against every starting point of the text. <sup>[1](#footnote1)</sup>
+    // This means that we test the pattern against every starting point of the text.
     return text.split("").some((_, index) => {
       return match(pattern, text.slice(index))
     })
@@ -93,14 +103,14 @@ function search(pattern, text) {
 
 We want to be able to match 0 to 1 of the character before `?`.
 
-All of these should return `true`.
+Here are some examples
 
-`search("ab?c", "ac")`
-`search("ab?c", "abc")`
-`search("a?b?c?", "abc")`
-`search("a?b?c?", "")`
+`search("ab?c", "ac")` -> `true`
+`search("ab?c", "abc")` -> `true`
+`search("a?b?c?", "abc")` -> `true`
+`search("a?b?c?", "")` -> `true`
 
-The first step is to modify `match` to detect when a `?` character is present and then delegate to the`makeQuestion` function.
+The first step is to modify `match` to detect when a `?` character is present and then delegate to the `makeQuestion` function, which we will define shortly.
 
 ```js
 function match(pattern, text) {
@@ -120,12 +130,12 @@ function match(pattern, text) {
 ```
 
 `matchQuestion` needs to handle two cases:
-1. Where the character before the `?` is not matched but the rest of the text matches the remainder of the pattern
-2. Where the character before the `?` is matched and the rest of the text matches the remainder of the pattern.
+1. Where the character before the `?` is not matched but the text matches the remainder of the pattern
+2. Where the character before the `?` is matched and the rest of the text (minus the 1 matched character) matches the remainder of the pattern.
 
 If either of these cases is truthy, then `matchQuestion` can return `true`.
 
-Let's consider the first case. How do we see if the text matches everything in the pattern except the `_?` syntax? Simple. We strip 2 characters off the pattern and invoke the match function. The first character is the one that might be present and the second is the `?` itself.
+Let's consider the first case. How do we check if the text matches everything in the pattern except the `_?` syntax? In order words, how do we see if the character appears 0 times? Simple. We strip 2 characters off the pattern and invoke the match function. The first character is the one that might be present and the second is the `?` itself.
 
 ```js
 function matchQuestion(pattern, text) {
@@ -145,7 +155,7 @@ function matchQuestion(pattern, text) {
 }
 ```
 
-If the `text[0]` matches `pattern[0]`, and the rest of the text (minus the part that is matched by `matchOne`) matches the rest of the pattern, then we are golden. Note that we could rewrite the code like this:
+If the `text[0]` matches `pattern[0]`, and the rest of the text (minus the part that is matched by `matchOne`) `text.slice(1)` matches the remainder of the pattern `pattern.slice(2)`, then we are golden. Note that we could rewrite the code like this:
 
 ```js
 function matchQuestion(pattern, text) {
@@ -184,7 +194,7 @@ function match(pattern, text) {
 ```
 
 `matchStar`, like `matchQuestion`, also needs to handle two cases:
-1. Where the character before the `*` is not matched but the rest of the text matches the remainder of the pattern
+1. Where the character before the `*` is not matched but the text matches the remainder of the pattern
 2. Where the character before the `*` is matched one or more times and the rest of the text matches the remainder of the pattern.
 
 Since there are two cases that both result in a match (0 matches OR more matches), we know that `matchStar` can be implemented with a boolean OR. Furthermore, case 1 for `matchStar` is exactly the same as it was for `matchQuestion` and can be implemented identically using `match(pattern.slice(2), text)`. That means we only need to formulate an expression that satisfies case 2.
@@ -196,7 +206,7 @@ function matchStar(pattern, text) { {
 
 ## Refactoring
 
-We can now go back and very cleverly simplify `search` using a trick I learned in Norvig's class.
+We can now go back and cleverly simplify `search` using a trick I learned in Peter Norvig's [class](https://www.udacity.com/course/design-of-computer-programs--cs212).
 
 ```js
 function search(pattern, text) {
@@ -212,4 +222,4 @@ We use the `*` character itself to allow for the pattern to appear anywhere in t
 
 
 ### Footnotes
-<a name="footnote1">1</a>: There is a small bug in this code that I'm choosing to ignore. We don't account for the case that text is an empty string. Currently when `text = ''`, `text.split("")` will return `[]` and will note appropriately called `match`.
+<a name="footnote1">1</a>: There is a small bug in this code that I'm choosing to ignore. We don't account for the case that text is an empty string. Currently when `text === ''`, `text.split("")` will return `[]` and will not appropriately call `match`.
