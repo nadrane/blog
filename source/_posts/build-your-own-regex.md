@@ -77,7 +77,7 @@ function match(pattern, text) {
 
 ## The ^ Character
 
-Let's add support for the special pattern character `^` that allows us to match the beginning of a string. I'm going to introduce a new function called search.
+Let's add support for the special pattern character `^` that allows us to match the beginning of a string. I'm going to introduce a new function called `search`.
 
 ```js
 function search(pattern, text) {
