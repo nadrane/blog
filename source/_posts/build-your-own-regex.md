@@ -125,7 +125,7 @@ Here are some examples
 `search("a?b?c?", "abc")` -> `true`
 `search("a?b?c?", "")`    -> `true`
 
-The first step is to modify `match` to detect when a `?` character is present and then delegate to the `makeQuestion` function, which we will define shortly.
+The first step is to modify `match` to detect when a `?` character is present and then delegate to the `matchQuestion` function, which we will define shortly.
 
 ```js
 function match(pattern, text) {
@@ -237,7 +237,7 @@ We use the `*` character itself to allow for the pattern to appear anywhere in t
 
 ## Conclusion
 
-It's remarkable how simple and elegant the code for such a sophisticated generalized program can be. The full source is available in this [GitHub repository](https://github.com/nadrane/build-your-own-regex)
+It's remarkable how simple and elegant the code for such a sophisticated and generalized program can be. The full source is available in this [GitHub repository](https://github.com/nadrane/build-your-own-regex)
 
 
 ### Footnotes
