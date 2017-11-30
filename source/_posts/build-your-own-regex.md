@@ -1,5 +1,5 @@
 ---
-title: Build Your Own Regex Engine
+title: Build a Regex Engine in Less than 40 Lines of Code
 date: 2017-11-28 11:36:04
 categories:
   - [Regular Expressions]
@@ -7,7 +7,22 @@ categories:
   - [Recursion]
 ---
 
-I stumbled upon an [article](https://www.cs.princeton.edu/courses/archive/spr09/cos333/beautiful.html) the other day where Rob Pike implements a rudimentary regular expression engine in c. I converted his code to Javascript and added test specs so that someone can self-guide themselves through the creation of the regex engine. The solution and specs can be found in this [GitHub repository](https://github.com/nadrane/build-your-own-regex). This blog post walks through my solution.
+I stumbled upon an [article](https://www.cs.princeton.edu/courses/archive/spr09/cos333/beautiful.html) the other day where Rob Pike implements a rudimentary regular expression engine in c. I converted his code to Javascript and added test specs so that someone can self-guide themselves through the creation of the regex engine. The specs and solution can be found in this [GitHub repository](https://github.com/nadrane/build-your-own-regex). This blog post walks through my solution.
+
+## The Problem
+
+Our regex engine will support the following syntax:
+
+| Syntax | Meaning | Example | matches |
+|--------|---------|---------|---------|
+| a | Matches the specified character literal | q | q |
+| * | Matches 0 or more of the previous character | a* | "", a, aa, aaa  |
+| ? | Matches 0 or 1 of the previous character | a? | "", a |
+| . | Matches any character literal | . | a, b, c, d, e ... |
+| ^ | Matches the start of a string | ^c | c, ca, caa, cbb ... |
+| $ | Matches the end of a string | a$ | ba, baaa, qwerta ... |
+
+The goal is to provide a syntax robust enough to match a large portion of regex use cases with minimal code.
 
 ## Matching One Character
 
@@ -37,12 +52,12 @@ Now we want to add support for patterns and text strings of greater length. For 
 
 ```js
 function match(pattern, text) {
-  if (pattern === "") return true  // Our base case - If the pattern is empty, any inputted text is a match
+  if (pattern === "") return true  // Our base case - if the pattern is empty, any inputted text is a match
   else return matchOne(pattern[0], text[0]) && match(pattern.slice(1), text.slice(1))
 }
 ```
 
-The above code advances character by character across the the pattern/text pair. It first compares pattern[0] to text[0] and then pattern[1] to text[1] and continues comparing pattern[i] to text[i] until i === pattern.length. If they ever don't match, then we know that the pattern cannot match the text.
+The above code advances character by character across the the pattern/text pair. It first compares `pattern[0]` to `text[0]` and then `pattern[1]` to `text[1]` and continues comparing `pattern[i]` to `text[i]` until `i === pattern.length`. If they ever don't match, then we know that the pattern cannot match the text.
 
 Let's take an example. Suppose we invoke `match('a.c', 'abc')`, which returns `matchOne('a', 'a') && match('.c', 'bc')`.
 
@@ -50,7 +65,7 @@ If we continue evaluating these functions, we get `matchOne('a', 'a') && matchOn
 
 ## The $ Character
 
-Let's add support for the special pattern character `$` that allows us to match the end of a string. The solution simply requires adding an addition base case to the match function.
+Let's add support for the special pattern character `$` that allows us to match the end of a string. The solution simply requires adding an additional base case to the match function.
 
 ```js
 function match(pattern, text) {
@@ -129,12 +144,12 @@ function match(pattern, text) {
 ```
 
 `matchQuestion` needs to handle two cases:
-1. Where the character before the `?` is not matched but the text matches the remainder of the pattern
+1. Where the character before the `?` is not matched but the text matches the remainder of the pattern (everything after the `?`).
 2. Where the character before the `?` is matched and the rest of the text (minus the 1 matched character) matches the remainder of the pattern.
 
 If either of these cases is truthy, then `matchQuestion` can return `true`.
 
-Let's consider the first case. How do we check if the text matches everything in the pattern except the `_?` syntax? In order words, how do we see if the character appears 0 times? Simple. We strip 2 characters off the pattern and invoke the match function. The first character is the one that might be present and the second is the `?` itself.
+Let's consider the first case. How do we check if the text matches everything in the pattern except the `_?` syntax? In order words, how do we check if the character before the `?` appears 0 times? We strip 2 characters off the pattern (the first character is the one before the `?` and the second is the `?` itself) and invoke the match function.
 
 ```js
 function matchQuestion(pattern, text) {
@@ -154,7 +169,7 @@ function matchQuestion(pattern, text) {
 }
 ```
 
-If the `text[0]` matches `pattern[0]`, and the rest of the text (minus the part that is matched by `matchOne`) `text.slice(1)` matches the remainder of the pattern `pattern.slice(2)`, then we are golden. Note that we could rewrite the code like this:
+If the `text[0]` matches `pattern[0]`, and the rest of the text (minus the part that is matched by `matchOne`) matches the remainder of the pattern, then we are golden. Note that we could rewrite the code like this:
 
 ```js
 function matchQuestion(pattern, text) {
@@ -162,7 +177,7 @@ function matchQuestion(pattern, text) {
 }
 ```
 
-The one thing I like about this approach is that the boolean OR makes it explicitly clear that there are two cases, either of which may be true.
+The one thing I like about this latter approach is that the boolean OR makes it explicitly clear that there are two cases, either of which may be true.
 
 ## The * Character
 
@@ -174,7 +189,7 @@ All of these should return `true`.
 `search("a*", "aaaaaaa")`
 `search("a*b", "aaaaaaab")`
 
-Similar to what we did when supporting `?`, we wan to add a `matchStar` function to our `match` function
+Similar to what we did when supporting `?`, we wan to delegate to a `matchStar` function within our `match` function
 
 ```js
 function match(pattern, text) {
@@ -193,7 +208,7 @@ function match(pattern, text) {
 ```
 
 `matchStar`, like `matchQuestion`, also needs to handle two cases:
-1. Where the character before the `*` is not matched but the text matches the remainder of the pattern
+1. Where the character before the `*` is not matched but the text matches the remainder of the pattern (everything after the `*`).
 2. Where the character before the `*` is matched one or more times and the rest of the text matches the remainder of the pattern.
 
 Since there are two cases that both result in a match (0 matches OR more matches), we know that `matchStar` can be implemented with a boolean OR. Furthermore, case 1 for `matchStar` is exactly the same as it was for `matchQuestion` and can be implemented identically using `match(pattern.slice(2), text)`. That means we only need to formulate an expression that satisfies case 2.
