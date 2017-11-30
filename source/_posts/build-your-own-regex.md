@@ -57,7 +57,7 @@ function match(pattern, text) {
 }
 ```
 
-The above code advances character by character across the the pattern/text pair. It first compares `pattern[0]` to `text[0]` and then `pattern[1]` to `text[1]` and continues comparing `pattern[i]` to `text[i]` until `i === pattern.length`. If they ever don't match, then we know that the pattern cannot match the text.
+The above code advances character by character across the the pattern/text pair. It first compares `pattern[0]` to `text[0]` and then `pattern[1]` to `text[1]` and continues comparing `pattern[i]` to `text[i]` until `i === pattern.length - 1`. If they ever don't match, then we know that the pattern cannot match the text.
 
 Let's take an example. Suppose we invoke `match('a.c', 'abc')`, which returns `matchOne('a', 'a') && match('.c', 'bc')`.
 
