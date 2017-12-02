@@ -7,6 +7,6 @@ I've been working professionally as a software developer for 6 years and have be
 
 I live in Chicago. If you are in city, you should reach out and we should grab coffee (or tea, my favorite).
 
-I also do contract/consulting work for software companies.
+I also do consulting work for software companies and am happy to chat with you about potential projects.
 
 You can reach me at [nicholasdrane@gmail.com](mailto://nicholasdrane@gmail.com).
