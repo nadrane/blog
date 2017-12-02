@@ -1,5 +1,5 @@
 <% if (site.categories.length){ %>
-<div class="widget tag">
+<div class="widget tag category">
   <h3 class="title"><%= __('categories') %></h3>
   <ul class="entry">
   <% site.categories.sort('name').filter(item => item.length !== 0).each(function(item){ %>
