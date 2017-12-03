@@ -1,5 +1,6 @@
 ---
 title: Leveraging Immutability in React
+date: 2017-09-27 09:30:27
 categories:
   - [React]
   - [Immutability]
