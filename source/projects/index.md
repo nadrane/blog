@@ -9,3 +9,7 @@ The popular Nodejs ORM.
 ### Open Source Projects Started
 [React Column Layout](https://github.com/nadrane/react-column-layout) | [npm package](https://www.npmjs.com/package/react-column-layout)
 A column based layout system (think Pinterest style) that works responsively without special configuration.
+
+### Spec Based Guides
+[Build Your Own Regex Engine](https://github.com/nadrane/build-your-own-regex)
+This is a step-by-step spec based guide to help you build a simple regular expression engine in less than 40 lines of code.
