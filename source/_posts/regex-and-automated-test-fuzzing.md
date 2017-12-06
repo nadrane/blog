@@ -8,11 +8,11 @@ date: 2017-12-06 17:37:16
 ---
 
 
-I posted my article [Build Your Own Regex](https://nickdrane.com/build-your-own-regex/) on Reddit the other day, and one of the commenters claimed that the implementation should be trivial to break. Since I had already tested my program against a customized suite of tests, the remark got me thinking about how I could further increase my confidence in the correctness of my program. One extremely low cost however effective strategy for identifying faults in software is known as fuzzing.
+I posted my article [Build Your Own Regex Engine](https://nickdrane.com/build-your-own-regex/) on Reddit the other day, and one of the commenters claimed that the implementation should be trivial to break. Since I had already tested my program against a customized suite of tests, the remark got me thinking about how I could further increase my confidence in the correctness of my program. One extremely low cost however effective strategy for identifying faults in software is known as fuzzing.
 
 ## What is Fuzzing?
 
-Fuzzing is a automated testing technique where a program is provided a series of invalid or randomly generated inputs. If we were testing an HTTP API, we might send randomized combinations of query parameters and ask that our server always returns a 2xx status code. Since Javascript comes with a regular expression engine, my fuzzer asserts that given a random input, both engine's return the same output.
+Fuzzing is a automated testing technique where a program is provided a series of invalid or randomly generated inputs. If we were testing an HTTP API, we might send randomized combinations of query parameters and ensure that our server always returns a 2xx status code. Since Javascript comes with a regular expression engine, my fuzzer asserts that given the same random input, both engine's return the same output.
 
 ## Specifying the Grammar
 
@@ -149,4 +149,4 @@ I ran my fuzzer for a couple million randomly generated cases and ended up learn
 
 The biggest takeaway is that fuzzing is an simple and inexpensive way to enumerate enormous sets of inputs and identify bugs in your software. This fuzzer took less than an hour to write.
 
-The most important caveat, however, is that this fuzzer's blessing of a couple million input combinations __does not__ verify the correctness of my program. Not even close. A fuzzer is a tool to identify potential errors; however, unless you enumerate all possible inputs (completely impossible in this case where they are infinite), you are not guaranteed your program is error free.
+But remember, this fuzzer's blessing of a couple million input combinations __does not__ verify the correctness of my program. Not even close. A fuzzer is a tool to identify potential errors. Unless you enumerate all possible inputs (completely impossible in this case where they are infinite), you are not guaranteed your program is error free.
