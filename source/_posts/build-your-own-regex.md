@@ -240,5 +240,5 @@ We use the `*` character itself to allow for the pattern to appear anywhere in t
 It's remarkable how simple and elegant the code for such a sophisticated and generalized program can be. The full source is available in this [GitHub repository](https://github.com/nadrane/build-your-own-regex)
 
 
-### Footnotes
+## Footnotes
 <a name="footnote1">1</a>: There is a small bug in this code that I'm choosing to ignore. We don't account for the case that text is an empty string. Currently when `text === ''`, `text.split("")` will return `[]` and will not appropriately call `match`.
