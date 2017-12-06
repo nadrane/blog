@@ -12,4 +12,4 @@ A column based layout system (think Pinterest style) that works responsively wit
 
 ### Spec Based Guides
 [Build Your Own Regex Engine](https://github.com/nadrane/build-your-own-regex)
-This is a step-by-step spec based guide to help you build a simple regular expression engine in less than 40 lines of code.
+Build a simple regular expression engine in less than 40 lines of code.
