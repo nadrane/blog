@@ -85,7 +85,7 @@ function search(searchParams) {
       // Some inputs have defaults that need to be
       // erased before typing your own input
       if (field === "date" || field === "type") {
-        // This is a helper function I had to wrote
+        // This is a helper function I wrote
         await deleteInput(page, selector);
       }
 
@@ -107,7 +107,7 @@ The first thing to notice is that the code is messy and full of weird exceptions
 
 ## Brace Yourself for Flaky Behavior
 
-Working with Puppeteer was an exercise in guesswork. Given the same inputs, Puppeteer did not always produce the same outputs<sup>[1](#footnote1)</sup>. This flaky behavior made the project unnecessarily challenging and required me to do additional engineering to increase reliability, which was a frustrating considering the alternative.
+Working with Puppeteer was an exercise in guesswork. Given the same inputs, Puppeteer did not always produce the same outputs<sup>[1](#footnote1)</sup>. This flaky behavior made the project unnecessarily challenging and required me to do additional engineering to increase reliability, which was frustrating considering the alternative.
 
 ## Puppeteer Was Completely Unnecessary
 
