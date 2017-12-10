@@ -1,5 +1,5 @@
 ---
-title: 'Scraping the Web With Puppeteer: Lessons-learned'
+title: 'Scraping the Web with Puppeteer: Lessons-learned'
 categories:
   - - Javascript
   - - Web Scraping
