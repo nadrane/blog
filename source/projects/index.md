@@ -3,7 +3,7 @@ date: 2017-10-19 14:40:55
 ---
 
 ### Major Open Source Contributions
-[Sequelize](https://github.com/sequelize/sequelize)
+[Sequelize](https://github.com/sequelize/sequelize/commits/master?author=nadrane)
 The popular Nodejs ORM.
 
 ### Open Source Projects Started
