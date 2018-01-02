@@ -4,6 +4,7 @@ date: 2017-09-29 13:14:18
 categories:
   - [React]
   - [Redux]
+  - [Build Your Own]
 ---
 
 _My inspiration for this blog post came from [this video](https://www.youtube.com/watch?v=VJ38wSFbM3A) where Dan Abramov walks through the source code to react-redux_
