@@ -21,10 +21,7 @@ I do software consulting work. Here are some things you can hire me for
 * **Database optimization**
   I have extensive experience with Postgres and MongoDB and can help you get the most out of your database server.
 
-* **Web Security**
-  I am well-versed in common web security exploits and can help you harden your application against the most versatile of attackers.
-
 * **Web Design**
   Do your user's leave your page because it is not attractive? I have experience creating beautiful websites using raw HTML and CSS as well as with CSS frameworks like Bootstrap and Material-UI.
 
-Please reach out at me at [nicholasdrane@gmail.com](mailto://nicholasdrane@gmail.com) for rates and timelines.
+Please reach out at me at [nick@nickdrane.com](mailto:nick@nickdrane.com) for rates and timelines.
