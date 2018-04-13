@@ -2,34 +2,38 @@ The other day at work, one of my colleagues was frustrated that he was unable to
 
 ## Motivation
 
-Today, numerous strategies exist to encode query strings, but they generally have one of two flaws:
+Today, in the Node.js ecosystem, numerous modules exist to encode query strings, but they generally have one of two flaws:
 
-1.  They do not permit encoding of nested objects.
+1.  They do not permit the encoding of nested objects.
 
-2.  They do encode nested objects, but they delimit nesting using unsafe URL characters, yielding an operation and a result that look like this <sup>[1](#footnote1)</sup>:
+2.  They can encode nested objects, but they delimit nesting using unsafe URL characters, yielding an operation and a result that look like this <sup>[1](#footnote1)</sup>:
 
-    `> encode(a[b]=c)`
-    `a%5Bb%5D=c`
+```js
+encode({
+  a: { b: 'c' }
+});
+>>>`a%5Bb%5D=c`
+```
 
-## Why Aren't Nested Query Strings the Default?
+## The Problem in Detail
 
-Node.js provides a [`querystring`](https://nodejs.org/api/querystring.html) module to encode objects to query strings. The only problem is that conforms to an official spec that doesn't allow nested objects. Unfortunately, this specification does not allow for enough flexibility when creating a RESTful API.
+Node.js provides a [`querystring`](https://nodejs.org/api/querystring.html) module to encode objects to query strings. The only problem is that conforms to an official specification that doesn't allow nested objects. Unfortunately, this specification does not allow for enough flexibility when creating a RESTful API.
 
-For example, suppose the client wants to filter a collection of cars by make and model, sorting them by price. The route might look like this:
+For example, suppose the client wants to filter a collection of cars by make and model. The route might look like this:
 
-`/api/cars?order=price&filter=honda`
+`/api/cars?make=honda&model=civic`
 
-This URI is seriously flawed. It makes it clear we want to order by a column called `price`, but where does the value `honda` come into play? Where is that field stored in my database? Do we always want to filter on the same database column, regardless of the value associated with `filter`? What we really want is a route that looks like this:
+This URI makes it reasonably clear that we want to filter cars by their make and model.
 
-`/api/cars?order=price&filter.make=honda`
+What if we wanted to do something more complicated. What if we wanted to filter cars and order them by price?
 
-Now it's clear that we are filtering the make of the car for anything matching the value `honda`. We could add an additional filter, this time on model, if we like:
+`/api/cars?order=price&make=honda&model=civic`
+
+It's no longer clear which query parameters describe the ordering and which describe the filter. Ideally, we want the url to look like this:
 
 `/api/cars?order=price&filter.make=honda&filter.model=civic`
 
-## Existing Modules Supporting Nested Querystrings
-
-By default, the [qs](https://www.npmjs.com/package/qs) module creates ugly urls when it encodes nested query strings. If we encode
+If we were to represent the query string of the above URI as a Javascript object, it would probably look like this:
 
 ```js
 {
@@ -41,11 +45,23 @@ By default, the [qs](https://www.npmjs.com/package/qs) module creates ugly urls 
 }
 ```
 
-we get `order=price&filter[make]=honda&filter[model]=civic`, but after percent encoding, the url becomes:
+And then we quickly run into our problem. We need to encode the object above into
+
+`order=price&filter.make=honda&filter.model=civic`
+
+but Node.js's [`querystring`](https://nodejs.org/api/querystring.html) can't encode nested objects.
+
+## Existing Modules Supporting Nested Querystrings
+
+By default, the [qs](https://www.npmjs.com/package/qs) module creates ugly urls when it encodes nested query strings. If we encode our object above, we get
+
+`order=price&filter[make]=honda&filter[model]=civic`
+
+The `[` and `]` characters are both considered unsafe in a URL and are required to be escaped. The URL becomes unreadable after this percent encoding operation.
 
 `order=price&filter%5Bmake%5D=honda&filter%5Bmodel%5D=civic`
 
-The `[` and `]` characters are both considered unsafe in a URL and are required to be escaped. The URL becomes unreadable after this operation. Fortunately, the `.` is not considered unsafe and does not need to be escaped, making it the perfect character to express object nesting.
+Fortunately, the `.` is not considered unsafe and does not need to be escaped, making it the perfect character to express object nesting.
 
 ## The Solution
 
@@ -55,7 +71,7 @@ The solution is broken down into two parts. The first is _encoding_ a nested obj
 
 #### Just Nested Objects
 
-The following code will allow me to encode an object like
+Let's write some code to encode
 
 ```js
 {
@@ -66,13 +82,14 @@ The following code will allow me to encode an object like
 }
 ```
 
-into a query string like this `filter.make=honda&filter.model=civic`
+into the query string `filter.make=honda&filter.model=civic`
 
 ```js
 const { escape } = require("querystring");
 
 function encode(queryObj, nesting = "") {
   let queryString = "";
+
   const pairs = Object.entries(queryObj).map(([key, val]) => {
     // Handle the nested, recursive case, where the value to encode is an object itself
     if (typeof val === "object") {
@@ -90,7 +107,7 @@ Notice that we use the [escape](https://nodejs.org/api/querystring.html#querystr
 
 #### Encoding Arrays as Values
 
-If we want the ability to add support to encode an object with array values, like the following:
+If we want to add support to encode an object with array values, like the following:
 
 ```js
 {
@@ -120,6 +137,8 @@ function encode(queryObj, nesting = "") {
 ```
 
 ### Decoding
+
+An encoding function is not very useful unless you can decode the encoded string back to it's original form.
 
 #### Just Nested Objects
 
@@ -185,10 +204,10 @@ function decode(queryString) {
 
 ## Conclusion
 
-And that's it! The whole thing, encoding and decoding, only takes ~40 lines of code. Hopefully query strings won't feel mystical to you know that you know what is happening under the hood. And perhaps, next time you encounter something that feels a little too fundamental to code yourself, you won't hesitate to write some code if you can't find a sufficient NPM package.
+And that's it! The whole thing, encoding and decoding, only takes ~40 lines of code. Perhaps next time you encounter something that feels a little too fundamental to code yourself, you won't hesitate to write some code if you can't find a sufficient open source package.
 
 #### Footnotes
 
 <a name="footnote1">1</a>: This example is straight from the [qs](https://www.npmjs.com/package/qs) documentation. Incidentally, qs provides an option to encode using a url safe character, which would result in readable urls, but this is not the default.
 
-<a name="footnote2">2</a>: It's worth noting that you might not want to use this code in production. I've written the code in a functional style for clarity and conciseness. If you have a high read volume, given that this code might potentially run on a significant portion of GET requests, it should probably be written in an imperative style that doesn't disregard performance. This is only applies to the decoder since the encoder will only run client side. Also, this code does not protect against potential attackers who might try to create an arbitrarily deeply nested object or might include an unwieldy number of query parameters.
+<a name="footnote2">2</a>: It's worth noting that you might not want to use this code in production. I've written the code in a functional style for clarity and conciseness. If you have a high read volume, given that this code might potentially run on a significant portion of GET requests, it should probably be written in an imperative style that doesn't disregard performance. Even more importantly, this code does not protect against potential attackers who might try to create an arbitrarily deeply nested object or might include an unwieldy number of query parameters.
