@@ -98,3 +98,10 @@ widgets:
   - about
   - recent_posts
   - category
+
+addthis:
+  enable: false
+  facebook: true
+  twitter: true
+  google: true
+  pinterest: true
