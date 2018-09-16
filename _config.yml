@@ -93,3 +93,8 @@ alias:
 
 sitemap:
   path: sitemap.xml
+
+widgets:
+  - about
+  - recent_posts
+  - category
