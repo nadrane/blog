@@ -19,15 +19,35 @@ This initial schema was a pragmatic design decision. We knew it wasn't worth the
 
 Determining the root cause was relatively simple. A couple queries revealed that the JSONB column, which we had named `meta`, revealed that the column was often quite large:
 
-```SELECT avg(octet_length(t."meta"::text))
+```
+SELECT avg(octet_length(t."meta"::text))
 FROM message AS t
-where octet_length(t."meta"::text) is not NULL;```
+where octet_length(t."meta"::text) is not NULL;
+```
 
-The average size (I wasn't sure how to grab a median in Postgres) is 3.7 kb. That might not seem large, but it's actually 400mb when you're talking about 100,000 rows. And at high end of the spectrum, some message's are up to 17mb in size. The precise details of why this dataset slows down queries are a bit arcane, but the fact of the matter is that we were misuing the JSONB datatype. [here](https://www.postgresql.org/docs/9.5/static/storage-toast.html) for more information.
+The average size of the meta column is 3.7 kb. That might not seem large, but for our 100,000 table, it's actually 400mb of metadata. And at high end of the spectrum, some message's are up to 17mb in size. The precise details of why this dataset slows down queries are a bit arcane, but the fact of the matter is that we were misuing the JSONB datatype. [here](https://www.postgresql.org/docs/9.5/static/storage-toast.html) for more information.
+
+## Further Complications
+
+At the beginning, queries that used the `meta` column were for very simple taks like showing the raw contents of an email to a user, perhaps in the case where message content extraction failed. Overtime we had begun using select fields from the `meta` column to drive business logic. Application login had began to expect that the `meta` data structure would conform to a specific shape.  Some of the fields stored in the `meta` data structure deserved their own columns in the mesasge table.
+
+So the problem was twofold
+
+1. We needed to extract actual metadata from the `meta` column and place it in a location where it would not affect OLTP queries over the `message` table.
+2. We needed to perform #1 while keeping accessible specific fields in `meta` that actually drove business logic.
+
+This presented a conundrumn when we began solutioning. migration complicated because code relying on structure of meta data structure. no proper constraints
 
 ## Solutioning
 
-At the beginning, queries that used the `meta` column were for very simple taks like showing the raw contents of an email to a user, perhaps in the case where message content extraction failed. Overtime we had begun using select fields from the `meta` column to drive business logic. We had began to dsicovery this data, understand it, and begin using it, expecting that it would conform to a specific structure and schema. This presented a conundrumn when we began solutioning. Some of the data in the `meta` data structure was not meta data that we didn't understand; it was data that deserved it's own columns in the mesasge table. migration complicated because code relying on structure of meta data structure. no proper constraints
+We looked at quite a few solutions:
+
+1. Use the ORM to omit the `meta` column from all queries unless specifically included. This would increase the performance in most cases, but there would still be slow queries, and it wouldn't resolve the underlying problem. Incidentally, this is actually the solution we initally wanted to implement, bugs in our ORM made it challenging to omit columns across joins.
+
+2. Store the metadata in MongoDB. The data could remain schemaless and queryable. The major downside is that this solution would involve introducing another piece of infrastrucutre into the stack.
+
+3. Keep the `meta` column as is but extract keys whose store on S3 values are typically large. In general, greater than 99% of the size of any given column's `meta` field is from a single key. For exmample, sometimes emails include attachments, other times message bodies include long sequences of html, documenting a historical email chain. These fields be specifically extracted and uploaded to S3, which specialized in storing [BLOBs](https://en.wikipedia.org/wiki/Binary_large_object). The database would only need to store an S3 resource link, and upon request, could generate a [pre-signed URL](https://docs.aws.amazon.com/AmazonS3/latest/dev//ShareObjectPreSignedURL.html), allowing the client could directly download what it needs on demand. I think this is the solution we will ultimately arrive at, but we didn't choose it because of complexity.
+
 
 The most obvious and straightforward solution was to start omitting the `meta` column from all queries, except those that strictly needed it. 
 
