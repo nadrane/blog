@@ -46,26 +46,21 @@ We looked at quite a few solutions:
 
 2. Store the metadata in MongoDB. The data could remain schemaless and queryable. 
 
-3. Keep the `meta` column as is but extract keys whose store on S3 values are typically large. In general, greater than 99% of the size of any given column's `meta` field is from a single key. For exmample, sometimes emails include attachments, other times message bodies include long sequences of html, documenting a historical email chain. These fields be specifically extracted and uploaded to S3, which specialized in storing [BLOBs](https://en.wikipedia.org/wiki/Binary_large_object). The database would only need to store an S3 resource link, and upon request, could generate a [pre-signed URL](https://docs.aws.amazon.com/AmazonS3/latest/dev//ShareObjectPreSignedURL.html), allowing the client could directly download what it needs on demand.
+3. Keep the `meta` column as is but extract specific keys to S3. In general, greater than 99% of the size of any given column's `meta` field is from a single key. For exmample, sometimes emails include attachments, other times message bodies include long sequences of html, documenting a historical email chain. These fields would be specifically extracted and uploaded to S3. The database would only need to store a reference to the S3 content S3 resource link, and upon request, the server could generate a [pre-signed URL](https://docs.aws.amazon.com/AmazonS3/latest/dev//ShareObjectPreSignedURL.html), allowing the client  directly download large files from S3.
 
 4. Create a separate table in postgres where metadata can be stored. It would have a foreign key back to the original table where the metadata belonged. This solution might seem a little odd at first glance, but I should clarify that this `meta` column pattern existed on more than just the `message` table.
 
 Our instinct was to go with #1, the most simple and straightforward solution, and omit the `meta` column from most queries. Unfortunately, bugs in our ORM made it impossible to omit columns across joins without the occassional crash. Obviously we needed to consider alternatives.
 
-We ruled out A MongoDB instance pretty readily because it would introduce additional unmanaged infrastructure into our system. This left the choice between S3 and a separate Postgres table. We agreed that S3 presigned URLs was an ideal longterm alternative but ultimately chose a separate Postgres table for the same reason that we wanted to choose option #1: complexity. Our team is exceptionally experienced with Postgres, and we knew we would hit the ground running. Leveraging S3, in contrast, would almost certainly take longer, and the value it would add at our current scale would be almost non-existent. 
+We ruled out MongoDB pretty readily because it would introduce additional unmanaged infrastructure into our system. This left the choice between S3 and a separate Postgres table. We agreed that S3 presigned URLs was an ideal longterm alternative but ultimately chose a separate Postgres table for the same reason that we wanted to choose option #1: risk and complexity. Our team is exceptionally experienced with Postgres, and we knew we would hit the ground running. Leveraging S3, in contrast, had more unknowns and would almost certainly take longer, and the value it would add over Postgres at our current scale is tenuous at best. 
 
 
-
-We ultimately sett
-
-The most obvious and straightforward solution was to start omitting the `meta` column from all queries, except those that strictly needed it. 
-
-This is a very simple bandaid to a relatively opaque performance problem, but it hides a more serious concern. 
-
+This is a very simple bandaid to a relatively opaque performance problem, but it hides a more serious concern.
 These fields probably should have been their own atomic fields in our `message` schema, but the conversion wasn't simple anymore. We couldn't simply change our code to save off this field, since numerous other parts of the codebase relied on it's existence in the `meta`JSON data structure. 
 
 We discussed a variety of potential solutions. One included storing the metadata in MongoDB. We could still keep the data unstructured but queryable without having it affect the performance of other queries.
 
+It's unfortunate that we didn't do this migration sooner since development pattersn are contagious. You see, when the first developer started driving business logic based on the `meta` column, other developers started following suit. This data migration didn't need to also include tons of application logic changes. But then again, who knows what the original developers reasoning was when he began accessing values from the `meta` column. Perhaps it was a reasoned decision about deferring technical deby until later.
 
 
 
