@@ -27,7 +27,7 @@ The average size (I wasn't sure how to grab a median in Postgres) is 3.7 kb. Tha
 
 ## Solutioning
 
-At the beginning, queries that used the `meta` column were for very simple taks like showing the raw contents of an email to a user, perhaps in the case where message content extraction failed. Overtime we had begun using select fields from the `meta` column to drive business logic. Overtime, we began to dsicovery this data, understand it, and begin using it, expecting that it would conform to a specific structure and schema. This presented a conundrum.
+At the beginning, queries that used the `meta` column were for very simple taks like showing the raw contents of an email to a user, perhaps in the case where message content extraction failed. Overtime we had begun using select fields from the `meta` column to drive business logic. We had began to dsicovery this data, understand it, and begin using it, expecting that it would conform to a specific structure and schema. This presented a conundrumn when we began solutioning. Some of the data in the `meta` data structure was not meta data that we didn't understand; it was data that deserved it's own columns in the mesasge table. migration complicated because code relying on structure of meta data structure. no proper constraints
 
 The most obvious and straightforward solution was to start omitting the `meta` column from all queries, except those that strictly needed it. 
 
