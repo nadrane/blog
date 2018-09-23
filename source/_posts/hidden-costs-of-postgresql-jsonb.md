@@ -42,12 +42,21 @@ This presented a conundrumn when we began solutioning. migration complicated bec
 
 We looked at quite a few solutions:
 
-1. Use the ORM to omit the `meta` column from all queries unless specifically included. This would increase the performance in most cases, but there would still be slow queries, and it wouldn't resolve the underlying problem. Incidentally, this is actually the solution we initally wanted to implement, bugs in our ORM made it challenging to omit columns across joins.
+1. Use the ORM to omit the `meta` column from all queries unless specifically included. This would increase the performance in most cases (with the occasional slow query) and it would in theory be simple to implement. It wouldn't, however, resolve the underlying problem.
 
-2. Store the metadata in MongoDB. The data could remain schemaless and queryable. The major downside is that this solution would involve introducing another piece of infrastrucutre into the stack.
+2. Store the metadata in MongoDB. The data could remain schemaless and queryable. 
 
-3. Keep the `meta` column as is but extract keys whose store on S3 values are typically large. In general, greater than 99% of the size of any given column's `meta` field is from a single key. For exmample, sometimes emails include attachments, other times message bodies include long sequences of html, documenting a historical email chain. These fields be specifically extracted and uploaded to S3, which specialized in storing [BLOBs](https://en.wikipedia.org/wiki/Binary_large_object). The database would only need to store an S3 resource link, and upon request, could generate a [pre-signed URL](https://docs.aws.amazon.com/AmazonS3/latest/dev//ShareObjectPreSignedURL.html), allowing the client could directly download what it needs on demand. I think this is the solution we will ultimately arrive at, but we didn't choose it because of complexity.
+3. Keep the `meta` column as is but extract keys whose store on S3 values are typically large. In general, greater than 99% of the size of any given column's `meta` field is from a single key. For exmample, sometimes emails include attachments, other times message bodies include long sequences of html, documenting a historical email chain. These fields be specifically extracted and uploaded to S3, which specialized in storing [BLOBs](https://en.wikipedia.org/wiki/Binary_large_object). The database would only need to store an S3 resource link, and upon request, could generate a [pre-signed URL](https://docs.aws.amazon.com/AmazonS3/latest/dev//ShareObjectPreSignedURL.html), allowing the client could directly download what it needs on demand.
 
+4. Create a separate table in postgres where metadata can be stored. It would have a foreign key back to the original table where the metadata belonged. This solution might seem a little odd at first glance, but I should clarify that this `meta` column pattern existed on more than just the `message` table.
+
+Our instinct was to go with #1, the most simple and straightforward solution, and omit the `meta` column from most queries. Unfortunately, bugs in our ORM made it impossible to omit columns across joins without the occassional crash. Obviously we needed to consider alternatives.
+
+We ruled out A MongoDB instance pretty readily because it would introduce additional unmanaged infrastructure into our system. This left the choice between S3 and a separate Postgres table. We agreed that S3 presigned URLs was an ideal longterm alternative but ultimately chose a separate Postgres table for the same reason that we wanted to choose option #1: complexity. Our team is exceptionally experienced with Postgres, and we knew we would hit the ground running. Leveraging S3, in contrast, would almost certainly take longer, and the value it would add at our current scale would be almost non-existent. 
+
+
+
+We ultimately sett
 
 The most obvious and straightforward solution was to start omitting the `meta` column from all queries, except those that strictly needed it. 
 
