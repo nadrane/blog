@@ -29,17 +29,12 @@ The average size of the meta column is 3.7 kb. That might not seem large, but fo
 
 ## Further Complications
 
-The first queries that used the `meta` column were for very simple tasks like showing the raw contents of an email to a user, perhaps in the case where message content extraction failed. Overtime we began using select fields from the `meta` column to drive business logic, and application code started to expect that the `meta` data structure would conform to a specific shape.
+The first queries that used the `meta` column were for very simple tasks like showing the raw contents of an email to a user, perhaps in the case where message content extraction failed. Overtime, however, we began using select fields from the `meta` column to drive business logic, and application code started to expect that the `meta` data structure would conform to a specific shape. Most solutions would likely necessitate changes to this application code.
 
 So the problem was twofold
 
 1. We needed to extract the actual metadata (as opposed to data driving business logic) from the `meta` column and place it in a location where it would not affect query performance over the `message` table.
-2. Access patterns touching the `meta` column were tightly coupled with our ORM. Changing the underlying storage mechanism for metadata would break all application logic that dependend on it. This code needed to be migrated, and an abstraction needed to be built so that the metadata storage layer could change in the future without requiring any applicaiton logic changes.
-
-This presented a conundrumn when we began solutioning. migration complicated because code relying on structure of meta data structure. 
-
-Some of the fields stored in the `meta` data structure deserved their own columns in the mesasge table.
-no proper constraints
+2. We wanted to make the metadata less easily accessible. We recognized that making it accessible through the ORM made it ripe for misuse. We wanted to give it an alternative API that would lessen a developer's likelieness to rely on its structure. 
 
 ## Solutioning
 
@@ -55,18 +50,23 @@ We looked at several solutions:
 
 Our instinct was to go with #1, the most simple and straightforward solution, and omit the `meta` column from most queries. Unfortunately, bugs in our ORM made it impossible to omit columns across joins without the occassional crash. Obviously we needed to consider alternatives.
 
-We ruled out MongoDB pretty readily because it would introduce additional unmanaged infrastructure into our system. This left the choice between S3 and a separate Postgres table. We agreed that S3 presigned URLs was an ideal longterm alternative but ultimately chose a separate Postgres table for the same reason that we wanted to choose option #1: risk and complexity. Our team is exceptionally experienced with Postgres, and we knew we would hit the ground running. Leveraging S3, in contrast, had more unknowns and would almost certainly take longer, and the value it would add over Postgres at our current scale is tenuous at best. 
+We ruled out MongoDB pretty readily because it would introduce additional, unmanaged infrastructure into our system. 
+
+This left the choice between S3 and a separate Postgres table. We agreed that S3 presigned URLs was an ideal longterm alternative but ultimately chose a separate Postgres table for the same reason that we wanted to choose option #1: minimial risk and complexity. Our team is exceptionally experienced with Postgres, and we knew we would hit the ground running. Leveraging S3, in contrast, had more unknowns and would almost certainly take longer, and the value it would add over Postgres at our current scale is tenuous at best.
+
+Migrating the data alone to a new Postgres table wouldn't alleviate our performance issues. It would prevent developers from accidentally including metadata in a query, but it would't make queries that rely on metadata faster. The second part of this solution required us to extract regularly used fields from the metadata and migrate them into their own columns in the `message` table.
+
+When we created the new metadata table in Postgres, we made sure not to define a relationship between it and it's related tables at the ORM layer, only the database layer. This makes it impossible for a developer to simply join the data into queries and reduces the risk of accidentally creating slow queries. We introduced a special API for accessing the metadata instead. The added advantage of this special API is that we can now change the underlying implementation to use S3 if we need to in the future, without modfifying dependent application code.
+
+## Closing Thoughts
+
+It's fortunate that we decided to do this migration early. As stands, the metadata was only used for business logic in a handful of places. In the future, we hope that making the metadata less easily accessible for force developer's to ex
 
 
-This is a very simple bandaid to a relatively opaque performance problem, but it hides a more serious concern.
-These fields probably should have been their own atomic fields in our `message` schema, but the conversion wasn't simple anymore. We couldn't simply change our code to save off this field, since numerous other parts of the codebase relied on it's existence in the `meta`JSON data structure. 
-
-We discussed a variety of potential solutions. One included storing the metadata in MongoDB. We could still keep the data unstructured but queryable without having it affect the performance of other queries.
-
-It's unfortunate that we didn't do this migration sooner since development pattersn are contagious. You see, when the first developer started driving business logic based on the `meta` column, other developers started following suit. This data migration didn't need to also include tons of application logic changes. But then again, who knows what the original developers reasoning was when he began accessing values from the `meta` column. Perhaps it was a reasoned decision about deferring technical deby until later.
+Access patterns touching the `meta` column were tightly coupled with our ORM. Changing the underlying storage mechanism for metadata would break all application logic that dependend on it. This code needed to be migrated, and an abstraction needed to be built so that the metadata storage layer could change in the future without requiring any applicaiton logic changes.
 
 
 
-
-
+Some of the fields stored in the `meta` data structure deserved their own columns in the mesasge table.
+no proper constraints
 
