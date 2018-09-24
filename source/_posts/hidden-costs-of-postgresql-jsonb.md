@@ -5,7 +5,7 @@ categories:
   - [Postgres]
 ---
 
-One of my clients approached me the other day with a performance problem. The CTO explained that queries over the `message` had deteriorated over time and were now slow. He further explained to me that the queries were only slow when a particular [JSONB column](https://www.postgresql.org/docs/9.4/static/datatype-json.html) was included in the result set. I set off to resolve to problem, eager to discover the cause
+One of my clients approached me the other day with a performance problem in their Postgres database. The CTO explained that queries over the `message` table had deteriorated over time and were now slow. He further explained to me that the queries were only slow when a particular [JSONB column](https://www.postgresql.org/docs/9.4/static/datatype-json.html) was included in the result set. I set off to resolve to problem, eager to discover the cause
 
 ## Background
 
