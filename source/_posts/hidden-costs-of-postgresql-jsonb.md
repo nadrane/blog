@@ -52,21 +52,18 @@ Our instinct was to go with #1, the most simple and straightforward solution, an
 
 We ruled out MongoDB pretty readily because it would introduce additional, unmanaged infrastructure into our system. 
 
-This left the choice between S3 and a separate Postgres table. We agreed that S3 presigned URLs was an ideal longterm alternative but ultimately chose a separate Postgres table for the same reason that we wanted to choose option #1: minimial risk and complexity. Our team is exceptionally experienced with Postgres, and we knew we would hit the ground running. Leveraging S3, in contrast, had more unknowns and would almost certainly take longer, and the value it would add over Postgres at our current scale is tenuous at best.
+This left the choice between S3 and a separate Postgres table. We agreed that S3 presigned URLs was an ideal longterm alternative but ultimately chose a separate Postgres table for the same reason that we wanted to choose option #1: minimial risk and complexity. Our team is exceptionally experienced with Postgres, and we knew we would hit the ground running. Leveraging S3, in contrast, had more unknowns and would almost certainly take longer, and given how rarely we intend to access this metadata, the value it would add over Postgres is tenuous at best.
 
-Migrating the data alone to a new Postgres table wouldn't alleviate our performance issues. It would prevent developers from accidentally including metadata in a query, but it would't make queries that rely on metadata faster. The second part of this solution required us to extract regularly used fields from the metadata and migrate them into their own columns in the `message` table.
+You might be scratching your head right now. How does migrating the data to a new Postgres table solve either of the problems listed above? We did a couple addditional things. 
 
-When we created the new metadata table in Postgres, we made sure not to define a relationship between it and it's related tables at the ORM layer, only the database layer. This makes it impossible for a developer to simply join the data into queries and reduces the risk of accidentally creating slow queries. We introduced a special API for accessing the metadata instead. The added advantage of this special API is that we can now change the underlying implementation to use S3 if we need to in the future, without modfifying dependent application code.
+1. We needed to extract the handful of regularly used fields from the metadata and migrate them into their own columns in the `message` table. This meant that we didn't need to retrieve large, megabyte sized blobs whenever wanted just a single field<sup>[1](#footnote1)</sup>, and as an added advantage, we regained simple access to database [constraints](https://www.postgresql.org/docs/9.4/static/ddl-constraints.html)
+
+2. When we created the new metadata table in Postgres, we made sure not to define a relationship between it and it's related tables at the ORM layer, only the database layer. This makes it impossible for a developer to absentmindedly join the data into queries and reduces the risk of accidentally creating slow queries. We introduced a special API for accessing the metadata instead. The added advantage of this special API is that we can now change the underlying implementation to use S3 if we need to in the future, without modfifying dependent application code.
 
 ## Closing Thoughts
 
 It's fortunate that we decided to do this migration early. As stands, the metadata was only used for business logic in a handful of places. In the future, we hope that making the metadata less easily accessible for force developer's to ex
 
+#### Footnotes
 
-Access patterns touching the `meta` column were tightly coupled with our ORM. Changing the underlying storage mechanism for metadata would break all application logic that dependend on it. This code needed to be migrated, and an abstraction needed to be built so that the metadata storage layer could change in the future without requiring any applicaiton logic changes.
-
-
-
-Some of the fields stored in the `meta` data structure deserved their own columns in the mesasge table.
-no proper constraints
-
+<a name="footnote1">1</a>: As I write this, I wonder if it wouldn't have been possible to leverage indexes to only retrieve specific pieces of the `meta` field. I wonder if our ORM provides any support for firstclass fields that are subfields of another field.
