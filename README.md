@@ -1,1 +1,1 @@
-Hi! This is the source control for my blog over at [fromthestandingdeskof](www.fromthestandingdeskof.com). Please check it out!
+Hi! This is the source control for my blog over at [nickdrane.com](www.nickdrane.com). Please check it out!
