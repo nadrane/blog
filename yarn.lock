@@ -1806,12 +1806,6 @@ hexo-pagination@0.0.2:
   dependencies:
     utils-merge "^1.0.0"
 
-hexo-pagination@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/hexo-pagination/-/hexo-pagination-0.1.0.tgz#54f0be12e6ae51d1c0a6f0023674ba77ac514ce3"
-  dependencies:
-    object-assign "^4.1.0"
-
 hexo-renderer-ejs@^0.3.0:
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/hexo-renderer-ejs/-/hexo-renderer-ejs-0.3.1.tgz#c0c1a3757532d47e5b7d9dc908b5dfd98c94be2c"
@@ -3208,6 +3202,10 @@ source-map@~0.2.0:
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.2.0.tgz#dab73fbcfc2ba819b4de03bd6f6eaa48164b3f9d"
   dependencies:
     amdefine ">=0.0.4"
+
+spectre.css@^0.5.3:
+  version "0.5.3"
+  resolved "https://registry.yarnpkg.com/spectre.css/-/spectre.css-0.5.3.tgz#90d9b08dec06f1379c8ebf6deb4580e01e705101"
 
 split-string@^3.0.1, split-string@^3.0.2:
   version "3.1.0"

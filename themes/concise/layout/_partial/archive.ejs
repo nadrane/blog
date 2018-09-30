@@ -4,7 +4,7 @@ if (page.category) title = page.category;
 if (page.tag) title = page.tag;
 if (page.archive){
   if (page.year) title = page.year + (page.month ? '/' + page.month : '');
-  else title = __('archive_a');
+  else title = __('Archives');
 }
 %>
 <h2 class="archive-title<% if (page.tag){ %> tag<% } else if (page.category){ %> category<% } %>"><%= title %></h2>
