@@ -1,27 +1,27 @@
 I do software consulting work. Here are some things you can hire me for
 
-* **Web Backend**
-  I have extensive experience creating RESTful services in Nodejs and Python.
+* **Search**
+  Many clients have troves of data that are within grasp but inaccessible because of inadequate search systems. I can help you optimize your search systems using [Elasticsearch](https://www.elastic.co/products/elasticsearch).
 
-* **Web Frontend**
-  I'm an expert javascript user and have extensive experience with React and Redux ecosystem.
+* **Application Development**
+  I have extensive experience in the Javascript/[Typescript](https://www.typescriptlang.org/)/[Nodejs](https://nodejs.org/en/) ecosystem and am an expert in [React](https://reactjs.org/).
 
-* **Continuous Integration and Continuous Deployment pipelines**
-  One click deployment is critical for agile application development. I can help you get there.
+* **Cloud Architecture**
+  I have worked extensively with [AWS](https://aws.amazon.com/)'s broad range of offerings and even have experience  implementing completely serverless systems. I can help you navigate this complicated ecosystem.
 
-* **Web Performance Optimization**
-  Does your website load slowly? [Google says](https://www.doubleclickbygoogle.com/articles/mobile-speed-matters/) that 53% of mobile users will leave your website if it takes more than 3 seconds to load. I can help you solve this problem.
+* **Continuous Integration and Continuous Deployment Pipelines**
+  One click deployment is critical for agile application development. I recently optimized a client's CI/CD pipeline to complete in half the time while halving operations costs.
 
-* **Web Scrapers**
-  I have built scrapers ranging from small utilities to distributed services scraping a billion pages.
-
-* **Application Architecture**
-  I can help you make good design decisions from the beginning to minimize technical debt and make your application flexible to future changes.
-
-* **Database optimization**
-  I have extensive experience with Postgres and MongoDB and can help you get the most out of your database server.
-
-* **Web Design**
-  Do your user's leave your page because it is not attractive? I have experience creating beautiful websites using raw HTML and CSS as well as with CSS frameworks like Bootstrap and Material-UI.
 
 Please reach out at me at [nick@nickdrane.com](mailto:nick@nickdrane.com) for rates and timelines.
+
+
+### Testimonials
+
+#### [Freshwater Advisors](http://freshwateradvisors.com/)
+
+*My consulting group hired Nick to supervise the rebuild of our core web application. The product had a history of difficulties, and Nick's efforts guiding the project - and working closely with my team to get us to the point of self-sufficiency - completely transformed our product and saved us a significant amount of money.*
+
+*It would be easy to be intimidated by Nick's impressive engineering acumen and depth of expertise, but his genuine curiosity, patience, gift for teaching, and commitment to thoroughness make him both a joy to work with and a rarity in tech consulting.*
+
+-David Machajewski, Technology Lead, Freshwater Advisors

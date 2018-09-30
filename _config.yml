@@ -99,9 +99,19 @@ widgets:
   - recent_posts
   - category
 
+menu:
+  About: /about
+  Hire Me: /hire-me
+  Projects: /projects
+  Archives: /archives
+  RSS: /atom.xml
+
 addthis:
   enable: false
   facebook: true
   twitter: true
   google: true
   pinterest: true
+
+excerpt_link: Read More ›
+
