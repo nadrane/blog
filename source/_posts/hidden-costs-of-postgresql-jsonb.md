@@ -1,6 +1,6 @@
 ---
 title: The Hidden Costs of PostgreSQL's JSONB datatype
-date: 2018-09-16 15:41:16
+date: 2018-09-30
 categories:
   - [Postgres]
   - [Architecture]
