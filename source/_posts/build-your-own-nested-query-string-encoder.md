@@ -8,7 +8,7 @@ categories:
 date: 2018-04-13 15:17:00
 ---
 
-The other day at work, one of my colleagues was frustrated that he was unable to encode nested objects in a query string and still maintain a readable URL. I went home that night and coded up a simple solution to this problem, and I thought I'd share it here today. [Here](https://github.com/nadrane/querystring-encoder) is a Github repo with specs and the solution code.
+The other day at work, one of my colleagues was frustrated that he was unable to encode nested objects in a query string and still maintain a readable URL. I went home that night and coded up a simple solution to this problem, and I thought I'd share it here today. This [Github repo](https://github.com/nadrane/querystring-encoder) contains specs and the solution code.
 
 <!-- more -->
 
