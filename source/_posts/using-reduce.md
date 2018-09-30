@@ -6,6 +6,8 @@ categories: Functional Programming
 
 My first introduction to functional programming was a couple years ago when I read through the famous [SICP](https://mitpress.mit.edu/sicp/full-text/book/book.html). As someone who had up to this point worked with mostly in object oriented and imperative languages, I had rarely seen `map`, `fitler`, and `reduce` before that time. The purpose of the former two felt obvious; the latter one not so much. This blog post is geared for someone who knows how `reduce` works but feels like they struggle to use it practically.
 
+<!-- more -->
+
 ## Reduce Basics
 _Feel free to skip this section if you understand the basics of reduce_
 

@@ -10,6 +10,8 @@ date: 2017-12-06 17:37:16
 
 I posted my article [Build Your Own Regex Engine](https://nickdrane.com/build-your-own-regex/) on Reddit the other day, and one of the commenters claimed that the implementation should be trivial to break. Since I had already tested my program against a customized suite of tests, the remark got me thinking about how I could further increase my confidence in the correctness of my program. One extremely low cost however effective strategy for identifying faults in software is known as fuzzing.
 
+<!-- more -->
+
 ## What is Fuzzing?
 
 Fuzzing is a automated testing technique where a program is provided a series of invalid or randomly generated inputs. If we were testing an HTTP API, we might send randomized combinations of query parameters and ensure that our server always returns a 2xx status code. Since Javascript comes with a regular expression engine, my fuzzer asserts that given the same random input, both engine's return the same output.

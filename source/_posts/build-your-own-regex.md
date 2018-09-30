@@ -10,6 +10,8 @@ categories:
 
 I stumbled upon an [article](https://www.cs.princeton.edu/courses/archive/spr09/cos333/beautiful.html) the other day where Rob Pike implements a rudimentary regular expression engine in c. I converted his code to Javascript and added test specs so that someone can self-guide themselves through the creation of the regex engine. The specs and solution can be found in this [GitHub repository](https://github.com/nadrane/build-your-own-regex). This blog post walks through my solution.
 
+<!-- more -->
+
 ## The Problem
 
 Our regex engine will support the following syntax:

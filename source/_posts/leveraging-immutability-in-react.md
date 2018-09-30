@@ -8,6 +8,8 @@ categories:
 
 React has taken the web development community by a storm, and with it functional programming concepts have embedded themselves in the mainstream. One common statement you will often read is that all state in React should be immutable, and this practice is justified as necessary for performance reasons. This statement is entirely true, but it only tells half the truth. Immutability alone will not yield any performance gains in React (it'll actually make things slower).
 
+<!-- more -->
+
 ## The Quick Answer
 You can reap the gains from immutable state in React if you inherit from [React.PureComponent](https://reactjs.org/docs/react-api.html#reactpurecomponent) instead of `React.Component`
 

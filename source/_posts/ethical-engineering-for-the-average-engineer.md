@@ -7,6 +7,8 @@ categories:
 
 Two months ago I purchased a GPS device and associated service plan from [SPOT](https://www.findmespot.com/en/). Today, upon trying to cancel the service, the customer service representative informed me that I had accidentally enrolled myself into a 1 year, $250 contract and that I was unable to cancel. He told me that if I blocked the monthly charges against my credit card that they would report the debt to a collections agency. I was initially upset but soon realized it was a great opportunity to talk about ethics in software engineering.
 
+<!-- more -->
+
 ## SPOT's Marketing Materials
 
 The representative told me to look at their website where he claimed it would be very clear that I was signing up for a contract service. When I Googled "spot service plan", the first link I clicked on directed me to these marketing materials:

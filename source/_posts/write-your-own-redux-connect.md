@@ -19,6 +19,8 @@ connect(mapStateToProps, mapDispatchToProps)(MyComponent)
 
 I'll assume you know how to implement this pattern, but why do we use it and how does it work under the hood?
 
+<!-- more -->
+
 # Why Do we Need React-Redux?
 React and Redux are two completely independent tools that have nothing to do with each other. React is a tool for creating user interfaces in the browser. Redux is a tool for managing state. Either tool can be used without the other. We often use them together because they both solve separate but very important and closely related problems. The purpose of react-redux is to get these two tools to talk.
 

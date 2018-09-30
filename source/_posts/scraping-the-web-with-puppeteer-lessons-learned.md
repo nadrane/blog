@@ -9,6 +9,8 @@ date: 2017-12-09 15:35:13
 
 I'm currently contracted to create a web service using some data from a third party Angular application. I worked off a proof of concept codebase that used Chrome's new [Puppeteer](https://github.com/GoogleChrome/puppeteer) API to scrape this site. I strongly regret not starting from scratch.
 
+<!-- more -->
+
 ## What is Puppeteer?
 
 Puppeteer is a Node API that allows you to control Google's headless Chrome browser. Imagine a version of your browser that can send and receive requests but has no GUI. It works in the background, performing actions as instructed by an API. This makes Puppeteer great for end to end testing a web application. You can truly simulate the user experience, typing where they type and clicking where they click. Another use case for Puppeteer is web scraping a single page web application. Let's explore how this might work.

@@ -9,6 +9,8 @@ I've conducted about 100 technical interviews over the past 6 months for a softw
 
 Every Triplebyte interview begins with the candidate coding a short game. We have a series of steps, and each step precisely defines simple requirements for the program to handle. I can generally tell a couple minutes into the 2 hour interview whether the candidate will be successful. There are certainly outliers (as well as mechanisms to prevent bias), but in general, I can quickly ascertain how well a candidate stacks up technically. So then, it begs the question, why is it so hard to hire engineers? The answer is, most of us are doing it wrong.
 
+<!-- more -->
+
 ## Interview Standardization
 
 About 12 months ago, while running [Fullstack Academy's](https://www.fullstackacademy.com/) Chicago campus, I was looking to hire a qualified instructor. Our interview consisted of live lecture as well as a mock 1-1 teaching session, where the candidate was required to guide me (playing the role of a struggling student) through a simple recursion problem. The latter exercise was almost always a better indicator of instructor fit than the former. The reason was simple: the latter exercise was assigned to the candidate whereas the lecture topic was their choice. This meant that every lecture topic was different and made lectures difficult to compare. In contrast, after having seen dozens of candidates attempt to teach me the same recursion problem, it was obvious who stood out.

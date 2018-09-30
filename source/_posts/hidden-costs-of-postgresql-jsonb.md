@@ -8,6 +8,8 @@ categories:
 
 [Postgres](https://www.postgresql.org/) introduced the [JSONB](https://www.postgresql.org/docs/current/static/datatype-json.html) type in version 9.4 with considerable excitement. JSONB promised to marry a favorite relational database with the noSQL world, permitting data to be stored in the database as JSON without the need for re-parsing whenever a field is accessed. Moreover, the binary storage format permits indexing and complex queries against the stored JSON blobs. This data format embodies the flexible schema and was readily adopted at [Fraight](https://fraight.ai/).
 
+<!-- more -->
+
 ## Background
 
 At Fraight, we've built a centralized communication platform that collates all inbound/outbound communications between our brokerage company and thousands of trucking partners. One of our main objectives is to build a system that parses and automatically responds to inbound text messages, emails, and faxes. We knew we would eventually need the nitty-gritty details of these messages, so we captured the data by dumping entire http response bodies into a JSONB column named `meta` in our database’s `message` table.

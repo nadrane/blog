@@ -1,5 +1,20 @@
 <% page.posts.each(function(item){ %>
-  <%- partial('_partial/article', {item: item, index: true}) %>
+  <article class="<%= item.layout %>">
+    <div class="post-content">
+      <header>
+          <h1 class="title"><a href="<%- config.root %><%- item.path %>"><%= item.title %></a></h1>
+          <time datetime="<%= item.date.toDate().toISOString() %>"><%= item.date.format(config.date_format) %></time>
+      </header>
+      <div class="entry">
+        <%- item.excerpt %>
+      </div>
+        <footer>
+          <div class="alignleft">
+            <a href="<%- config.root %><%- item.path %>#more" class="more-link"><%= theme.excerpt_link %></a>
+          </div>
+        </footer>
+    </div>
+  </article>
 <% }); %>
 
 <%- partial('_partial/pagination') %>
