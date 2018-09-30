@@ -20,7 +20,7 @@ In an ideal world, the third party API responses we collected would have been br
 
 Fraight’s CTO approached me the other day and explained that query performance over the `message` table had deteriorated. He elaborated that the queries were only slow when the `meta` column was included in the result set. We had previously experienced slowdown in the `message` table when entire email attachment bodies were getting serialized and stored in the `meta` column, and I suspected that the root cause of our current performance problem was in a similar vein. A quick [query](#footnote1) revealed that our `meta` column was often quite large.
 
-The average size of the `meta` column was 3.7 kb. That might not seem large, but for our 100,000 row table, that meant 400mb of (mostly unused) metadata. At the high end of the spectrum, some messages were up to 17mb in size. The precise details of why this dataset slows down queries are a bit esoteric<sup>[2](#footnote2)</sup>, but it was clear that we were storing too much information. You can read more about how Postgres stores large data values [here](https://www.postgresql.org/docs/current/static/storage-toast.html).
+The average size of the `meta` column was 3.7 kb. That might not seem large, but for our 100,000 row table, that meant 400mb of (mostly unused) metadata. At the high end of the spectrum, some messages were up to 17mb in size. The precise details of why this dataset slows down queries are a bit esoteric<sup>[2](#footnote2)</sup>, but it was clear that we were storing too much information. You can read more about how Postgres stores large data values using [TOAST](https://www.postgresql.org/docs/current/static/storage-toast.html).
 
 
 ## Further Complications
