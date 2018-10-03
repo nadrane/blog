@@ -72,4 +72,16 @@ pg_toast_1432460	17731
 pg_toast_1432460_index	209
 ```
 
-We can see that the message
+We can see that the message table has 17731 disk pages of information storing the contents of the TOAST table and another 209 pages dedicated to storing the TOAST table's index.
+
+Maybe estimate how long this read would take from disk?
+
+When the migrations are applied, we can see that the TOAST table pages goes to 0.
+
+Show how the execution time of the query plan is affected
+
+Look up how to benchmark postgres properly.
+
+Think about whether it makes sense for the cache to be warm or not. Probably warm.
+
+This a grand total of
