@@ -4,7 +4,7 @@ categories:
   - [Regular Expressions]
   - [Javascript]
   - [Testing]
-date: 2017-12-06 17:37:16
+date: 2017-12-06
 ---
 
 

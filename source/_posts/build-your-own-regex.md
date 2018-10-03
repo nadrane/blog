@@ -242,7 +242,7 @@ We use the `*` character itself to allow for the pattern to appear anywhere in t
 
 It's remarkable how simple and elegant the code for such a sophisticated and generalized program can be. The full source is available in this [GitHub repository](https://github.com/nadrane/build-your-own-regex)
 
-A follow up where I fuzz test the regex engine can be found [here](https://nickdrane.com/regex-and-automated-test-fuzzing/)
+Here is a [follow up article](https://nickdrane.com/regex-and-automated-test-fuzzing/) where I fuzz test the regex engine.
 
 
 #### Footnotes
