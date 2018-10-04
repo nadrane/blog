@@ -20,7 +20,7 @@ In an ideal world, the third party API responses we collected would have been br
 
 Fraight’s CTO approached me the other day and explained that query performance over the `message` table had deteriorated. He elaborated that the queries were only slow when the `meta` column was included in the result set. We had previously experienced slowdown in the `message` table when entire email attachment bodies were getting serialized and stored in the `meta` column, and I suspected that the root cause of our current performance problem was in a similar vein. A quick [query](#footnote1) revealed that our `meta` column was often quite large.
 
-The average size of the `meta` column was 3.7 kb. That might not seem large, but for our 100,000 row table, that meant 400mb of (mostly unused) metadata. At the high end of the spectrum, some messages were up to 17mb in size. The precise details of why this dataset slows down queries are a bit esoteric<sup>[2](#footnote2)</sup>, but it was clear that we were storing too much information. You can read more about how Postgres stores large data values using [TOAST](https://www.postgresql.org/docs/current/static/storage-toast.html).
+The average size of the `meta` column was 3.7 kb. That might not seem large, but for our 100,000 row table, that meant 400mb of (mostly unused) metadata. At the high end of the spectrum, some messages were up to 17mb in size. The precise details of why this dataset slows down queries are a bit esoteric<sup>[2](#footnote2)</sup>, but it was clear that we were storing too much information. You can read more about how Postgres stores large data values using [TOAST](https://www.postgresql.org/docs/current/static/storage-toast.html) and [how I validated this was a problem](#footnote3).
 
 
 ## Further Complications
@@ -37,7 +37,7 @@ So the problem was twofold:
 
 We looked at several solutions. Below are the three we considered most seriously:
 
-1. Use the ORM to omit the `meta` column from all queries unless specifically included. Since we unnecessarily perform `select *` queries over the `message` table, this strategy, despite its messiness, would increase the performance in most cases (with the occasional slow query when metadata was actually required) and would in theory be simple to implement. It wouldn't, however, resolve our initial design shortcut.
+1. Use the ORM to omit the `meta` column from all queries unless specifically included. Since we unnecessarily perform `select *` <sup>[4](#footnote4)</sup> queries over the `message` table, this strategy, despite its messiness, would increase the performance in most cases (with the occasional slow query when metadata was actually required) and would in theory be simple to implement. It wouldn't, however, resolve our initial design shortcut.
 
 2. Keep the `meta` column as-is but extract specific keys to [S3](https://aws.amazon.com/s3/). In general, greater than 99% of the size of any given column's `meta` field was from a single key. For example, many of the emails we capture include large attachments. Other times message bodies retain long, historical email chains. By extracting these problematic fields and uploading them to S3, the database would only need to store a reference to the S3 content. Then, upon request, the server could generate a [pre-signed URL](https://docs.aws.amazon.com/AmazonS3/latest/dev//ShareObjectPreSignedURL.html), allowing the client to download large files directly from S3.
 
@@ -50,7 +50,7 @@ This hiccup left the choice between S3 and a separate Postgres table. We agreed 
 
 In addition to migrating metadata to its own table, we took a couple additional steps:
 
-1. We extracted the handful of regularly used fields from the metadata and migrated them into their own columns in the `message` table. This meant that we didn't need to retrieve large, megabyte sized blobs whenever we wanted a single field<sup>[3](#footnote3)</sup>. As an added advantage, we regained simple access to database [constraints](https://www.postgresql.org/docs/current/static/ddl-constraints.html).
+1. We extracted the handful of regularly used fields from the metadata and migrated them into their own columns in the `message` table. This meant that we didn't need to retrieve large, megabyte sized blobs whenever we wanted a single field<sup>[5](#footnote5)</sup>. As an added advantage, we regained simple access to database [constraints](https://www.postgresql.org/docs/current/static/ddl-constraints.html).
 
 2. When we created the new `metadata` table in Postgres, we made sure not to define a relationship between it and its related tables at the ORM layer, only the database layer. This makes it far more difficult for a developer to hobble performance by absentmindedly joining large metadata into queries. We introduced an API for accessing the metadata instead. The added advantage of this API is that we can now change the underlying implementation to use S3 (or anything else) in the future, without modifying dependent application code.
 
@@ -68,4 +68,29 @@ FROM message as m
 
 <a name="footnote2">2</a>: I should clarify that performance measurements were done with a local Postgres installation where network congestion/throughput is not a relevant factor.
 
-<a name="footnote3">3</a>: As I write this, I wonder if it wouldn't have been possible to leverage indexes to only retrieve specific pieces of the `meta` field. I wonder if our ORM provides any support for firstclass fields that are subfields of another field.
+<a name="footnote3">3</a>:
+I verified that the `meta` column was toasting with a little help from the [Postgres docs](https://www.postgresql.org/docs/10/static/disk-usage.html):
+
+```sql
+SELECT relname, relpages, relpages * 8191 / (1024 * 1024) as size
+FROM pg_class,
+     (SELECT reltoastrelid
+      FROM pg_class
+      WHERE relname = 'message') AS ss
+WHERE oid = ss.reltoastrelid OR
+      oid = (SELECT indexrelid
+             FROM pg_index
+             WHERE indrelid = ss.reltoastrelid)
+```
+
+For specifically the `message` table, this query returns the number of disk pages in the toast table and their total size in megabytes.
+
+| table       | disk pages | size (mb) |
+|-------------|------------|-----------|
+| toast	table | 17731      | 139       |
+| toast index | 209        | 1         |
+
+
+<a name="footnote4">4</a>: We were not literally doing any `select *` queries. Our ORM's message model did, however, specify all of the columns of the `message` table. In retrospect, this was probably our biggest mistake. It meant that a call to `Message.find`, which is used all over the place, retrieved all columns on the `message` table, unless specifically directed otherwise. Usually, for a RESTful API, this is an acceptable performance tradeoff, but that's didn't hold true in this circumstance.
+
+<a name="footnote5">5</a>: As I write this, I wonder if it wouldn't have been possible to leverage indexes to only retrieve specific pieces of the `meta` field. I wonder if our ORM provides any support for firstclass fields that are subfields of another field.
