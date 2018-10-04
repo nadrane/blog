@@ -91,6 +91,6 @@ For specifically the `message` table, this query returns the number of disk page
 | toast index | 209        | 1         |
 
 
-<a name="footnote4">4</a>: We were not literally doing any `select *` queries. Our ORM's message model did, however, specify all of the columns of the `message` table. In retrospect, this was probably our biggest mistake. It meant that a call to `Message.find`, which is used all over the place, retrieved all columns on the `message` table, unless specifically directed otherwise. Usually, for a RESTful API, this is an acceptable performance tradeoff, but that's didn't hold true in this circumstance.
+<a name="footnote4">4</a>: We were not literally doing any `select *` queries. Our ORM's message model did, however, specify all of the columns of the `message` table. In retrospect, this was probably our biggest mistake. It meant that a call to `Message.find`, which is used all over the place, retrieved all columns on the `message` table, unless specifically directed otherwise. Usually, for a RESTful API, this is an acceptable performance tradeoff, but it didn't hold true in this circumstance.
 
 <a name="footnote5">5</a>: As I write this, I wonder if it wouldn't have been possible to leverage indexes to only retrieve specific pieces of the `meta` field. I wonder if our ORM provides any support for firstclass fields that are subfields of another field.
