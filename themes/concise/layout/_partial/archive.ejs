@@ -18,18 +18,10 @@ if (page.archive){
 <% } else { %>
   <div class="archive">
     <% page.posts.each(function(item){ %>
-      <article class="<%= item.layout %>">
+      <article>
         <div class="post-content">
           <header>
-            <% if (item.link){ %>
-              <% if (item.title){ %>
-                <h2 class="title link"><span datetime="<%= item.date.toDate().toISOString() %>"><%= item.date.format(config.date_format) %></span><a href="<%- item.link %>" target="_blank"><%= item.title %></a></h1>
-              <% } else { %>
-                <h2 class="title link"><span datetime="<%= item.date.toDate().toISOString() %>"><%= item.date.format(config.date_format) %></span><a href="<%- item.link %>" target="_blank"><%= item.link %></a></h1>
-              <% } %>
-            <% } else { %>
-              <h2 class="archive-post"><span datetime="<%= item.date.toDate().toISOString() %>"><%= item.date.format(config.date_format) %></span><a href="<%- config.root %><%- item.path %>"><%= item.title %></a></h1>
-            <% } %>
+            <h2 class="archive-post"><span datetime="<%= item.date.toDate().toISOString() %>"><%= item.date.format(config.date_format) %></span><a href="<%- config.root %><%- item.path %>"><%= item.title %></a></h1>
           </header>
         </div>
       </article>
