@@ -1,9 +1,12 @@
 .archive-title
-  color color-meta
-  font-weight bold
-  padding 16px 24px
+  color color-font
+  font-weight: 300;
+  letter-spacing: 1px;
+  padding 16px 24px;
 
 .archive-post
+  display: flex
+  flex-direction: row
   color color-meta
   font-weight normal
   padding 0 0 24px 0
@@ -15,10 +18,6 @@
       color color-link
       text-decoration none
 
-  &.tag
-    &:before
-      content '\f02b'
-
   &.category
     &:before
       content '\f07b'
@@ -27,13 +26,9 @@
   border-bottom 1px solid color-border
   margin-bottom 50px
 
-  span
-    color color-meta
-    font 0.8em font-title
-    margin-top 5px
-    margin-right 10px
-    margin-bottom 5px
-    margin-left 10px
+  background: #fff;
+  -webkit-box-shadow: 0 -1px 0 #e5e5e5, 0 0 2px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.24);
+  box-shadow: 0 -1px 0 #e5e5e5, 0 0 2px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.24);
 
   article
     box-shadow none
@@ -42,3 +37,11 @@
     .post-content
       margin-bottom 0
       padding 16px 15px
+
+.post-date
+  color color-meta
+  font 0.8em font-title
+  margin-top 5px
+  margin-right 25px
+  margin-bottom 5px
+  margin-left 10px

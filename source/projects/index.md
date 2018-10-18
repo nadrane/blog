@@ -1,8 +1,6 @@
 ---
-date: 2017-10-19 14:40:55
+title: Projects
 ---
-
-### Projects
 
 [Web Crawler](https://github.com/nadrane/crawler)
 This is my current project. I'm endeavoring to crawl 1 billion web pages for a couple hundred dollars. It is ~80% done.

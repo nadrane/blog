@@ -1,3 +1,7 @@
+---
+title: Hire Me
+---
+
 I do software consulting work. Here are some things you can hire me for
 
 * **Search**
