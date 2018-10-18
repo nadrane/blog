@@ -1,6 +1,6 @@
 <ul class="share-buttons">
-  <li><a href="https://www.facebook.com/sharer/sharer.php?u=&quote=" title="Share on Facebook" target="_blank"><img alt="Share on Facebook" src="/images/social/Facebook.png" /></a></li>
-  <li><a href="https://twitter.com/intent/tweet?source=&text=:%20" target="_blank" title="Tweet"><img alt="Tweet" src="/images/social/Twitter.png" /></a></li>
-  <li><a href="http://www.linkedin.com/shareArticle?mini=true&url=&title=&summary=&source=" target="_blank" title="Share on LinkedIn"><img alt="Share on LinkedIn" src="/images/social/LinkedIn.png" /></a></li>
-  <li><a href="mailto:?subject=&body=:%20" target="_blank" title="Send email"><img alt="Send email" src="/images/social/Email.png" /></a></li>
+  <li><a href="https://www.facebook.com/sharer/sharer.php?u=<%- escapeUrl(page.permalink) %>&quote=<%- escapeUrl(page.title) %>" title="Share on Facebook" target="_blank"><img alt="Share on Facebook" src="/images/social/Facebook.png" /></a></li>
+  <li><a href="https://twitter.com/intent/tweet?url=<%- escapeUrl(page.permalink) %>&text=<%- escapeUrl(page.title) %>" target="_blank" title="Tweet"><img alt="Tweet" src="/images/social/Twitter.png" /></a></li>
+  <li><a href="http://www.linkedin.com/shareArticle?mini=true&url=<%- escapeUrl(page.permalink) %>&title=<%- escapeUrl(page.title) %>" target="_blank" title="Share on LinkedIn"><img alt="Share on LinkedIn" src="/images/social/LinkedIn.png" /></a></li>
+  <li><a href="mailto:?subject=<%- page.title %>&body=Check this out: <%- page.permalink %>" target="_blank" title="Send email"><img alt="Send email" src="/images/social/Email.png" /></a></li>
 </ul>
