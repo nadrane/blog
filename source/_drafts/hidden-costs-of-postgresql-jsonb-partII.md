@@ -1,15 +1,62 @@
 ---
-title: "The Hidden Costs of PostgreSQL's JSONB Datatype: Part II"
-date: 2018-09-30
+title: "The Hidden Costs of Large Columns in PostgreSQL's: The Dangers of TOAST"
+date: 2018-10-03
 categories:
   - [Postgres]
 ---
 
-I recently wrote an [article](/https://nickdrane.com/hidden-costs-of-postgresql-jsonb/) on some hiccups I ran into while using [JSONB](https://www.postgresql.org/docs/current/static/datatype-json.html). This article is written from the perspective of the application developer and discusses architectural decisions made to overcome issues with JSONB. This article is written from the perspective of the database engineer and will dive into the nitty-gritty performance benchmarking of Postgres and will explain how I identified why JSONB was a problem.
+I recently wrote an [article](/https://nickdrane.com/hidden-costs-of-postgresql-jsonb/) on some hiccups I ran into while using [JSONB](https://www.postgresql.org/docs/current/static/datatype-json.html). This article is written from the perspective of the application developer and discusses architectural decisions made to overcome issues with JSONB.
 
-## Background
+Now I want to shift focus to the perspective of the database engineer. I want to explore how I identified why JSONB was a problem and how I proved my fix solved the problem. This article does not require you have read the previous blog post.
 
-As I explained previously, at Fraight we have a `message` table that contains a JSONB `meta` column. We discovered that our queries drastically slowed down when this column was included in `SELECT` statements. Performance resumed to normal if it was omitted.
+## Schema
+
+Suppose we have a `test` table with the following schema:
+
+| Column       | Type                   | Storage  |
+|--------------|------------------------|----------|
+| id           | integer                | plain    |
+| content      | text                   | extended |
+| meta         | jsonb                  | extended |
+| filter_index | integer                | plain    |
+
+For now, you can ignore the `storage` column. It will become relevant later. Suppose that our `filter_index` column is indexed using a BTREE.
+
+We can create this `test` table with the following SQL:
+
+```sql
+CREATE TABLE test (
+    id integer,
+    content text,
+    meta jsonb,
+    filter_index integer
+);
+
+CREATE INDEX filter_index ON test (filter_index);
+```
+
+## Seeding the Database
+
+```sql
+INSERT
+INTO
+	test (small, large, filter_index)
+SELECT
+	array_to_string(
+		ARRAY (SELECT chr((65 + round(random() * 25))::INT) FROM ROWS FROM (generate_series(1, 1000))),
+		''
+	)
+		AS small,
+	array_to_string(
+		ARRAY (SELECT chr((65 + round(random() * 25))::INT) FROM ROWS FROM (generate_series(1, 1000000))),
+		''
+	)
+		AS large,
+	round(random() * 100) AS filter_index
+FROM
+	generate_series(1, 100000);
+```
+ that contains a JSONB `meta` column. We discovered that our queries drastically slowed down when this column was included in `SELECT` statements. Performance resumed to normal if it was omitted.
 
 ## Specifics
 
@@ -48,7 +95,21 @@ ORDER BY octet_length(m."meta"::text) DESC;
 
 This query revealed that some `meta` columns were consuming up to 17mb of space, in the most extreme cases.
 
+Keep in mind that this data is random and uncompressible. We can validate this assumption by comparing the compressed and uncompressed average row size:
+
+```sql
+SELECT avg(octet_length(m.*::text)) as uncompressed, avg(pg_column_size(m.*::text)) as compressed
+FROM test as m;
+```
+
+The results:
+
+| Compressed (bytes) | Uncompressed (bytes)   |
+|--------------------|------------------------|
+| 5511.9             | 5515.9                 |
+
 ## TOAST
+
 
 When a column in a tuple (a single row) in Postgres becomes to large (by default exceeding 2kb), it is stored "out-of-line" in a TOAST table. This effectively means that in order to retrieve the entirety of the contents of a given tuple, it might be necessary to query not only the original table but also a secondary TOAST table. And if the column is large enough, the TOAST table might need to be queried many times.
 
