@@ -1,0 +1,219 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  
+    <title>
+      Scraping the Web with Puppeteer: Lessons Learned › Nick Drane
+    </title>
+    
+      <meta name="author" content="Nick Drane">
+      
+        
+            <meta name="description" content="Nick Drane&#39;s blog about programming and modern web development, particularly Node.js and React.">
+            
+                  
+                      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+                      
+                        <meta property="og:title" content="Scraping the Web with Puppeteer: Lessons Learned" />
+                        
+                          <meta property="og:site_name" content="Nick Drane" />
+
+                          
+                              <meta property="og:image" content="" />
+                              
+                                <meta name="google-site-verification" content="0iahwlYFOHM2sYjk4TF5_lP0DqzgOgkXnZcKV-Qci8A" />
+
+                                <link href="/favicon.png" rel="icon">
+                                <link rel="alternate" href="/atom.xml" title="Nick Drane"
+                                  type="application/atom+xml">
+                                <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+                                <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+                                <script async src="https://www.googletagmanager.com/gtag/js?id=UA-107252357-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-107252357-1');
+</script>
+</head>
+
+<body>
+  <header id="header"><div class="meta inner">
+  <h1><a href="/">Nick Drane</a></h1>
+  <nav id="main-nav">
+    <ul>
+      <li><a href="/about">About</a></li>
+      <li><a href="/hire-me">Hire Me</a></li>
+      <li><a href="/projects">Projects</a></li>
+      <li><a href="/archives">Archives</a></li>
+    </ul>
+    <div class="clearfix"></div>
+  </nav>
+</div>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+  
+    <div class="social">
+      <ul class="share-buttons">
+  <li><a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fnickdrane.com%2Fscraping-the-web-with-puppeteer-lessons-learned%2F&quote=Scraping%20the%20Web%20with%20Puppeteer%3A%20Lessons%20Learned" title="Share on Facebook" target="_blank"><img alt="Share on Facebook" src="/images/social/Facebook.png" /></a></li>
+  <li><a href="https://twitter.com/intent/tweet?url=http%3A%2F%2Fnickdrane.com%2Fscraping-the-web-with-puppeteer-lessons-learned%2F&text=Scraping%20the%20Web%20with%20Puppeteer%3A%20Lessons%20Learned" target="_blank" title="Tweet"><img alt="Tweet" src="/images/social/Twitter.png" /></a></li>
+  <li><a href="http://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Fnickdrane.com%2Fscraping-the-web-with-puppeteer-lessons-learned%2F&title=Scraping%20the%20Web%20with%20Puppeteer%3A%20Lessons%20Learned" target="_blank" title="Share on LinkedIn"><img alt="Share on LinkedIn" src="/images/social/LinkedIn.png" /></a></li>
+  <li><a href="mailto:?subject=Scraping the Web with Puppeteer: Lessons Learned&body=Check this out: http://nickdrane.com/scraping-the-web-with-puppeteer-lessons-learned/" target="_blank" title="Send email"><img alt="Send email" src="/images/social/Email.png" /></a></li>
+</ul>
+    </div class="social">
+  
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  <div class="post-content">
+    <header>
+      
+  
+    <h1 class="title">Scraping the Web with Puppeteer: Lessons Learned</h1>
+  
+
+      
+        <time datetime="2017-12-09T21:35:13.000Z">2017-12-09</time>
+      
+    </header>
+    <div class="entry">
+      <p>I’m currently contracted to create a web service using some data from a third party Angular application. I worked off a proof of concept codebase that used Chrome’s new <a href="https://github.com/GoogleChrome/puppeteer" target="_blank" rel="noopener">Puppeteer</a> API to scrape this site. I strongly regret not starting from scratch.</p>
+<a id="more"></a>
+<h2 id="What-is-Puppeteer"><a href="#What-is-Puppeteer" class="headerlink" title="What is Puppeteer?"></a>What is Puppeteer?</h2><p>Puppeteer is a Node API that allows you to control Google’s headless Chrome browser. Imagine a version of your browser that can send and receive requests but has no GUI. It works in the background, performing actions as instructed by an API. This makes Puppeteer great for end to end testing a web application. You can truly simulate the user experience, typing where they type and clicking where they click. Another use case for Puppeteer is web scraping a single page web application. Let’s explore how this might work.</p>
+<h2 id="A-Simple-Example"><a href="#A-Simple-Example" class="headerlink" title="A Simple Example"></a>A Simple Example</h2><p>For any Puppeteer project, the first task is to create an instance of the headless browser.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> browser = <span class="keyword">await</span> puppeteer.launch()</span><br><span class="line"></span><br><span class="line"><span class="comment">// We will use this page instance and it's API frequently</span></span><br><span class="line"><span class="keyword">const</span> page = <span class="keyword">await</span> <span class="keyword">this</span>.browser.newPage();</span><br></pre></td></tr></table></figure>
+<p>After that’s done, it’s trivial to navigate to and begin interacting with a webpage. Let’s suppose I want to fill out a login form and submit an authentication request to a website. In an ideal situation, it looks like this.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Navigate to the website</span></span><br><span class="line"><span class="keyword">await</span> page.goto(<span class="string">"https://website/login"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Provide the selector of an input box and the content to type</span></span><br><span class="line"><span class="keyword">await</span> page.type(<span class="string">"input#username"</span>, CREDENTIALS.username);</span><br><span class="line"><span class="keyword">await</span> page.type(<span class="string">"input#password"</span>, CREDENTIALS.password);</span><br><span class="line"><span class="keyword">await</span> page.click(<span class="string">"button#login"</span>); <span class="comment">// Click the login button</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Wait until the screen changes and a node matching</span></span><br><span class="line"><span class="comment">// the selector #logged-in-successfully appears,</span></span><br><span class="line"><span class="comment">// at which point we know the login was successful</span></span><br><span class="line"><span class="keyword">await</span> page.waitForSelector(<span class="string">"#logged-in-successfully"</span>);</span><br></pre></td></tr></table></figure>
+<p>We just successfully filled out a form, submitted an HTTP request containing our form data, and waited for the page to change upon successful login. This is where Puppeteer shines. Let’s look at a more complicated example.</p>
+<h2 id="A-More-Complicated-Example"><a href="#A-More-Complicated-Example" class="headerlink" title="A More Complicated Example"></a>A More Complicated Example</h2><p>Today’s web uses a mix of simple html driven forms as well as more complicated, javascript-driven forms, rich with functionality like autocomplete and dynamic dropdown menus. I’m sure you’ve used a calendar date picker. These components each need to be treated differently.</p>
+<p>Here is a modified version of some code I wrote for my client:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// The form inputs I want to fill out</span></span><br><span class="line"><span class="comment">// and their corresponding selectors</span></span><br><span class="line"><span class="keyword">const</span> fields = &#123;</span><br><span class="line">  type: <span class="string">'input[ng-model="type"]'</span>,</span><br><span class="line">  origin: <span class="string">'input[ng-model="origin"]'</span>,</span><br><span class="line">  destination: <span class="string">'input[ng-model="destination"]'</span>,</span><br><span class="line">  date: <span class="string">'input[ng-model="date"]'</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">search</span>(<span class="params">searchParams</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> page = <span class="keyword">await</span> <span class="keyword">this</span>.browser.newPage();</span><br><span class="line">  <span class="keyword">await</span> page.goto(<span class="string">"https://website/search"</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// We need to click a button to make the search form</span></span><br><span class="line">  <span class="comment">// appear, but first make sure that button has rendered</span></span><br><span class="line">  <span class="keyword">await</span> page.waitForSelector(<span class="string">".new-search"</span>);</span><br><span class="line">  <span class="keyword">await</span> page.click(<span class="string">".new-search"</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Fill out the form</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">const</span> field <span class="keyword">of</span> <span class="built_in">Object</span>.keys(fields)) &#123;</span><br><span class="line">    <span class="keyword">if</span> (searchParams[field]) &#123;</span><br><span class="line">      <span class="keyword">const</span> selector = fields[field];</span><br><span class="line"></span><br><span class="line">      <span class="comment">// We want to make sure each DOM node is rendered</span></span><br><span class="line">      <span class="comment">// before we try to do anything to it.</span></span><br><span class="line">      <span class="keyword">await</span> page.waitForSelector(selector);</span><br><span class="line"></span><br><span class="line">      <span class="comment">// Some inputs need to be focused first for page.type to work</span></span><br><span class="line">      <span class="comment">// Might as well focus on all of them</span></span><br><span class="line">      <span class="keyword">await</span> page.focus(selector);</span><br><span class="line"></span><br><span class="line">      <span class="comment">// Some inputs have defaults that need to be</span></span><br><span class="line">      <span class="comment">// erased before typing your own input</span></span><br><span class="line">      <span class="keyword">if</span> (field === <span class="string">"date"</span> || field === <span class="string">"type"</span>) &#123;</span><br><span class="line">        <span class="comment">// This is a helper function I wrote</span></span><br><span class="line">        <span class="keyword">await</span> deleteInput(page, selector);</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">await</span> page.type(selector, searchParams[field]);</span><br><span class="line"></span><br><span class="line">      <span class="comment">// This field won't register the typed data</span></span><br><span class="line">      <span class="comment">// until Enter is pressed.</span></span><br><span class="line">      <span class="comment">// This is because the 'type' field is a dropdown</span></span><br><span class="line">      <span class="comment">// where one of a specific set of inputs must be clicked.</span></span><br><span class="line">      <span class="keyword">if</span> (field === <span class="string">"type"</span>) &#123;</span><br><span class="line">        <span class="keyword">await</span> page.keyboard.press(<span class="string">"Enter"</span>);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>The first thing to notice is that the code is messy and full of weird exceptions. To make matters worse, it doesn’t always work.</p>
+<h2 id="Brace-Yourself-for-Flaky-Behavior"><a href="#Brace-Yourself-for-Flaky-Behavior" class="headerlink" title="Brace Yourself for Flaky Behavior"></a>Brace Yourself for Flaky Behavior</h2><p>Working with Puppeteer was an exercise in guesswork. Given the same inputs, Puppeteer did not always produce the same outputs<sup><a href="#footnote1">1</a></sup>. This flaky behavior made the project unnecessarily challenging and required me to do additional engineering to increase reliability, which was frustrating considering the alternative.</p>
+<h2 id="Puppeteer-Was-Completely-Unnecessary"><a href="#Puppeteer-Was-Completely-Unnecessary" class="headerlink" title="Puppeteer Was Completely Unnecessary"></a>Puppeteer Was Completely Unnecessary</h2><p>Puppeteer has a API that allows you to execute arbitrary code against the DOM. After scraping form results with this API and getting the same flaky behavior described above, I ditched the approach and started grabbing data from the HTTP response objects themselves. Below is a primitive version of some code I wrote to do this.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">waitForUrl(page, urlPrefix) &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="params">resolve</span> =&gt;</span> &#123;</span><br><span class="line">    page.on(<span class="string">"response"</span>, res =&gt; &#123;</span><br><span class="line">      <span class="keyword">if</span> (!res.url.startsWith(urlPrefix)) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      resolve(res.json());</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>The page passed into this function is the same page object created above by the Puppeteer API. Among other things, it is an event emitter that allows me to listen for any HTTP responses. I’ve essentially created a promise that resolves to the response body of a particular ajax request. This allowed me interact with the server API directly and removed the DOM from the data retrieval process, greatly reducing the chance for flaky behavior. But that begs the question, why use Puppeteer at all? Why not simply send http requests to the server API manually and ditch the complicated form submission code above That’s how I should have started all along.</p>
+<h2 id="When-is-Puppeteer-the-Right-Solution"><a href="#When-is-Puppeteer-the-Right-Solution" class="headerlink" title="When is Puppeteer the Right Solution"></a>When is Puppeteer the Right Solution</h2><p>I can only think of a single scenario where using Puppeteer for scraping is superior to the alternative: if the information you want is generated using a combination of API data and javascript code. After all, you would have no other way to simulate the javascript code without rewriting it.</p>
+<p>If, however, all you need is data from the server, go the simple route and hit the API with an HTTP library like <a href="https://github.com/axios/axios" target="_blank" rel="noopener">axios</a> or <a href="https://github.com/request/request" target="_blank" rel="noopener">request</a>. If you are scraping a server side rendered application, you can combine one of the aforementioned tools with <a href="https://github.com/cheeriojs/cheerio" target="_blank" rel="noopener">Cheerio</a>, giving you a far more user friendly DOM manipulation API than that offered my Puppeteer.</p>
+<h4 id="Footnotes"><a href="#Footnotes" class="headerlink" title="Footnotes"></a>Footnotes</h4><p><a name="footnote1">1</a>: You might be curious why Puppeteer exhibited flaky behavior. One issue that I ran into was animations. I might attempt to click a DOM node, but if the animation had not finished, the click would not register. In essence, it would appear as if the click had worked, but once the animation finished, the DOM would reset itself, undoing my click. I think this is simply how Angular’s digest loop reacted to a click at an unexpected time. Unfortunately, Puppeteer provides no functionality to determine when an animation has finished (after all, how would it!). I tried a couple solutions. One entailed a sleep function to wait a couple hundred milliseconds for the animation to finish, but it simply exacerbated the flaky behavior. A second involved executing the click only once the DOM node had a particular class that indicated the animation had finished. At one point, I even tried to disable all animations across the website. All these solutions were half-baked.</p>
+
+    </div>
+    <footer>
+      <ul class="share-buttons">
+  <li><a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fnickdrane.com%2Fscraping-the-web-with-puppeteer-lessons-learned%2F&quote=Scraping%20the%20Web%20with%20Puppeteer%3A%20Lessons%20Learned" title="Share on Facebook" target="_blank"><img alt="Share on Facebook" src="/images/social/Facebook.png" /></a></li>
+  <li><a href="https://twitter.com/intent/tweet?url=http%3A%2F%2Fnickdrane.com%2Fscraping-the-web-with-puppeteer-lessons-learned%2F&text=Scraping%20the%20Web%20with%20Puppeteer%3A%20Lessons%20Learned" target="_blank" title="Tweet"><img alt="Tweet" src="/images/social/Twitter.png" /></a></li>
+  <li><a href="http://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Fnickdrane.com%2Fscraping-the-web-with-puppeteer-lessons-learned%2F&title=Scraping%20the%20Web%20with%20Puppeteer%3A%20Lessons%20Learned" target="_blank" title="Share on LinkedIn"><img alt="Share on LinkedIn" src="/images/social/LinkedIn.png" /></a></li>
+  <li><a href="mailto:?subject=Scraping the Web with Puppeteer: Lessons Learned&body=Check this out: http://nickdrane.com/scraping-the-web-with-puppeteer-lessons-learned/" target="_blank" title="Send email"><img alt="Send email" src="/images/social/Email.png" /></a></li>
+</ul>
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article></div></div>
+    <aside id="sidebar" class="alignright">  <div class="widget tag about">
+  <ul class="entry">
+    <div>
+      <img class="about-photo" src="/images/about-photo.jpg" alt="photo of Nick Drane" />
+    </div>
+    <p class="about-photo-text"> Nick Drane's blog about programming, hacking, software, computer security, and compute science.</p>
+
+  </ul>
+</div>
+  <div class="widget tag recent-posts">
+  <h3 class="title">Most Popular Posts</h3>
+  <ul class="entry">
+    <li>
+      <a href="/build-your-own-regex/">Build a Regex Engine in Less than 40 Lines of Code</a>
+    </li>
+    <li>
+      <a href="/scraping-the-web-with-puppeteer-lessons-learned/">Scraping the Web with Puppeteer: Lessons Learned</a>
+    </li>
+    <li>
+      <a href="/write-your-own-redux-connect/">Write Your Own React-Redux Connect</a>
+    </li>
+    <li>
+      <a href="/build-your-own-nested-query-string-encoder/">Build Your Own Nested Query String Encoder/Decoder</a>
+    </li>
+  </ul>
+</div>
+  <div class="widget tag recent-posts">
+  <h3 class="title">Recent Posts</h3>
+  <ul class="entry">
+    
+      <li>
+        <a href="/hidden-costs-of-postgresql-jsonb/">The Hidden Costs of PostgreSQL&#39;s JSONB Datatype</a>
+      </li>
+    
+      <li>
+        <a href="/ethical-engineering-for-the-average-engineer/">Ethical Engineering for the Average Engineer</a>
+      </li>
+    
+      <li>
+        <a href="/build-your-own-nested-query-string-encoder/">Build Your Own Nested Query String Encoder/Decoder</a>
+      </li>
+    
+      <li>
+        <a href="/you&#39;re-hiring-programmers-wrong-a-case-for-interview-standardization/">You&#39;re Hiring Programmers Wrong: A Case for Interview Standardization</a>
+      </li>
+    
+      <li>
+        <a href="/scraping-the-web-with-puppeteer-lessons-learned/">Scraping the Web with Puppeteer: Lessons Learned</a>
+      </li>
+    
+  </ul>
+</div>
+  
+<div class="widget tag category">
+  <h3 class="title">Categories</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/Architecture/">Architecture</a><small>1</small></li>
+  
+    <li><a href="/categories/Build-Your-Own/">Build Your Own</a><small>3</small></li>
+  
+    <li><a href="/categories/Elasticsearch/">Elasticsearch</a><small>1</small></li>
+  
+    <li><a href="/categories/Failures/">Failures</a><small>1</small></li>
+  
+    <li><a href="/categories/Functional-Programming/">Functional Programming</a><small>1</small></li>
+  
+    <li><a href="/categories/Immutability/">Immutability</a><small>1</small></li>
+  
+    <li><a href="/categories/Javascript/">Javascript</a><small>4</small></li>
+  
+    <li><a href="/categories/Postgres/">Postgres</a><small>1</small></li>
+  
+    <li><a href="/categories/React/">React</a><small>2</small></li>
+  
+    <li><a href="/categories/Recursion/">Recursion</a><small>2</small></li>
+  
+    <li><a href="/categories/Redux/">Redux</a><small>1</small></li>
+  
+    <li><a href="/categories/Regular-Expressions/">Regular Expressions</a><small>2</small></li>
+  
+    <li><a href="/categories/Software-Ethics/">Software Ethics</a><small>1</small></li>
+  
+    <li><a href="/categories/Technical-Hiring/">Technical Hiring</a><small>1</small></li>
+  
+    <li><a href="/categories/Testing/">Testing</a><small>1</small></li>
+  
+    <li><a href="/categories/Web/">Web</a><small>1</small></li>
+  
+    <li><a href="/categories/Web-Scraping/">Web Scraping</a><small>1</small></li>
+  
+  </ul>
+</div>
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+    &copy; 2018 Nick Drane
+  
+</div>
+<div class="clearfix"></div></footer>
+</body>
+</html>
+

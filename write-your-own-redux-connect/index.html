@@ -1,0 +1,261 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  
+    <title>
+      Write Your Own React-Redux Connect › Nick Drane
+    </title>
+    
+      <meta name="author" content="Nick Drane">
+      
+        
+            <meta name="description" content="Nick Drane&#39;s blog about programming and modern web development, particularly Node.js and React.">
+            
+                  
+                      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+                      
+                        <meta property="og:title" content="Write Your Own React-Redux Connect" />
+                        
+                          <meta property="og:site_name" content="Nick Drane" />
+
+                          
+                              <meta property="og:image" content="" />
+                              
+                                <meta name="google-site-verification" content="0iahwlYFOHM2sYjk4TF5_lP0DqzgOgkXnZcKV-Qci8A" />
+
+                                <link href="/favicon.png" rel="icon">
+                                <link rel="alternate" href="/atom.xml" title="Nick Drane"
+                                  type="application/atom+xml">
+                                <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+                                <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+                                <script async src="https://www.googletagmanager.com/gtag/js?id=UA-107252357-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-107252357-1');
+</script>
+</head>
+
+<body>
+  <header id="header"><div class="meta inner">
+  <h1><a href="/">Nick Drane</a></h1>
+  <nav id="main-nav">
+    <ul>
+      <li><a href="/about">About</a></li>
+      <li><a href="/hire-me">Hire Me</a></li>
+      <li><a href="/projects">Projects</a></li>
+      <li><a href="/archives">Archives</a></li>
+    </ul>
+    <div class="clearfix"></div>
+  </nav>
+</div>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+  
+    <div class="social">
+      <ul class="share-buttons">
+  <li><a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fnickdrane.com%2Fwrite-your-own-redux-connect%2F&quote=Write%20Your%20Own%20React-Redux%20Connect" title="Share on Facebook" target="_blank"><img alt="Share on Facebook" src="/images/social/Facebook.png" /></a></li>
+  <li><a href="https://twitter.com/intent/tweet?url=http%3A%2F%2Fnickdrane.com%2Fwrite-your-own-redux-connect%2F&text=Write%20Your%20Own%20React-Redux%20Connect" target="_blank" title="Tweet"><img alt="Tweet" src="/images/social/Twitter.png" /></a></li>
+  <li><a href="http://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Fnickdrane.com%2Fwrite-your-own-redux-connect%2F&title=Write%20Your%20Own%20React-Redux%20Connect" target="_blank" title="Share on LinkedIn"><img alt="Share on LinkedIn" src="/images/social/LinkedIn.png" /></a></li>
+  <li><a href="mailto:?subject=Write Your Own React-Redux Connect&body=Check this out: http://nickdrane.com/write-your-own-redux-connect/" target="_blank" title="Send email"><img alt="Send email" src="/images/social/Email.png" /></a></li>
+</ul>
+    </div class="social">
+  
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  <div class="post-content">
+    <header>
+      
+  
+    <h1 class="title">Write Your Own React-Redux Connect</h1>
+  
+
+      
+        <time datetime="2017-09-29T18:14:18.000Z">2017-09-29</time>
+      
+    </header>
+    <div class="entry">
+      <p><em>My inspiration for this blog post came from <a href="https://www.youtube.com/watch?v=VJ38wSFbM3A" target="_blank" rel="noopener">this video</a> where Dan Abramov walks through the source code to react-redux</em></p>
+<p>As frontend web developers, it’s not uncommon that we follow well-specified patterns - often blindly. The frontend landscape is changing rapidly, and sometimes there isn’t time to investigate why we use a specific pattern; we just know we should.</p>
+<p>One widely used pattern in <a href="https://github.com/reactjs/react-redux" target="_blank" rel="noopener">react-redux</a> applications looks like this</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">connect(mapStateToProps, mapDispatchToProps)(MyComponent)</span><br></pre></td></tr></table></figure>
+<p>I’ll assume you know how to implement this pattern, but why do we use it and how does it work under the hood?</p>
+<a id="more"></a>
+<h1 id="Why-Do-we-Need-React-Redux"><a href="#Why-Do-we-Need-React-Redux" class="headerlink" title="Why Do we Need React-Redux?"></a>Why Do we Need React-Redux?</h1><p>React and Redux are two completely independent tools that have nothing to do with each other. React is a tool for creating user interfaces in the browser. Redux is a tool for managing state. Either tool can be used without the other. We often use them together because they both solve separate but very important and closely related problems. The purpose of react-redux is to get these two tools to talk.</p>
+<p>But first, what would we do without react-redux? How would React and Redux talk?</p>
+<h1 id="How-to-Integrate-React-and-Redux-Without-react-redux"><a href="#How-to-Integrate-React-and-Redux-Without-react-redux" class="headerlink" title="How to Integrate React and Redux Without react-redux"></a>How to Integrate React and Redux Without react-redux</h1><p>More precisely, how do we ensure that a React component re-renders when the Redux store changes? The answer lies in Redux’s <a href="http://redux.js.org/docs/api/Store.html#subscribe" target="_blank" rel="noopener">subscribe</a> API.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> store <span class="keyword">from</span> <span class="string">'./store'</span></span><br><span class="line"><span class="keyword">import</span> &#123; Component &#125; <span class="keyword">from</span> <span class="string">'react'</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyComponent</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>() &#123;</span><br><span class="line">    <span class="keyword">super</span>();</span><br><span class="line">    <span class="comment">// One solution is to make each component</span></span><br><span class="line">    <span class="comment">// store the entirety of the redux state.</span></span><br><span class="line">    <span class="keyword">this</span>.state = &#123; <span class="attr">storeState</span>: store.getState() &#125;;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  componentDidMount() &#123;</span><br><span class="line">    <span class="comment">// Callbacks passed to store.subscribe will be</span></span><br><span class="line">    <span class="comment">// invoked every time the store's state changes.</span></span><br><span class="line">    <span class="comment">// Our callback can get the state of the</span></span><br><span class="line">    <span class="comment">// store and add it to the component's local state.</span></span><br><span class="line">    <span class="keyword">this</span>.unsubscribe = store.subscribe(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">this</span>.setState(&#123; <span class="attr">storeState</span>: store.getState() &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// We need to make sure that we don't accidentally</span></span><br><span class="line">  <span class="comment">// subscribe to the store multiple times in the case</span></span><br><span class="line">  <span class="comment">// where a component mounts, unmounts, and then mounts a second time.</span></span><br><span class="line">  <span class="comment">// Fortunately, Redux makes this easy by returning</span></span><br><span class="line">  <span class="comment">// an unsubscribe function when store.subscribe is invoked.</span></span><br><span class="line">  componentWillUnmount() &#123;</span><br><span class="line">    <span class="keyword">this</span>.unsubscribe();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>If we insert the above boilerplate into every one of our React component’s, then every component could have access to the store and would be informed through a subscription the moment the store’s state changes. This configuration has three  flaws.</p>
+<ol>
+<li>The boilerplate of subscribing and unsubscribing to the store is highly error prone and unnecessarily verbose.</li>
+<li>All of our React component’s are dependent upon knowledge of the Redux store. This is a complete failure of <a href="https://en.wikipedia.org/wiki/Separation_of_concerns" target="_blank" rel="noopener">separation of concerns</a>.</li>
+<li>Every component is dependent upon the entirety of the store’s state tree. This means that whenever an action is dispatched, <code>setState</code> is called on every mounted component, causing each one to re-render, regardless of whether its render function depends on the store state that changed. Woah! Let that sink in for a moment.</li>
+</ol>
+<p>Let’s write a rudimentary implementation of connect that resolves the first problem.</p>
+<h1 id="Understanding-The-Syntax-of-Connect"><a href="#Understanding-The-Syntax-of-Connect" class="headerlink" title="Understanding The Syntax of Connect"></a>Understanding The Syntax of Connect</h1><p>Typically, we invoke <code>connect</code> like this:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">connect(mapStateToProps, mapDispatchToProps)(WrappedComponent);</span><br></pre></td></tr></table></figure>
+<p><code>connect</code> takes in two functions as arguments and returns a function. Yes, you heard me, <code>connect</code> returns a function, not a component. Suppose I invoke <code>connect</code> and neglect to pass in a component.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> connectFunc = connect(mapStateToProps, mapDispatchToProps);</span><br><span class="line"><span class="keyword">const</span> connctedComponent = connectFunc(WrappedComponent);</span><br></pre></td></tr></table></figure>
+<p> <code>connect</code> will return to me a function. It’s that function that takes in my component (<code>connect</code> is implemented this way as opposed to simply taking in 3 arguments to support decorator syntax. The Dan Abramov video I linked above explains this.)</p>
+<p>Thus, the very first few lines of <code>connect</code> must look like this:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">connect</span>(<span class="params">mapStateToProps, mapDispatchToProps</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">WrappedComponent</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="Higher-Order-Components"><a href="#Higher-Order-Components" class="headerlink" title="Higher Order Components"></a>Higher Order Components</h1><p>And what does the function we returned above do? This function is implemented as a <a href="https://reactjs.org/docs/higher-order-components.html" target="_blank" rel="noopener">higher order component</a> (HOC). A HOC is a function that takes in a component as a parameter and returns a new component. The new component is generally a modified or augmented version of the original component.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">connect</span>(<span class="params">mapStateToProps, mapDispatchToProps</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">WrappedComponent</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// We are returning a brand new component.</span></span><br><span class="line">    <span class="comment">// Note that this new component does</span></span><br><span class="line">    <span class="comment">// not inherit from WrappedComponent.</span></span><br><span class="line">    <span class="keyword">return</span> <span class="class"><span class="keyword">class</span> <span class="title">WrapperComponent</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">      <span class="comment">// All we are doing is returning a new component</span></span><br><span class="line">      <span class="comment">// that renders our original component.</span></span><br><span class="line">      render() &#123;</span><br><span class="line">        <span class="comment">// Notice that we need to pass WrappedComponent</span></span><br><span class="line">        <span class="comment">// WrapperComponent's props.</span></span><br><span class="line">        <span class="comment">// If we didn't do this, then WrappedComponent</span></span><br><span class="line">        <span class="comment">// would never have access to any props.</span></span><br><span class="line">        <span class="keyword">return</span> &lt;WrappedComponent &#123;...this.props&#125; /&gt;;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>If we were to run the above <code>connect</code> function on a component, the connected component would behave identically to original component. Furthermore, we could nest <code>connect</code> as many times as we want</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">connect(<span class="literal">null</span>, <span class="literal">null</span>)(connect(<span class="literal">null</span>, <span class="literal">null</span>)(App))</span><br></pre></td></tr></table></figure>
+<p>and still never distort the behavior of the original component. Our current implementation is effectively <a href="https://stackoverflow.com/questions/1077412/what-is-an-idempotent-operation" target="_blank" rel="noopener">idempotent</a>.</p>
+<h1 id="Eliminating-Boilerplate"><a href="#Eliminating-Boilerplate" class="headerlink" title="Eliminating Boilerplate"></a>Eliminating Boilerplate</h1><p>Our next step is to eliminate some of the boilerplate code. We don’t want to have to subscribe to the store every time we create a new component, so let’s have our new <code>connect</code> function do it instead.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">connect</span>(<span class="params">mapStateToProps, mapDispatchToProps</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">WrappedComponent</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="class"><span class="keyword">class</span> <span class="title">WrapperComponent</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">      <span class="keyword">constructor</span>() &#123;</span><br><span class="line">        <span class="keyword">super</span>();</span><br><span class="line">        <span class="keyword">this</span>.state = &#123; <span class="attr">storeState</span>: store.getState() &#125;;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      componentDidMount() &#123;</span><br><span class="line">        <span class="keyword">this</span>.unsubscribe = store.subscribe(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">          <span class="keyword">this</span>.setState(&#123; <span class="attr">storeState</span>: store.getState() &#125;);</span><br><span class="line">        &#125;);</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      componentWillUnmount() &#123;</span><br><span class="line">        <span class="keyword">this</span>.unsubscribe();</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      render() &#123;</span><br><span class="line">        <span class="comment">// Since the whole point of this HOC is to get WrappedComponent</span></span><br><span class="line">        <span class="comment">// access to the store, we need to pass that state down as props.</span></span><br><span class="line">        <span class="keyword">const</span> storeState = <span class="keyword">this</span>.state.storeState;</span><br><span class="line">        <span class="keyword">return</span> &lt;WrappedComponent &#123;...this.props&#125; &#123;...storeState&#125; /&gt;;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>We just made huge progress! Now, whenever we invoke</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">connect(<span class="literal">null</span>, <span class="literal">null</span>)(MyComponent)</span><br></pre></td></tr></table></figure>
+<p>we get a component that is subscribed to state changes on the store, and this state will be passed down to our component as props.</p>
+<h1 id="Implementing-Support-for-mapStateToProps"><a href="#Implementing-Support-for-mapStateToProps" class="headerlink" title="Implementing Support for mapStateToProps"></a>Implementing Support for mapStateToProps</h1><p>Our connected components still all depend on the entirety of the store’s state tree. Look up above, the entire state is passed down as props to every connected component. To reiterate, this means that if any piece of the store’s state is updated, our component will re-render.</p>
+<p>This is where <code>mapStateToProps</code> comes to the rescue. <code>mapStateToProps</code> takes as its argument the store’s state, and it allows us to return the particular pieces of the store’s state that a component depends on. It then passes that state as props to our component instead.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">connect</span>(<span class="params">mapStateToProps, mapDispatchToProps</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">WrappedComponent</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="class"><span class="keyword">class</span> <span class="title">WrapperComponent</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">      <span class="keyword">constructor</span>() &#123;</span><br><span class="line">        <span class="keyword">super</span>();</span><br><span class="line">        <span class="keyword">this</span>.state = &#123; <span class="attr">storeState</span>: store.getState() &#125;;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      componentDidMount() &#123;</span><br><span class="line">        <span class="keyword">this</span>.unsubscribe = store.subscribe(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">          <span class="keyword">this</span>.setState(&#123; <span class="attr">storeState</span>: store.getState() &#125;);</span><br><span class="line">        &#125;);</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      componentWillUnmount() &#123;</span><br><span class="line">        <span class="keyword">this</span>.unsubscribe();</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      render() &#123;</span><br><span class="line">        <span class="comment">// Now, instead of passing down all of the store state,</span></span><br><span class="line">        <span class="comment">// we only pass down the subset of state return from</span></span><br><span class="line">        <span class="comment">// mapStateToProps</span></span><br><span class="line">        <span class="keyword">const</span> storeProps = mapStateToProps(<span class="keyword">this</span>.state.storeState);</span><br><span class="line">        <span class="keyword">return</span> &lt;WrappedComponent &#123;...this.props&#125; &#123;...storeProps&#125; /&gt;;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>All we did was insert a call to <code>mapStateToProps</code>, allowing us to make each connected component dependent upon only the state it cares about, as defined by the return value of <code>mapStateToProps</code>. <code>mapStateToProps</code> is a wonderful form of explicit documentation, clearly stating the slices of the state tree each component depends on. Unfortunately, our change does not fix the efficiency problems noted above. More on that below.</p>
+<h1 id="mapStateToProps-and-ownProps"><a href="#mapStateToProps-and-ownProps" class="headerlink" title="mapStateToProps and ownProps"></a>mapStateToProps and ownProps</h1><p>An astute reader might note that <code>mapStateToProps</code> actually takes two arguments: the first is a copy of the store’s state, and the second are the props that are originally passed down to <code>WrapperComponent</code>. <code>react-redux</code> does not pass these down to the wrapped component by default as we do in the example immediately above. Let’s modify our implementation to mirror <code>react-redux</code>.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">connect</span>(<span class="params">mapStateToProps, mapDispatchToProps</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">WrappedComponent</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="class"><span class="keyword">class</span> <span class="title">WrapperComponent</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">      <span class="keyword">constructor</span>() &#123;</span><br><span class="line">        <span class="keyword">super</span>();</span><br><span class="line">        <span class="keyword">this</span>.state = &#123; <span class="attr">storeState</span>: store.getState() &#125;;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      componentDidMount() &#123;</span><br><span class="line">        <span class="keyword">this</span>.unsubscribe = store.subscribe(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">          <span class="keyword">this</span>.setState(&#123; <span class="attr">storeState</span>: store.getState() &#125;);</span><br><span class="line">        &#125;);</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      componentWillUnmount() &#123;</span><br><span class="line">        <span class="keyword">this</span>.unsubscribe();</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      render() &#123;</span><br><span class="line">        <span class="keyword">const</span> newProps = mapStateToProps(<span class="keyword">this</span>.state.storeState, <span class="keyword">this</span>.props);</span><br><span class="line">        <span class="keyword">return</span> &lt;WrappedComponent &#123;...newProps&#125; /&gt;;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Now the implementer of <code>mapStateToProps</code> can choose which of <code>WrapperComponent</code>‘s props it would like to keep and which it would like to disregard.</p>
+<h1 id="What’s-the-Point-of-mapDispatchToProps"><a href="#What’s-the-Point-of-mapDispatchToProps" class="headerlink" title="What’s the Point of mapDispatchToProps?"></a>What’s the Point of mapDispatchToProps?</h1><p><code>mapDispatchToProps</code> is designed to eliminate React’s dependency upon Redux. If we were to use the above implementation of <code>connect</code>, every component that dispatch’s an action must import <code>store.dispatch</code>, and the implementation would look like this:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> store <span class="keyword">from</span> <span class="string">"./store"</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; Component &#125; <span class="keyword">from</span> <span class="string">"react"</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; updateThing &#125; <span class="keyword">from</span> <span class="string">"./store/actions"</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ExampleComponent</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">  handleChange(e) &#123;</span><br><span class="line">    store.dispatch(updateThing(e.target));</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>The above component ‘knows’ that it is part of a Redux application because it is explicitly referencing the store to dispatch actions. But we should always try to minimize the interaction of different pieces of architecture, esspecially when they have no need to interact. Ultimately, React components should not been intertwined with Redux code!</p>
+<h2 id="Implementing-Support-for-mapDispatchToProps"><a href="#Implementing-Support-for-mapDispatchToProps" class="headerlink" title="Implementing Support for mapDispatchToProps"></a>Implementing Support for mapDispatchToProps</h2><p><code>connect</code> resolves this problem for us by injecting the <code>store.dispatch</code> dependency into <code>mapDispatchToProps</code>, allowing us to explicitly define functions that dispatch actions without requiring that our <a href="https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0" target="_blank" rel="noopener">presentation components</a> have a dependency on the store. Just as the return value of <code>mapStateToProps</code> is passed down to <code>WrappedComponent</code>, the return value of <code>mapDispatchToProps</code> will be passed down as well.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">connect</span>(<span class="params">mapStateToProps, mapDispatchToProps</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">WrappedComponent</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="class"><span class="keyword">class</span> <span class="title">WrapperComponent</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">      <span class="keyword">constructor</span>() &#123;</span><br><span class="line">        <span class="keyword">super</span>();</span><br><span class="line">        <span class="keyword">this</span>.state = &#123; <span class="attr">storeState</span>: store.getState() &#125;;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      componentDidMount() &#123;</span><br><span class="line">        <span class="keyword">this</span>.unsubscribe = store.subscribe(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">          <span class="keyword">this</span>.setState(&#123; <span class="attr">storeState</span>: store.getState() &#125;);</span><br><span class="line">        &#125;);</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      componentWillUnmount() &#123;</span><br><span class="line">        <span class="keyword">this</span>.unsubscribe();</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      render() &#123;</span><br><span class="line">        <span class="comment">// Now we merge the results from mapStateToProps</span></span><br><span class="line">        <span class="comment">// and mapDispatchToProps and pass everything down</span></span><br><span class="line">        <span class="keyword">const</span> newProps = <span class="built_in">Object</span>.assign(</span><br><span class="line">          &#123;&#125;,</span><br><span class="line">          mapStateToProps(<span class="keyword">this</span>.state.storeState, <span class="keyword">this</span>.props),</span><br><span class="line">          <span class="comment">// If you aren't intimately familiar with the this keyword,</span></span><br><span class="line">          <span class="comment">// it's okay if you don't understand why we use bind here</span></span><br><span class="line">          mapDispatchToProps(store.dispatch.bind(<span class="keyword">this</span>))</span><br><span class="line">        );</span><br><span class="line">        <span class="keyword">return</span> &lt;WrappedComponent &#123;...newProps&#125; /&gt;;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="More-Efficiency-Issues-Hello-shouldComponentUpdate"><a href="#More-Efficiency-Issues-Hello-shouldComponentUpdate" class="headerlink" title="More Efficiency Issues - Hello shouldComponentUpdate"></a>More Efficiency Issues - Hello shouldComponentUpdate</h1><p>We never actually fixed any of the performance issues noted above. The crux of the problem is that every time the store updates, <code>WrapperComponent</code> re-renders (because of its Redux store subscription that calls <code>setState</code>) and that means <code>WrappedComponent</code> re-renders. This <a href="/leveraging-immutability-in-react">re-rendering</a> happens despite the fact that <code>WrappedComponent</code>‘s props might be unchanged between two invocations of <code>setState</code>. In fact, this scenario is highly probable and will occur whenever a piece of state in the store changes that your component does not depend on (aka, a piece of store state not returned from from <code>mapStateToProps</code>).</p>
+<p>React has a handy lifecycle method called <a href="https://reactjs.org/docs/react-component.html#shouldcomponentupdate" target="_blank" rel="noopener"><code>shouldComponentUpdate</code></a> that allows us to return a boolean that indicates whether a component should re-render. In essence, if we implement this method on <code>WrapperComponent</code> and it returns <code>false</code>, then React will not re-render <code>WrapperComponent</code>. And it follows that <code>WrappedComponent</code> won’t re-render either.</p>
+<p>So, in the above scenario, when <code>WrapperComponent</code> calls <code>setState</code>, React first calls the <code>shouldComponentUpdate</code> method to see if a re-render should actually happen. Let’s implement it below.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Just a simple shallow equality function</span></span><br><span class="line"><span class="keyword">import</span> shallowEqual <span class="keyword">from</span> <span class="string">"shallow-equal/objects"</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">connect</span>(<span class="params">mapStateToProps, mapDispatchToProps</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">WrappedComponent</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="class"><span class="keyword">class</span> <span class="title">WrapperComponent</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">      <span class="keyword">constructor</span>() &#123;</span><br><span class="line">        <span class="keyword">super</span>();</span><br><span class="line">        <span class="keyword">this</span>.state = &#123; <span class="attr">storeState</span>: store.getState() &#125;;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      shouldComponentUpdate() &#123;</span><br><span class="line">        <span class="comment">// If the props to WrapperComponent do not change</span></span><br><span class="line">        <span class="comment">// between setState calls, then we don't need to re-render.</span></span><br><span class="line">        <span class="comment">// On the previous re-render, we cached the results of</span></span><br><span class="line">        <span class="comment">// mapStateToProps. That's what this.oldProps is.</span></span><br><span class="line">        <span class="keyword">const</span> newProps = mapStateToProps(<span class="keyword">this</span>.state.storeState, <span class="keyword">this</span>.props);</span><br><span class="line">        <span class="keyword">return</span> !shallowEqual(newProps, <span class="keyword">this</span>.oldProps);</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      componentDidMount() &#123;</span><br><span class="line">        <span class="keyword">this</span>.unsubscribe = store.subscribe(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">          <span class="keyword">this</span>.setState(&#123; <span class="attr">storeState</span>: store.getState() &#125;);</span><br><span class="line">        &#125;);</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      componentWillUnmount() &#123;</span><br><span class="line">        <span class="keyword">this</span>.unsubscribe();</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      render() &#123;</span><br><span class="line">        <span class="comment">// We need to hang onto the previous result of</span></span><br><span class="line">        <span class="comment">// mapStateToProps to use the next time</span></span><br><span class="line">        <span class="comment">// shouldComponentUpdate runs</span></span><br><span class="line">        <span class="keyword">this</span>.oldProps = mapStateToProps(<span class="keyword">this</span>.state.storeState, <span class="keyword">this</span>.props)</span><br><span class="line">        <span class="keyword">const</span> newProps = <span class="built_in">Object</span>.assign(</span><br><span class="line">          &#123;&#125;,</span><br><span class="line">          <span class="keyword">this</span>.oldProps,</span><br><span class="line">          mapDispatchToProps(store.dispatch.bind(<span class="keyword">this</span>))</span><br><span class="line">        );</span><br><span class="line">        <span class="keyword">return</span> &lt;WrappedComponent &#123;...newProps&#125; /&gt;;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>I’ve created a demo <a href="https://codesandbox.io/s/o43p70k66" target="_blank" rel="noopener">here</a>. Open the console and prove to yourself that <code>shouldComponentUpdate</code> is doing its job.</p>
+<p><em>I should note that this is not exactly what react-redux does because of edge cases, but the concept is still the same.</em></p>
+<p>Now our wrapper and wrapped components will only re-render when the props returned from <code>mapStateToProps</code> change! This is a huge performance gain. This implementation of <code>connect</code> explains why adherence to <a href="http://redux.js.org/docs/faq/ReactRedux.html#react-not-rerendering" target="_blank" rel="noopener">immutability is so important</a> in redux’s reducers. If you fail to respect immutability, the shallow comparison in the <code>shouldComponentUpdate</code> in <code>WrapperComponent</code> will likely return <code>false</code>, causing your connected component to not re-render when it should.</p>
+<h1 id="Wrapping-up"><a href="#Wrapping-up" class="headerlink" title="Wrapping up"></a>Wrapping up</h1><p>React-redux’s <code>connect</code> method is remarkably simple and only performs a handful of operations.</p>
+<ol>
+<li>It manages our component’s subscription to the store so that our component can update when the store updates.</li>
+<li>It allows us to explicitly define the slice of state our component is dependent upon using <code>mapStateToProps</code>.</li>
+<li>It gives our component access to <code>store.dispatch</code> without requiring a direct dependency on the store.</li>
+<li>It defines <code>shouldComponentUpdate</code>, ensuring that our components only re-render when the store state they depend on changes.</li>
+</ol>
+<p>I hope you found this article helpful. Please feel free to email me and reach out if you have questions. I put a <a href="https://gist.github.com/nadrane/5221c64c421efe421bda9fdaab167dc2" target="_blank" rel="noopener">gist</a> online containing the same code as the demo.</p>
+
+    </div>
+    <footer>
+      <ul class="share-buttons">
+  <li><a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fnickdrane.com%2Fwrite-your-own-redux-connect%2F&quote=Write%20Your%20Own%20React-Redux%20Connect" title="Share on Facebook" target="_blank"><img alt="Share on Facebook" src="/images/social/Facebook.png" /></a></li>
+  <li><a href="https://twitter.com/intent/tweet?url=http%3A%2F%2Fnickdrane.com%2Fwrite-your-own-redux-connect%2F&text=Write%20Your%20Own%20React-Redux%20Connect" target="_blank" title="Tweet"><img alt="Tweet" src="/images/social/Twitter.png" /></a></li>
+  <li><a href="http://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Fnickdrane.com%2Fwrite-your-own-redux-connect%2F&title=Write%20Your%20Own%20React-Redux%20Connect" target="_blank" title="Share on LinkedIn"><img alt="Share on LinkedIn" src="/images/social/LinkedIn.png" /></a></li>
+  <li><a href="mailto:?subject=Write Your Own React-Redux Connect&body=Check this out: http://nickdrane.com/write-your-own-redux-connect/" target="_blank" title="Send email"><img alt="Send email" src="/images/social/Email.png" /></a></li>
+</ul>
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article></div></div>
+    <aside id="sidebar" class="alignright">  <div class="widget tag about">
+  <ul class="entry">
+    <div>
+      <img class="about-photo" src="/images/about-photo.jpg" alt="photo of Nick Drane" />
+    </div>
+    <p class="about-photo-text"> Nick Drane's blog about programming, hacking, software, computer security, and compute science.</p>
+
+  </ul>
+</div>
+  <div class="widget tag recent-posts">
+  <h3 class="title">Most Popular Posts</h3>
+  <ul class="entry">
+    <li>
+      <a href="/build-your-own-regex/">Build a Regex Engine in Less than 40 Lines of Code</a>
+    </li>
+    <li>
+      <a href="/scraping-the-web-with-puppeteer-lessons-learned/">Scraping the Web with Puppeteer: Lessons Learned</a>
+    </li>
+    <li>
+      <a href="/write-your-own-redux-connect/">Write Your Own React-Redux Connect</a>
+    </li>
+    <li>
+      <a href="/build-your-own-nested-query-string-encoder/">Build Your Own Nested Query String Encoder/Decoder</a>
+    </li>
+  </ul>
+</div>
+  <div class="widget tag recent-posts">
+  <h3 class="title">Recent Posts</h3>
+  <ul class="entry">
+    
+      <li>
+        <a href="/hidden-costs-of-postgresql-jsonb/">The Hidden Costs of PostgreSQL&#39;s JSONB Datatype</a>
+      </li>
+    
+      <li>
+        <a href="/ethical-engineering-for-the-average-engineer/">Ethical Engineering for the Average Engineer</a>
+      </li>
+    
+      <li>
+        <a href="/build-your-own-nested-query-string-encoder/">Build Your Own Nested Query String Encoder/Decoder</a>
+      </li>
+    
+      <li>
+        <a href="/you&#39;re-hiring-programmers-wrong-a-case-for-interview-standardization/">You&#39;re Hiring Programmers Wrong: A Case for Interview Standardization</a>
+      </li>
+    
+      <li>
+        <a href="/scraping-the-web-with-puppeteer-lessons-learned/">Scraping the Web with Puppeteer: Lessons Learned</a>
+      </li>
+    
+  </ul>
+</div>
+  
+<div class="widget tag category">
+  <h3 class="title">Categories</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/Architecture/">Architecture</a><small>1</small></li>
+  
+    <li><a href="/categories/Build-Your-Own/">Build Your Own</a><small>3</small></li>
+  
+    <li><a href="/categories/Elasticsearch/">Elasticsearch</a><small>1</small></li>
+  
+    <li><a href="/categories/Failures/">Failures</a><small>1</small></li>
+  
+    <li><a href="/categories/Functional-Programming/">Functional Programming</a><small>1</small></li>
+  
+    <li><a href="/categories/Immutability/">Immutability</a><small>1</small></li>
+  
+    <li><a href="/categories/Javascript/">Javascript</a><small>4</small></li>
+  
+    <li><a href="/categories/Postgres/">Postgres</a><small>1</small></li>
+  
+    <li><a href="/categories/React/">React</a><small>2</small></li>
+  
+    <li><a href="/categories/Recursion/">Recursion</a><small>2</small></li>
+  
+    <li><a href="/categories/Redux/">Redux</a><small>1</small></li>
+  
+    <li><a href="/categories/Regular-Expressions/">Regular Expressions</a><small>2</small></li>
+  
+    <li><a href="/categories/Software-Ethics/">Software Ethics</a><small>1</small></li>
+  
+    <li><a href="/categories/Technical-Hiring/">Technical Hiring</a><small>1</small></li>
+  
+    <li><a href="/categories/Testing/">Testing</a><small>1</small></li>
+  
+    <li><a href="/categories/Web/">Web</a><small>1</small></li>
+  
+    <li><a href="/categories/Web-Scraping/">Web Scraping</a><small>1</small></li>
+  
+  </ul>
+</div>
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+    &copy; 2018 Nick Drane
+  
+</div>
+<div class="clearfix"></div></footer>
+</body>
+</html>
+

@@ -1,0 +1,307 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  
+    <title>
+      Build a Regex Engine in Less than 40 Lines of Code › Nick Drane
+    </title>
+    
+      <meta name="author" content="Nick Drane">
+      
+        
+            <meta name="description" content="Nick Drane&#39;s blog about programming and modern web development, particularly Node.js and React.">
+            
+                  
+                      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+                      
+                        <meta property="og:title" content="Build a Regex Engine in Less than 40 Lines of Code" />
+                        
+                          <meta property="og:site_name" content="Nick Drane" />
+
+                          
+                              <meta property="og:image" content="" />
+                              
+                                <meta name="google-site-verification" content="0iahwlYFOHM2sYjk4TF5_lP0DqzgOgkXnZcKV-Qci8A" />
+
+                                <link href="/favicon.png" rel="icon">
+                                <link rel="alternate" href="/atom.xml" title="Nick Drane"
+                                  type="application/atom+xml">
+                                <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+                                <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+                                <script async src="https://www.googletagmanager.com/gtag/js?id=UA-107252357-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-107252357-1');
+</script>
+</head>
+
+<body>
+  <header id="header"><div class="meta inner">
+  <h1><a href="/">Nick Drane</a></h1>
+  <nav id="main-nav">
+    <ul>
+      <li><a href="/about">About</a></li>
+      <li><a href="/hire-me">Hire Me</a></li>
+      <li><a href="/projects">Projects</a></li>
+      <li><a href="/archives">Archives</a></li>
+    </ul>
+    <div class="clearfix"></div>
+  </nav>
+</div>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+  
+    <div class="social">
+      <ul class="share-buttons">
+  <li><a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fnickdrane.com%2Fbuild-your-own-regex%2F&quote=Build%20a%20Regex%20Engine%20in%20Less%20than%2040%20Lines%20of%20Code" title="Share on Facebook" target="_blank"><img alt="Share on Facebook" src="/images/social/Facebook.png" /></a></li>
+  <li><a href="https://twitter.com/intent/tweet?url=http%3A%2F%2Fnickdrane.com%2Fbuild-your-own-regex%2F&text=Build%20a%20Regex%20Engine%20in%20Less%20than%2040%20Lines%20of%20Code" target="_blank" title="Tweet"><img alt="Tweet" src="/images/social/Twitter.png" /></a></li>
+  <li><a href="http://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Fnickdrane.com%2Fbuild-your-own-regex%2F&title=Build%20a%20Regex%20Engine%20in%20Less%20than%2040%20Lines%20of%20Code" target="_blank" title="Share on LinkedIn"><img alt="Share on LinkedIn" src="/images/social/LinkedIn.png" /></a></li>
+  <li><a href="mailto:?subject=Build a Regex Engine in Less than 40 Lines of Code&body=Check this out: http://nickdrane.com/build-your-own-regex/" target="_blank" title="Send email"><img alt="Send email" src="/images/social/Email.png" /></a></li>
+</ul>
+    </div class="social">
+  
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  <div class="post-content">
+    <header>
+      
+  
+    <h1 class="title">Build a Regex Engine in Less than 40 Lines of Code</h1>
+  
+
+      
+        <time datetime="2017-11-28T17:36:04.000Z">2017-11-28</time>
+      
+    </header>
+    <div class="entry">
+      <p>I stumbled upon an <a href="https://www.cs.princeton.edu/courses/archive/spr09/cos333/beautiful.html" target="_blank" rel="noopener">article</a> the other day where Rob Pike implements a rudimentary regular expression engine in c. I converted his code to Javascript and added test specs so that someone can self-guide themselves through the creation of the regex engine. The specs and solution can be found in this <a href="https://github.com/nadrane/build-your-own-regex" target="_blank" rel="noopener">GitHub repository</a>. This blog post walks through my solution.</p>
+<a id="more"></a>
+<h2 id="The-Problem"><a href="#The-Problem" class="headerlink" title="The Problem"></a>The Problem</h2><p>Our regex engine will support the following syntax:</p>
+<table>
+<thead>
+<tr>
+<th>Syntax</th>
+<th>Meaning</th>
+<th>Example</th>
+<th>matches</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>a</td>
+<td>Matches the specified character literal</td>
+<td>q</td>
+<td>q</td>
+</tr>
+<tr>
+<td>*</td>
+<td>Matches 0 or more of the previous character</td>
+<td>a*</td>
+<td>“”, a, aa, aaa</td>
+</tr>
+<tr>
+<td>?</td>
+<td>Matches 0 or 1 of the previous character</td>
+<td>a?</td>
+<td>“”, a</td>
+</tr>
+<tr>
+<td>.</td>
+<td>Matches any character literal</td>
+<td>.</td>
+<td>a, b, c, d, e …</td>
+</tr>
+<tr>
+<td>^</td>
+<td>Matches the start of a string</td>
+<td>^c</td>
+<td>c, ca, caa, cbb …</td>
+</tr>
+<tr>
+<td>$</td>
+<td>Matches the end of a string</td>
+<td>a$</td>
+<td>ba, baaa, qwerta …</td>
+</tr>
+</tbody>
+</table>
+<p>The goal is to provide a syntax robust enough to match a large portion of regex use cases with minimal code.</p>
+<h2 id="Matching-One-Character"><a href="#Matching-One-Character" class="headerlink" title="Matching One Character"></a>Matching One Character</h2><p>The first step is to write a function that takes in a one character pattern and a one character text string and returns a boolean indicating if they match. A pattern of <code>.</code> is considered a wildcard and matches against any character literal.</p>
+<p>Here are some examples</p>
+<p><code>matchOne(&#39;a&#39;, &#39;a&#39;)</code> -&gt; <code>true</code><br><code>matchOne(&#39;.&#39;, &#39;z&#39;)</code> -&gt; <code>true</code><br><code>matchOne(&#39;&#39;, &#39;h&#39;)</code>  -&gt; <code>true</code><br><code>matchOne(&#39;a&#39;, &#39;b&#39;)</code> -&gt; <code>false</code><br><code>matchOne(&#39;p&#39;, &#39;&#39;)</code>  -&gt; <code>false</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">matchOne</span>(<span class="params">pattern, text</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (!pattern) <span class="keyword">return</span> <span class="literal">true</span> <span class="comment">// Any text matches an empty pattern</span></span><br><span class="line">  <span class="keyword">if</span> (!text) <span class="keyword">return</span> <span class="literal">false</span>   <span class="comment">// If the pattern is defined but the text is empty, there cannot be a match</span></span><br><span class="line">  <span class="keyword">if</span> (pattern === <span class="string">"."</span>) <span class="keyword">return</span> <span class="literal">true</span> <span class="comment">// Any inputted text matches the wildcard</span></span><br><span class="line">  <span class="keyword">return</span> pattern === text</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Matching-Same-Length-Strings"><a href="#Matching-Same-Length-Strings" class="headerlink" title="Matching Same Length Strings"></a>Matching Same Length Strings</h2><p>Now we want to add support for patterns and text strings of greater length. For now, let’s only consider a pattern/text pair of the same length. I happen to know that the solution lends itself very naturally to recursion, so we will use it here. We are going to want to repeatedly invoke <code>matchOne</code> on successive pairs of characters from the pattern/text combination.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">match</span>(<span class="params">pattern, text</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (pattern === <span class="string">""</span>) <span class="keyword">return</span> <span class="literal">true</span>  <span class="comment">// Our base case - if the pattern is empty, any inputted text is a match</span></span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">return</span> matchOne(pattern[<span class="number">0</span>], text[<span class="number">0</span>]) &amp;&amp; match(pattern.slice(<span class="number">1</span>), text.slice(<span class="number">1</span>))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>The above code advances character by character across the the pattern/text pair. It first compares <code>pattern[0]</code> to <code>text[0]</code> and then <code>pattern[1]</code> to <code>text[1]</code> and continues comparing <code>pattern[i]</code> to <code>text[i]</code> until <code>i === pattern.length - 1</code>. If they ever don’t match, then we know that the pattern cannot match the text.</p>
+<p>Let’s take an example. Suppose we invoke <code>match(&#39;a.c&#39;, &#39;abc&#39;)</code>, which returns <code>matchOne(&#39;a&#39;, &#39;a&#39;) &amp;&amp; match(&#39;.c&#39;, &#39;bc&#39;)</code>.</p>
+<p>If we continue evaluating these functions, we get <code>matchOne(&#39;a&#39;, &#39;a&#39;) &amp;&amp; matchOne(&#39;.&#39;, &#39;b&#39;) &amp;&amp; matchOne(&#39;c&#39;, &#39;c&#39;) &amp;&amp; match(&quot;&quot;, &quot;&quot;)</code>, which is just equal to <code>true &amp;&amp; true &amp;&amp; true &amp;&amp; true</code>, So we have a match!</p>
+<h2 id="The-Character"><a href="#The-Character" class="headerlink" title="The $ Character"></a>The $ Character</h2><p>Let’s add support for the special pattern character <code>$</code> that allows us to match the end of a string. The solution simply requires adding an additional base case to the match function.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">match</span>(<span class="params">pattern, text</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (pattern === <span class="string">""</span>) <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">  <span class="keyword">if</span> (pattern === <span class="string">"$"</span> &amp;&amp; text === <span class="string">""</span>) <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">return</span> matchOne(pattern[<span class="number">0</span>], text[<span class="number">0</span>]) &amp;&amp; match(pattern.slice(<span class="number">1</span>), text.slice(<span class="number">1</span>))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="The-Character-1"><a href="#The-Character-1" class="headerlink" title="The ^ Character"></a>The ^ Character</h2><p>Let’s add support for the special pattern character <code>^</code> that allows us to match the beginning of a string. I’m going to introduce a new function called <code>search</code>.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">search</span>(<span class="params">pattern, text</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (pattern[<span class="number">0</span>] === <span class="string">"^"</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> match(pattern.slice(<span class="number">1</span>), text)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>This function will be the new entry point to our code. Up till this point, we were only matching patterns that began at the beginning of the text. We are simply making that more clear now by forcing the user to preface the pattern with a <code>^</code>. But how do we support patterns that appear anywhere within the text?</p>
+<h2 id="Matches-Starting-Anywhere"><a href="#Matches-Starting-Anywhere" class="headerlink" title="Matches Starting Anywhere"></a>Matches Starting Anywhere</h2><p>Currently, the following return <code>true</code></p>
+<p><code>search(&quot;^abc&quot;, &quot;abc&quot;)</code><br><code>search(&quot;^abcd&quot;, &quot;abcd&quot;)</code></p>
+<p>But <code>search(&quot;bc&quot;, &quot;abcd&quot;)</code> will just return <code>undefined</code>. We want it to return <code>true</code></p>
+<p>If the user does not specify that the pattern matches the beginning of the text, then we want to search for that pattern at every possible starting point within the text. We will default to this behavior if the pattern does not begin with <code>^</code><sup><a href="#footnote1">1</a></sup>.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">search</span>(<span class="params">pattern, text</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (pattern[<span class="number">0</span>] === <span class="string">"^"</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> match(pattern.slice(<span class="number">1</span>), text)</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// This code will run match(pattern, text.slice(index)) on every index of the text.</span></span><br><span class="line">    <span class="comment">// This means that we test the pattern against every starting point of the text.</span></span><br><span class="line">    <span class="keyword">return</span> text.split(<span class="string">""</span>).some(<span class="function">(<span class="params">_, index</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> match(pattern, text.slice(index))</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="The-Character-2"><a href="#The-Character-2" class="headerlink" title="The ? Character"></a>The ? Character</h2><p>We want to be able to match 0 to 1 of the character before <code>?</code>.</p>
+<p>Here are some examples</p>
+<p><code>search(&quot;ab?c&quot;, &quot;ac&quot;)</code>    -&gt; <code>true</code><br><code>search(&quot;ab?c&quot;, &quot;abc&quot;)</code>   -&gt; <code>true</code><br><code>search(&quot;a?b?c?&quot;, &quot;abc&quot;)</code> -&gt; <code>true</code><br><code>search(&quot;a?b?c?&quot;, &quot;&quot;)</code>    -&gt; <code>true</code></p>
+<p>The first step is to modify <code>match</code> to detect when a <code>?</code> character is present and then delegate to the <code>matchQuestion</code> function, which we will define shortly.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">match</span>(<span class="params">pattern, text</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (pattern === <span class="string">""</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (pattern === <span class="string">"$"</span> &amp;&amp; text === <span class="string">""</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">  <span class="comment">// Notice that we are looking at pattern[1] instead of pattern[0].</span></span><br><span class="line">  <span class="comment">// pattern[0] is the character to match 0 or 1 of.</span></span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (pattern[<span class="number">1</span>] === <span class="string">"?"</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> matchQuestion(pattern, text)</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> matchOne(pattern[<span class="number">0</span>], text[<span class="number">0</span>]) &amp;&amp; match(pattern.slice(<span class="number">1</span>), text.slice(<span class="number">1</span>))</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>matchQuestion</code> needs to handle two cases:</p>
+<ol>
+<li>Where the character before the <code>?</code> is not matched but the text matches the remainder of the pattern (everything after the <code>?</code>).</li>
+<li>Where the character before the <code>?</code> is matched and the rest of the text (minus the 1 matched character) matches the remainder of the pattern.</li>
+</ol>
+<p>If either of these cases is truthy, then <code>matchQuestion</code> can return <code>true</code>.</p>
+<p>Let’s consider the first case. How do we check if the text matches everything in the pattern except the <code>_?</code> syntax? In order words, how do we check if the character before the <code>?</code> appears 0 times? We strip 2 characters off the pattern (the first character is the one before the <code>?</code> and the second is the <code>?</code> itself) and invoke the match function.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">matchQuestion</span>(<span class="params">pattern, text</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> match(pattern.slice(<span class="number">2</span>), text);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>The second case is a little more challenging, but just like before, it reuses functions we’ve already written</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">matchQuestion</span>(<span class="params">pattern, text</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (matchOne(pattern[<span class="number">0</span>], text[<span class="number">0</span>]) &amp;&amp; match(pattern.slice(<span class="number">2</span>), text.slice(<span class="number">1</span>))) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> match(pattern.slice(<span class="number">2</span>), text);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>If the <code>text[0]</code> matches <code>pattern[0]</code>, and the rest of the text (minus the part that is matched by <code>matchOne</code>) matches the remainder of the pattern, then we are golden. Note that we could rewrite the code like this:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">matchQuestion</span>(<span class="params">pattern, text</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> (matchOne(pattern[<span class="number">0</span>], text[<span class="number">0</span>]) &amp;&amp; match(pattern.slice(<span class="number">2</span>), text.slice(<span class="number">1</span>))) || match(pattern.slice(<span class="number">2</span>), text);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>The one thing I like about this latter approach is that the boolean OR makes it explicitly clear that there are two cases, either of which may be true.</p>
+<h2 id="The-Character-3"><a href="#The-Character-3" class="headerlink" title="The * Character"></a>The * Character</h2><p>We want to be able to match the character before the <code>*</code> 0 or more times.</p>
+<p>All of these should return <code>true</code>.</p>
+<p><code>search(&quot;a*&quot;, &quot;&quot;)</code><br><code>search(&quot;a*&quot;, &quot;aaaaaaa&quot;)</code><br><code>search(&quot;a*b&quot;, &quot;aaaaaaab&quot;)</code></p>
+<p>Similar to what we did when supporting <code>?</code>, we wan to delegate to a <code>matchStar</code> function within our <code>match</code> function</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">match</span>(<span class="params">pattern, text</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (pattern === <span class="string">""</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (pattern === <span class="string">"$"</span> &amp;&amp; text === <span class="string">""</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (pattern[<span class="number">1</span>] === <span class="string">"?"</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> matchQuestion(pattern, text)</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (pattern[<span class="number">1</span>] === <span class="string">"*"</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> matchStar(pattern, text)</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> matchOne(pattern[<span class="number">0</span>], text[<span class="number">0</span>]) &amp;&amp; match(pattern.slice(<span class="number">1</span>), text.slice(<span class="number">1</span>))</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>matchStar</code>, like <code>matchQuestion</code>, also needs to handle two cases:</p>
+<ol>
+<li>Where the character before the <code>*</code> is not matched but the text matches the remainder of the pattern (everything after the <code>*</code>).</li>
+<li>Where the character before the <code>*</code> is matched one or more times and the rest of the text matches the remainder of the pattern.</li>
+</ol>
+<p>Since there are two cases that both result in a match (0 matches OR more matches), we know that <code>matchStar</code> can be implemented with a boolean OR. Furthermore, case 1 for <code>matchStar</code> is exactly the same as it was for <code>matchQuestion</code> and can be implemented identically using <code>match(pattern.slice(2), text)</code>. That means we only need to formulate an expression that satisfies case 2.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">matchStar</span>(<span class="params">pattern, text</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> (matchOne(pattern[<span class="number">0</span>], text[<span class="number">0</span>]) &amp;&amp; match(pattern, text.slice(<span class="number">1</span>))) || match(pattern.slice(<span class="number">2</span>), text);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Refactoring"><a href="#Refactoring" class="headerlink" title="Refactoring"></a>Refactoring</h2><p>We can now go back and cleverly simplify <code>search</code> using a trick I learned in Peter Norvig’s <a href="https://www.udacity.com/course/design-of-computer-programs--cs212" target="_blank" rel="noopener">class</a>.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">search</span>(<span class="params">pattern, text</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (pattern[<span class="number">0</span>] === <span class="string">"^"</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> match(pattern.slice(<span class="number">1</span>), text)</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> match(<span class="string">".*"</span> + pattern, text)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>We use the <code>*</code> character itself to allow for the pattern to appear anywhere in the string. The prepended <code>.*</code> says that any number of any character can appear before the pattern we wish to match.</p>
+<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>It’s remarkable how simple and elegant the code for such a sophisticated and generalized program can be. The full source is available in this <a href="https://github.com/nadrane/build-your-own-regex" target="_blank" rel="noopener">GitHub repository</a></p>
+<p>Here is a <a href="https://nickdrane.com/regex-and-automated-test-fuzzing/">follow up article</a> where I fuzz test the regex engine.</p>
+<h4 id="Footnotes"><a href="#Footnotes" class="headerlink" title="Footnotes"></a>Footnotes</h4><p><a name="footnote1">1</a>: There is a small bug in this code that I’m choosing to ignore. We don’t account for the case that text is an empty string. Currently when <code>text === &#39;&#39;</code>, <code>text.split(&quot;&quot;)</code> will return <code>[]</code> and will not appropriately call <code>match</code>.</p>
+
+    </div>
+    <footer>
+      <ul class="share-buttons">
+  <li><a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fnickdrane.com%2Fbuild-your-own-regex%2F&quote=Build%20a%20Regex%20Engine%20in%20Less%20than%2040%20Lines%20of%20Code" title="Share on Facebook" target="_blank"><img alt="Share on Facebook" src="/images/social/Facebook.png" /></a></li>
+  <li><a href="https://twitter.com/intent/tweet?url=http%3A%2F%2Fnickdrane.com%2Fbuild-your-own-regex%2F&text=Build%20a%20Regex%20Engine%20in%20Less%20than%2040%20Lines%20of%20Code" target="_blank" title="Tweet"><img alt="Tweet" src="/images/social/Twitter.png" /></a></li>
+  <li><a href="http://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Fnickdrane.com%2Fbuild-your-own-regex%2F&title=Build%20a%20Regex%20Engine%20in%20Less%20than%2040%20Lines%20of%20Code" target="_blank" title="Share on LinkedIn"><img alt="Share on LinkedIn" src="/images/social/LinkedIn.png" /></a></li>
+  <li><a href="mailto:?subject=Build a Regex Engine in Less than 40 Lines of Code&body=Check this out: http://nickdrane.com/build-your-own-regex/" target="_blank" title="Send email"><img alt="Send email" src="/images/social/Email.png" /></a></li>
+</ul>
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article></div></div>
+    <aside id="sidebar" class="alignright">  <div class="widget tag about">
+  <ul class="entry">
+    <div>
+      <img class="about-photo" src="/images/about-photo.jpg" alt="photo of Nick Drane" />
+    </div>
+    <p class="about-photo-text"> Nick Drane's blog about programming, hacking, software, computer security, and compute science.</p>
+
+  </ul>
+</div>
+  <div class="widget tag recent-posts">
+  <h3 class="title">Most Popular Posts</h3>
+  <ul class="entry">
+    <li>
+      <a href="/build-your-own-regex/">Build a Regex Engine in Less than 40 Lines of Code</a>
+    </li>
+    <li>
+      <a href="/scraping-the-web-with-puppeteer-lessons-learned/">Scraping the Web with Puppeteer: Lessons Learned</a>
+    </li>
+    <li>
+      <a href="/write-your-own-redux-connect/">Write Your Own React-Redux Connect</a>
+    </li>
+    <li>
+      <a href="/build-your-own-nested-query-string-encoder/">Build Your Own Nested Query String Encoder/Decoder</a>
+    </li>
+  </ul>
+</div>
+  <div class="widget tag recent-posts">
+  <h3 class="title">Recent Posts</h3>
+  <ul class="entry">
+    
+      <li>
+        <a href="/hidden-costs-of-postgresql-jsonb/">The Hidden Costs of PostgreSQL&#39;s JSONB Datatype</a>
+      </li>
+    
+      <li>
+        <a href="/ethical-engineering-for-the-average-engineer/">Ethical Engineering for the Average Engineer</a>
+      </li>
+    
+      <li>
+        <a href="/build-your-own-nested-query-string-encoder/">Build Your Own Nested Query String Encoder/Decoder</a>
+      </li>
+    
+      <li>
+        <a href="/you&#39;re-hiring-programmers-wrong-a-case-for-interview-standardization/">You&#39;re Hiring Programmers Wrong: A Case for Interview Standardization</a>
+      </li>
+    
+      <li>
+        <a href="/scraping-the-web-with-puppeteer-lessons-learned/">Scraping the Web with Puppeteer: Lessons Learned</a>
+      </li>
+    
+  </ul>
+</div>
+  
+<div class="widget tag category">
+  <h3 class="title">Categories</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/Architecture/">Architecture</a><small>1</small></li>
+  
+    <li><a href="/categories/Build-Your-Own/">Build Your Own</a><small>3</small></li>
+  
+    <li><a href="/categories/Elasticsearch/">Elasticsearch</a><small>1</small></li>
+  
+    <li><a href="/categories/Failures/">Failures</a><small>1</small></li>
+  
+    <li><a href="/categories/Functional-Programming/">Functional Programming</a><small>1</small></li>
+  
+    <li><a href="/categories/Immutability/">Immutability</a><small>1</small></li>
+  
+    <li><a href="/categories/Javascript/">Javascript</a><small>4</small></li>
+  
+    <li><a href="/categories/Postgres/">Postgres</a><small>1</small></li>
+  
+    <li><a href="/categories/React/">React</a><small>2</small></li>
+  
+    <li><a href="/categories/Recursion/">Recursion</a><small>2</small></li>
+  
+    <li><a href="/categories/Redux/">Redux</a><small>1</small></li>
+  
+    <li><a href="/categories/Regular-Expressions/">Regular Expressions</a><small>2</small></li>
+  
+    <li><a href="/categories/Software-Ethics/">Software Ethics</a><small>1</small></li>
+  
+    <li><a href="/categories/Technical-Hiring/">Technical Hiring</a><small>1</small></li>
+  
+    <li><a href="/categories/Testing/">Testing</a><small>1</small></li>
+  
+    <li><a href="/categories/Web/">Web</a><small>1</small></li>
+  
+    <li><a href="/categories/Web-Scraping/">Web Scraping</a><small>1</small></li>
+  
+  </ul>
+</div>
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+    &copy; 2018 Nick Drane
+  
+</div>
+<div class="clearfix"></div></footer>
+</body>
+</html>
+

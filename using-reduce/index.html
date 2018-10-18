@@ -1,0 +1,302 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  
+    <title>
+      Using Reduce › Nick Drane
+    </title>
+    
+      <meta name="author" content="Nick Drane">
+      
+        
+            <meta name="description" content="Nick Drane&#39;s blog about programming and modern web development, particularly Node.js and React.">
+            
+                  
+                      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+                      
+                        <meta property="og:title" content="Using Reduce" />
+                        
+                          <meta property="og:site_name" content="Nick Drane" />
+
+                          
+                              <meta property="og:image" content="" />
+                              
+                                <meta name="google-site-verification" content="0iahwlYFOHM2sYjk4TF5_lP0DqzgOgkXnZcKV-Qci8A" />
+
+                                <link href="/favicon.png" rel="icon">
+                                <link rel="alternate" href="/atom.xml" title="Nick Drane"
+                                  type="application/atom+xml">
+                                <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+                                <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+                                <script async src="https://www.googletagmanager.com/gtag/js?id=UA-107252357-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-107252357-1');
+</script>
+</head>
+
+<body>
+  <header id="header"><div class="meta inner">
+  <h1><a href="/">Nick Drane</a></h1>
+  <nav id="main-nav">
+    <ul>
+      <li><a href="/about">About</a></li>
+      <li><a href="/hire-me">Hire Me</a></li>
+      <li><a href="/projects">Projects</a></li>
+      <li><a href="/archives">Archives</a></li>
+    </ul>
+    <div class="clearfix"></div>
+  </nav>
+</div>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+  
+    <div class="social">
+      <ul class="share-buttons">
+  <li><a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fnickdrane.com%2Fusing-reduce%2F&quote=Using%20Reduce" title="Share on Facebook" target="_blank"><img alt="Share on Facebook" src="/images/social/Facebook.png" /></a></li>
+  <li><a href="https://twitter.com/intent/tweet?url=http%3A%2F%2Fnickdrane.com%2Fusing-reduce%2F&text=Using%20Reduce" target="_blank" title="Tweet"><img alt="Tweet" src="/images/social/Twitter.png" /></a></li>
+  <li><a href="http://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Fnickdrane.com%2Fusing-reduce%2F&title=Using%20Reduce" target="_blank" title="Share on LinkedIn"><img alt="Share on LinkedIn" src="/images/social/LinkedIn.png" /></a></li>
+  <li><a href="mailto:?subject=Using Reduce&body=Check this out: http://nickdrane.com/using-reduce/" target="_blank" title="Send email"><img alt="Send email" src="/images/social/Email.png" /></a></li>
+</ul>
+    </div class="social">
+  
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  <div class="post-content">
+    <header>
+      
+  
+    <h1 class="title">Using Reduce</h1>
+  
+
+      
+        <time datetime="2017-09-28T15:36:30.000Z">2017-09-28</time>
+      
+    </header>
+    <div class="entry">
+      <p>My first introduction to functional programming was a couple years ago when I read through the famous <a href="https://mitpress.mit.edu/sicp/full-text/book/book.html" target="_blank" rel="noopener">SICP</a>. As someone who had up to this point worked with mostly in object oriented and imperative languages, I had rarely seen <code>map</code>, <code>fitler</code>, and <code>reduce</code> before that time. The purpose of the former two felt obvious; the latter one not so much. This blog post is geared for someone who knows how <code>reduce</code> works but feels like they struggle to use it practically.</p>
+<a id="more"></a>
+<h2 id="Reduce-Basics"><a href="#Reduce-Basics" class="headerlink" title="Reduce Basics"></a>Reduce Basics</h2><p><em>Feel free to skip this section if you understand the basics of reduce</em></p>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce?v=a" target="_blank" rel="noopener">Reduce</a> is known as a higher order function (HOF). A HOF is defined as a function that either takes in or returns another function.</p>
+<p>Reduce takes two parameters: the first is a function, and the second is known as the initial accumulator. We will invoke this function over every element of an array. The ultimate goal is to transform the array into something new.</p>
+<p>Suppose we want to take an array of characters and concatenate them into a single string. In this example, the first argument we pass reduce is a HOF that will operate over every character. The HOF takes two arguments: the first is the accumulator and is the value that we ultimately want to assemble, and the second is a particular element of the array.</p>
+<p>Let’s simulate what happens when we run a solution to the problem of concatenating strings.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> arrToConcat = [<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>, <span class="string">'d'</span>];</span><br><span class="line">arrToConcat.reduce(<span class="function"><span class="keyword">function</span>(<span class="params">resultantString, nextCharacter</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> resultantString + nextCharacter;</span><br><span class="line">&#125;, <span class="string">""</span>)  <span class="comment">// initial accumulator. This is the second argument to reduce!</span></span><br></pre></td></tr></table></figure>
+<p>You can use the below table to help guide yourself along</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">invocation #</th>
+<th style="text-align:center">resultantString</th>
+<th style="text-align:center">nextCharacter</th>
+<th style="text-align:center">return value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">“”</td>
+<td style="text-align:center">‘a’</td>
+<td style="text-align:center">‘a’</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">“a”</td>
+<td style="text-align:center">‘b’</td>
+<td style="text-align:center">‘ab’</td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:center">“ab”</td>
+<td style="text-align:center">‘c’</td>
+<td style="text-align:center">‘abc’</td>
+</tr>
+<tr>
+<td style="text-align:center">4</td>
+<td style="text-align:center">“abc”</td>
+<td style="text-align:center">‘d’</td>
+<td style="text-align:center">‘abcd’</td>
+</tr>
+</tbody>
+</table>
+<p>We will ultimately call our HOF 4 times, passing in each of the 4 elements in the initial array.</p>
+<p>The first time we invoke the HOF, the first argument is always the initial accumulator. Notice the <code>&quot;&quot;</code> passed into reduce above. The second argument is <code>&#39;a&#39;</code> because that’s the first element in our array. We return ‘a’, and this return value is the <code>resultantString</code> that is passed as an argument to the second invocation of our HOF, along with the next element of the array, <code>&#39;b&#39;</code>. The process continues. <code>&#39;ab&#39;</code> is returned from the HOF’s second invocation, and <code>&#39;ab&#39;</code> and <code>&#39;c&#39;</code> are passed into the third invocation of the HOF. Ultimately, <code>reduce</code> returns <code>&#39;abcd&#39;</code>.</p>
+<p>We built up the result step by step through a series of concatenation steps. Every call to the HOF will return a string with one additional character added to the previous accumulator.</p>
+<h2 id="Know-Your-Return-Type"><a href="#Know-Your-Return-Type" class="headerlink" title="Know Your Return Type"></a>Know Your Return Type</h2><p>I think one of the reasons <code>map</code> and <code>filter</code> are easier than <code>reduce</code> is because they always return an array. That’s not the case for <code>reduce</code>. <code>reduce</code> is ultimately designed to transform one type into another.</p>
+<p>When you begin writing a <code>reduce</code> statement, your first question to yourself should be “What type am I returning?”. Here’s a hint, it’s probably one of the following: <code>String</code>, <code>Number</code>, <code>Object</code>, <code>Array</code>. Once you know what type you will return you can begin writing your reduce statement. I say this because the initial accumulator (reduce’s second argument) can easily be determined by what type you expect <code>reduce</code> to return. Here is a table to guide your decision.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">return type</th>
+<th style="text-align:center">initial accumulator</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">string</td>
+<td style="text-align:center">“”</td>
+</tr>
+<tr>
+<td style="text-align:center">number</td>
+<td style="text-align:center">0</td>
+</tr>
+<tr>
+<td style="text-align:center">object</td>
+<td style="text-align:center">{}</td>
+</tr>
+<tr>
+<td style="text-align:center">array</td>
+<td style="text-align:center">[]</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Notice that the initial accumulator and the return type are always the same!</strong></p>
+<p><em>You probably won’t want return an array from a reduce function very often because chances are you could have more simply used a combination of <code>map</code>, <code>filter</code>, and/or some other function instead.</em></p>
+<h2 id="Summing-Odd-Numbers"><a href="#Summing-Odd-Numbers" class="headerlink" title="Summing Odd Numbers"></a>Summing Odd Numbers</h2><p>So let’s say we want to reduce over a set of numbers and return the sum of all the odd numbers. Since we are returning a <code>number</code>, we can use the above table to determine that the starting accumulator should be 0. That gives us a pretty decent starting point!</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> arrToSum = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];</span><br><span class="line">arrToSum.reduce(<span class="function"><span class="keyword">function</span>(<span class="params">currentSum, nextNumber</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;, <span class="number">0</span>)  <span class="comment">// This is the second argument to reduce!</span></span><br></pre></td></tr></table></figure>
+<p>Now we just need to complete the guts of the function such that it increments the sum when the <code>nextNumber</code> is odd. If <code>nextNumber</code> is even, it should return <code>currentSum</code> unchanged.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> arrToSum = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];</span><br><span class="line">arrToSum.reduce(<span class="function"><span class="keyword">function</span>(<span class="params">currentSum, nextNumber</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// nextNumber is odd</span></span><br><span class="line">  <span class="keyword">if</span> (nextNumber % <span class="number">2</span> === <span class="number">1</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> currentSum + nextNumber</span><br><span class="line">  <span class="comment">// nextNumber is even</span></span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> currentSum</span><br><span class="line">  &#125;</span><br><span class="line">&#125;, <span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+<p>One interesting thing to note about the above code is that EVERY code path (every if-else block) returns something. This is a very common theme throughout the functional programming paradigm and holds true when writing reduce’s higher order function. In general it’s a decent litmus test to establish if you’ve made a bug somewhere. <strong>More specifically, if every code path does not return something, and if that something is not the same type as your accumulator, you probably have a bug.</strong></p>
+<h2 id="Frequency-Counter"><a href="#Frequency-Counter" class="headerlink" title="Frequency Counter"></a>Frequency Counter</h2><p>Let’s do something a little different. Suppose I have an array of words, and I want to count how many times each word appears in the array. We can represent this information using an object that maps words in the array to a number indicating their frequency of occurrence.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// We will input something like this</span></span><br><span class="line">[<span class="string">'luke'</span>, <span class="string">'anakin'</span>, <span class="string">'chewy'</span>, <span class="string">'luke'</span>, <span class="string">'chewy'</span>, <span class="string">'princess'</span>, <span class="string">'leia'</span>, <span class="string">'chewy'</span>] -&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment">// And output something like this</span></span><br><span class="line">&#123;</span><br><span class="line">  luke: <span class="number">2</span>,</span><br><span class="line">  anakin: <span class="number">1</span>,</span><br><span class="line">  princess: <span class="number">1</span>,</span><br><span class="line">  chewy: <span class="number">3</span>,</span><br><span class="line">  leia: <span class="number">1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Consulting the table above, we know that the starting accumulator needs to be an empty object. This means that each iteration over the array returns an object as well.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> frequencyArray = [<span class="string">'luke'</span>, <span class="string">'anakin'</span>, <span class="string">'chewy'</span>, <span class="string">'luke'</span>, <span class="string">'chewy'</span>, <span class="string">'princess'</span>, <span class="string">'leia'</span>, <span class="string">'chewy'</span>];</span><br><span class="line">frequencyArray.reduce(<span class="function"><span class="keyword">function</span>(<span class="params">resultantObject, nextWord</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;, &#123;&#125;)</span><br></pre></td></tr></table></figure>
+<p>Every step of the higher order function needs to examine the next word and determine if it has been seen before. If it has not, then we need to add an entry to the accumulator and return it. If it has, then we need to increment the existing entry inside the accumulator object and return it.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">frequencyArray.reduce(<span class="function"><span class="keyword">function</span>(<span class="params">resultantObject, nextWord</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// If the word is not in the object</span></span><br><span class="line">  <span class="keyword">if</span> (!resultantObject.hasOwnProperty(nextWord)) &#123;</span><br><span class="line">    resultantObject[nextWord] = <span class="number">1</span> <span class="comment">//Set it to 1 since we have seen the word before</span></span><br><span class="line">    <span class="keyword">return</span> resultantObject</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// Otherwise increment the counter for that word inside the resulting object</span></span><br><span class="line">    resultantObject[nextWord]++</span><br><span class="line">    <span class="keyword">return</span> resultantObject</span><br><span class="line">  &#125;</span><br><span class="line">&#125;, &#123;&#125;)</span><br></pre></td></tr></table></figure>
+<p>Just like the first example, every code path returns the type of the accumulator.</p>
+<h2 id="Merging-Objects"><a href="#Merging-Objects" class="headerlink" title="Merging Objects"></a>Merging Objects</h2><p>Let’s end with something a little more complicated.</p>
+<p>Suppose we want to implement a merge function to combines several objects into a single object. We’re going to implement something really similar to <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign" target="_blank" rel="noopener">Object.assign</a>. Here are some examples.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">merge([ &#123; <span class="attr">a</span>: <span class="number">4</span>, <span class="attr">b</span>: <span class="number">3</span> &#125;, &#123; <span class="attr">c</span>:<span class="number">10</span> &#125; ]) --&gt; &#123; <span class="attr">a</span>: <span class="number">4</span>, <span class="attr">b</span>: <span class="number">3</span>, <span class="attr">c</span>: <span class="number">10</span> &#125;</span><br><span class="line"></span><br><span class="line">merge([ &#123; <span class="attr">a</span>: <span class="number">4</span>, <span class="attr">b</span>: <span class="number">3</span> &#125;, &#123; <span class="attr">c</span>:<span class="number">4</span> &#125;, &#123;<span class="attr">f</span>: <span class="number">7</span>&#125; ]) --&gt; &#123; <span class="attr">a</span>: <span class="number">4</span>, <span class="attr">b</span>: <span class="number">3</span>, <span class="attr">c</span>: <span class="number">4</span>, <span class="attr">f</span>: <span class="number">7</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Duplicate keys take the value of the latter object</span></span><br><span class="line">merge([ &#123; <span class="attr">a</span>: <span class="number">4</span>, <span class="attr">b</span>: <span class="number">3</span> &#125;, &#123; <span class="attr">c</span>:<span class="number">4</span> &#125;, &#123;<span class="attr">a</span>: <span class="number">7</span>&#125; ]) --&gt; &#123; <span class="attr">a</span>: <span class="number">7</span>, <span class="attr">b</span>: <span class="number">3</span>, <span class="attr">c</span>: <span class="number">4</span>&#125;</span><br></pre></td></tr></table></figure>
+<p>We know that the return value from this operation is an object, so that will be our starting accumulator. Every iteration of the array will produce a new object that contains the merging of the previous accumulator and the next object.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// This merge function will take in two objects and output a new object</span></span><br><span class="line"><span class="comment">// containing both the keys and values from the two input objects.</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">mergeTwo</span>(<span class="params">obj1, obj2</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> newObj = &#123;&#125;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> key <span class="keyword">in</span> obj1) &#123;</span><br><span class="line">    newObj[key] = obj1[key]</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> key <span class="keyword">in</span> obj2) &#123;</span><br><span class="line">    newObj[key] = obj2[key]</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> newObj</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">merge</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> arr.reduce(<span class="function"><span class="keyword">function</span>(<span class="params">resultantObj, nextObj</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> mergeTwo(resultantObj, nextObj)</span><br><span class="line">  &#125;, &#123;&#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2><p>To summarize</p>
+<ol>
+<li>Always start by asking what the type of your output is. The type of your accumulator will follow by using the mapping table.</li>
+<li>The logic inside your higher order function should assemble your resulting accumulator piecemeal. Since the return value of the previous iteration is the input to the next iteration, every code path must return a value</li>
+<li>Furthermore, unless you want a horrible experience, every code path MUST return a value whose type is the same as that of your initial accumulator.</li>
+</ol>
+<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>At the end of the day, just about everything you can do with reduce can be done with some combination of <code>map</code> and <code>fitler</code> and perhaps another <a href="https://lodash.com/docs/4.17.4]" target="_blank" rel="noopener">functional method</a>. And the alternative solution is almost always simpler and more readable. So, in practice, you probably don’t want to use <code>reduce</code> that often. With that said, <code>reduce</code> is a building block on which every other functional method can be built, and we will explore this unique trait in my next blog post.</p>
+
+    </div>
+    <footer>
+      <ul class="share-buttons">
+  <li><a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fnickdrane.com%2Fusing-reduce%2F&quote=Using%20Reduce" title="Share on Facebook" target="_blank"><img alt="Share on Facebook" src="/images/social/Facebook.png" /></a></li>
+  <li><a href="https://twitter.com/intent/tweet?url=http%3A%2F%2Fnickdrane.com%2Fusing-reduce%2F&text=Using%20Reduce" target="_blank" title="Tweet"><img alt="Tweet" src="/images/social/Twitter.png" /></a></li>
+  <li><a href="http://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Fnickdrane.com%2Fusing-reduce%2F&title=Using%20Reduce" target="_blank" title="Share on LinkedIn"><img alt="Share on LinkedIn" src="/images/social/LinkedIn.png" /></a></li>
+  <li><a href="mailto:?subject=Using Reduce&body=Check this out: http://nickdrane.com/using-reduce/" target="_blank" title="Send email"><img alt="Send email" src="/images/social/Email.png" /></a></li>
+</ul>
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article></div></div>
+    <aside id="sidebar" class="alignright">  <div class="widget tag about">
+  <ul class="entry">
+    <div>
+      <img class="about-photo" src="/images/about-photo.jpg" alt="photo of Nick Drane" />
+    </div>
+    <p class="about-photo-text"> Nick Drane's blog about programming, hacking, software, computer security, and compute science.</p>
+
+  </ul>
+</div>
+  <div class="widget tag recent-posts">
+  <h3 class="title">Most Popular Posts</h3>
+  <ul class="entry">
+    <li>
+      <a href="/build-your-own-regex/">Build a Regex Engine in Less than 40 Lines of Code</a>
+    </li>
+    <li>
+      <a href="/scraping-the-web-with-puppeteer-lessons-learned/">Scraping the Web with Puppeteer: Lessons Learned</a>
+    </li>
+    <li>
+      <a href="/write-your-own-redux-connect/">Write Your Own React-Redux Connect</a>
+    </li>
+    <li>
+      <a href="/build-your-own-nested-query-string-encoder/">Build Your Own Nested Query String Encoder/Decoder</a>
+    </li>
+  </ul>
+</div>
+  <div class="widget tag recent-posts">
+  <h3 class="title">Recent Posts</h3>
+  <ul class="entry">
+    
+      <li>
+        <a href="/hidden-costs-of-postgresql-jsonb/">The Hidden Costs of PostgreSQL&#39;s JSONB Datatype</a>
+      </li>
+    
+      <li>
+        <a href="/ethical-engineering-for-the-average-engineer/">Ethical Engineering for the Average Engineer</a>
+      </li>
+    
+      <li>
+        <a href="/build-your-own-nested-query-string-encoder/">Build Your Own Nested Query String Encoder/Decoder</a>
+      </li>
+    
+      <li>
+        <a href="/you&#39;re-hiring-programmers-wrong-a-case-for-interview-standardization/">You&#39;re Hiring Programmers Wrong: A Case for Interview Standardization</a>
+      </li>
+    
+      <li>
+        <a href="/scraping-the-web-with-puppeteer-lessons-learned/">Scraping the Web with Puppeteer: Lessons Learned</a>
+      </li>
+    
+  </ul>
+</div>
+  
+<div class="widget tag category">
+  <h3 class="title">Categories</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/Architecture/">Architecture</a><small>1</small></li>
+  
+    <li><a href="/categories/Build-Your-Own/">Build Your Own</a><small>3</small></li>
+  
+    <li><a href="/categories/Elasticsearch/">Elasticsearch</a><small>1</small></li>
+  
+    <li><a href="/categories/Failures/">Failures</a><small>1</small></li>
+  
+    <li><a href="/categories/Functional-Programming/">Functional Programming</a><small>1</small></li>
+  
+    <li><a href="/categories/Immutability/">Immutability</a><small>1</small></li>
+  
+    <li><a href="/categories/Javascript/">Javascript</a><small>4</small></li>
+  
+    <li><a href="/categories/Postgres/">Postgres</a><small>1</small></li>
+  
+    <li><a href="/categories/React/">React</a><small>2</small></li>
+  
+    <li><a href="/categories/Recursion/">Recursion</a><small>2</small></li>
+  
+    <li><a href="/categories/Redux/">Redux</a><small>1</small></li>
+  
+    <li><a href="/categories/Regular-Expressions/">Regular Expressions</a><small>2</small></li>
+  
+    <li><a href="/categories/Software-Ethics/">Software Ethics</a><small>1</small></li>
+  
+    <li><a href="/categories/Technical-Hiring/">Technical Hiring</a><small>1</small></li>
+  
+    <li><a href="/categories/Testing/">Testing</a><small>1</small></li>
+  
+    <li><a href="/categories/Web/">Web</a><small>1</small></li>
+  
+    <li><a href="/categories/Web-Scraping/">Web Scraping</a><small>1</small></li>
+  
+  </ul>
+</div>
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+    &copy; 2018 Nick Drane
+  
+</div>
+<div class="clearfix"></div></footer>
+</body>
+</html>
+

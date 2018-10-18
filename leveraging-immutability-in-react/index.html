@@ -1,0 +1,222 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  
+    <title>
+      Leveraging Immutability in React › Nick Drane
+    </title>
+    
+      <meta name="author" content="Nick Drane">
+      
+        
+            <meta name="description" content="Nick Drane&#39;s blog about programming and modern web development, particularly Node.js and React.">
+            
+                  
+                      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+                      
+                        <meta property="og:title" content="Leveraging Immutability in React" />
+                        
+                          <meta property="og:site_name" content="Nick Drane" />
+
+                          
+                              <meta property="og:image" content="" />
+                              
+                                <meta name="google-site-verification" content="0iahwlYFOHM2sYjk4TF5_lP0DqzgOgkXnZcKV-Qci8A" />
+
+                                <link href="/favicon.png" rel="icon">
+                                <link rel="alternate" href="/atom.xml" title="Nick Drane"
+                                  type="application/atom+xml">
+                                <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+                                <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+                                <script async src="https://www.googletagmanager.com/gtag/js?id=UA-107252357-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-107252357-1');
+</script>
+</head>
+
+<body>
+  <header id="header"><div class="meta inner">
+  <h1><a href="/">Nick Drane</a></h1>
+  <nav id="main-nav">
+    <ul>
+      <li><a href="/about">About</a></li>
+      <li><a href="/hire-me">Hire Me</a></li>
+      <li><a href="/projects">Projects</a></li>
+      <li><a href="/archives">Archives</a></li>
+    </ul>
+    <div class="clearfix"></div>
+  </nav>
+</div>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+  
+    <div class="social">
+      <ul class="share-buttons">
+  <li><a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fnickdrane.com%2Fleveraging-immutability-in-react%2F&quote=Leveraging%20Immutability%20in%20React" title="Share on Facebook" target="_blank"><img alt="Share on Facebook" src="/images/social/Facebook.png" /></a></li>
+  <li><a href="https://twitter.com/intent/tweet?url=http%3A%2F%2Fnickdrane.com%2Fleveraging-immutability-in-react%2F&text=Leveraging%20Immutability%20in%20React" target="_blank" title="Tweet"><img alt="Tweet" src="/images/social/Twitter.png" /></a></li>
+  <li><a href="http://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Fnickdrane.com%2Fleveraging-immutability-in-react%2F&title=Leveraging%20Immutability%20in%20React" target="_blank" title="Share on LinkedIn"><img alt="Share on LinkedIn" src="/images/social/LinkedIn.png" /></a></li>
+  <li><a href="mailto:?subject=Leveraging Immutability in React&body=Check this out: http://nickdrane.com/leveraging-immutability-in-react/" target="_blank" title="Send email"><img alt="Send email" src="/images/social/Email.png" /></a></li>
+</ul>
+    </div class="social">
+  
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  <div class="post-content">
+    <header>
+      
+  
+    <h1 class="title">Leveraging Immutability in React</h1>
+  
+
+      
+        <time datetime="2017-09-27T14:30:27.000Z">2017-09-27</time>
+      
+    </header>
+    <div class="entry">
+      <p>React has taken the web development community by a storm, and with it functional programming concepts have embedded themselves in the mainstream. One common statement you will often read is that all state in React should be immutable, and this practice is justified as necessary for performance reasons. This statement is entirely true, but it only tells half the truth. Immutability alone will not yield any performance gains in React (it’ll actually make things slower).</p>
+<a id="more"></a>
+<h2 id="The-Quick-Answer"><a href="#The-Quick-Answer" class="headerlink" title="The Quick Answer"></a>The Quick Answer</h2><p>You can reap the gains from immutable state in React if you inherit from <a href="https://reactjs.org/docs/react-api.html#reactpurecomponent" target="_blank" rel="noopener">React.PureComponent</a> instead of <code>React.Component</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyComponent</span> <span class="keyword">extends</span> <span class="title">PureComponent</span> </span>&#123;...&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="A-Broader-Perspective"><a href="#A-Broader-Perspective" class="headerlink" title="A Broader Perspective"></a>A Broader Perspective</h2><p>So why does the above code work? That requires a little bit of knowledge about the rendering process.</p>
+<h2 id="Virtual-DOM"><a href="#Virtual-DOM" class="headerlink" title="Virtual DOM"></a>Virtual DOM</h2><p>A component’s <code>render</code> function returns a tree of React elements, also known as the virtual DOM. This data structure is a representation of the browser’s DOM that React can manipulate in a performant way. In essence, it’s a 1-1 mapping to the browser DOM.</p>
+<p>Whenever state or props change, instead of updating the browser DOM directly, React will call the <code>render</code> function of the updated component, getting its new virtual DOM, and it will compare that virtual DOM to the previous render tree (aka the old virtual DOM). This comparison process (known as reconciliation) allows it to identify the minimum set of changes that need to be made to the browser DOM, allowing for for massive performance gains. If the two trees are identical, then no changes need to be made to the UI.</p>
+<h2 id="Should-a-Component-Re-render"><a href="#Should-a-Component-Re-render" class="headerlink" title="Should a Component Re-render"></a>Should a Component Re-render</h2><p>When <code>setState</code> is called on a component, that component (and all of the components it renders) go through a two step process for React determine if the UI should update.</p>
+<p>Before the virtual DOM is rendered, React first runs a component’s <a href="https://reactjs.org/docs/react-component.html#shouldcomponentupdate" target="_blank" rel="noopener">shouldComponentUpdate</a> lifecycle method</p>
+<h2 id="shouldComponentUpdate"><a href="#shouldComponentUpdate" class="headerlink" title="shouldComponentUpdate"></a>shouldComponentUpdate</h2><p>It is your choice to implement this method. It takes as parameters the new state and props and should return a boolean indicating whether the component should re-render. React will only proceed with re-rendering if you return <code>true</code> from this function. By default, <code>shouldComponentUpdate</code> always returns <code>true</code>.</p>
+<p>Let’s look at a simple example</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Counter</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span>() </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>() &#123;</span><br><span class="line">    <span class="keyword">this</span>.state = &#123;</span><br><span class="line">      counter: <span class="number">0</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  shouldComponentUpdate(nextProps, nextState) &#123;</span><br><span class="line">    <span class="comment">// We are comparing the state before setState</span></span><br><span class="line">    <span class="comment">// is called to the state after it is called.</span></span><br><span class="line">    <span class="comment">// This component will only re-render if</span></span><br><span class="line">    <span class="comment">// state.counter changes</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.state.counter !== nextState.counter</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">return</span> &lt;span&gt;&#123;this.state.counter&#125;&lt;/span&gt;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Currently <code>Counter</code> will only re-render if <code>state.counter</code> changes. Suppose we remove the <code>shouldComponentUpdate</code> above, is there another circumstance where <code>Counter</code>‘ re-renders? It would re-render if a component that renders <code>Counter</code> re-renders! It does not matter that <code>Counter</code>‘s render function does not depend on props!</p>
+<p>So, when <code>shouldComponentUpdate</code> returns <code>true</code>, React begins the second part of the re-render process, the part where it invokes the render function, generating its virtual DOM. It will then compare that render tree to the old virtual DOM. In the scenario above, these two trees will always be identical (after all, the component doesn’t even have a way to change state), and the entire operation will a be waste CPU cycles.</p>
+<p>If <code>shouldComponentUpdate</code> returns <code>false</code>, we inform React that a re-render will not be necessary, sparing it an unnecessary to call a component’s render function and the comparison of the render trees.</p>
+<h2 id="React-pureComponent"><a href="#React-pureComponent" class="headerlink" title="React.pureComponent"></a>React.pureComponent</h2><p>Writing <code>shouldComponentUpdate</code> is sometimes a tedious task, and React supplies a helper to handle a very common <code>shouldComponentUpdate</code> scenario. I mentioned <code>React.pureComponent</code> above.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyComponent</span> <span class="keyword">extends</span> <span class="title">PureComponent</span> </span>&#123;...&#125;</span><br></pre></td></tr></table></figure>
+<p><code>React.pureComponent</code> is a handy class that we can inherit from that implements <code>shouldComponentUpdate</code> as a shallow comparison across the old props and new props (or the old state and new state). If there are no <em>shallow</em> differences between these objects, then <code>shouldComponentUpdate</code> will return false, and the virtual DOM’s re-rendering process can be skipped entirely, resulting in potentially enormous performance savings.</p>
+<h2 id="Why-Does-Immutability-Matter"><a href="#Why-Does-Immutability-Matter" class="headerlink" title="Why Does Immutability Matter?"></a>Why Does Immutability Matter?</h2><p>Immutability matters because <code>React.pureComponent</code> is going to do shallow comparisons against the prop and state objects. And, as you hopefully know, a shallow comparison’s referential equality checks will only yield the expected results if immutability is respected.</p>
+<p>If you are not properly respecting immutability, then you are going to run into scenarios where your components fail to re-render when they actually should. A failure to respect immutability will cause a shallow comparison to return false (meaning <code>shouldComponentUpdate</code> returns false) because the old props and new props (or the old state and new state) reference the same object in memory, despite the fact that props/state changed.</p>
+<p>When used carefully however, <code>React.pureComponent</code> can yield enormous performance improvements at almost no cost. All you need to do is inherit your components from <code>React.pureComponent</code> instead of <code>React.Component</code> and respect immutability when changing state.</p>
+<p>I hope you found this article helpful. Please feel free to email me to reach out if you have questions.</p>
+
+    </div>
+    <footer>
+      <ul class="share-buttons">
+  <li><a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fnickdrane.com%2Fleveraging-immutability-in-react%2F&quote=Leveraging%20Immutability%20in%20React" title="Share on Facebook" target="_blank"><img alt="Share on Facebook" src="/images/social/Facebook.png" /></a></li>
+  <li><a href="https://twitter.com/intent/tweet?url=http%3A%2F%2Fnickdrane.com%2Fleveraging-immutability-in-react%2F&text=Leveraging%20Immutability%20in%20React" target="_blank" title="Tweet"><img alt="Tweet" src="/images/social/Twitter.png" /></a></li>
+  <li><a href="http://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Fnickdrane.com%2Fleveraging-immutability-in-react%2F&title=Leveraging%20Immutability%20in%20React" target="_blank" title="Share on LinkedIn"><img alt="Share on LinkedIn" src="/images/social/LinkedIn.png" /></a></li>
+  <li><a href="mailto:?subject=Leveraging Immutability in React&body=Check this out: http://nickdrane.com/leveraging-immutability-in-react/" target="_blank" title="Send email"><img alt="Send email" src="/images/social/Email.png" /></a></li>
+</ul>
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article></div></div>
+    <aside id="sidebar" class="alignright">  <div class="widget tag about">
+  <ul class="entry">
+    <div>
+      <img class="about-photo" src="/images/about-photo.jpg" alt="photo of Nick Drane" />
+    </div>
+    <p class="about-photo-text"> Nick Drane's blog about programming, hacking, software, computer security, and compute science.</p>
+
+  </ul>
+</div>
+  <div class="widget tag recent-posts">
+  <h3 class="title">Most Popular Posts</h3>
+  <ul class="entry">
+    <li>
+      <a href="/build-your-own-regex/">Build a Regex Engine in Less than 40 Lines of Code</a>
+    </li>
+    <li>
+      <a href="/scraping-the-web-with-puppeteer-lessons-learned/">Scraping the Web with Puppeteer: Lessons Learned</a>
+    </li>
+    <li>
+      <a href="/write-your-own-redux-connect/">Write Your Own React-Redux Connect</a>
+    </li>
+    <li>
+      <a href="/build-your-own-nested-query-string-encoder/">Build Your Own Nested Query String Encoder/Decoder</a>
+    </li>
+  </ul>
+</div>
+  <div class="widget tag recent-posts">
+  <h3 class="title">Recent Posts</h3>
+  <ul class="entry">
+    
+      <li>
+        <a href="/hidden-costs-of-postgresql-jsonb/">The Hidden Costs of PostgreSQL&#39;s JSONB Datatype</a>
+      </li>
+    
+      <li>
+        <a href="/ethical-engineering-for-the-average-engineer/">Ethical Engineering for the Average Engineer</a>
+      </li>
+    
+      <li>
+        <a href="/build-your-own-nested-query-string-encoder/">Build Your Own Nested Query String Encoder/Decoder</a>
+      </li>
+    
+      <li>
+        <a href="/you&#39;re-hiring-programmers-wrong-a-case-for-interview-standardization/">You&#39;re Hiring Programmers Wrong: A Case for Interview Standardization</a>
+      </li>
+    
+      <li>
+        <a href="/scraping-the-web-with-puppeteer-lessons-learned/">Scraping the Web with Puppeteer: Lessons Learned</a>
+      </li>
+    
+  </ul>
+</div>
+  
+<div class="widget tag category">
+  <h3 class="title">Categories</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/Architecture/">Architecture</a><small>1</small></li>
+  
+    <li><a href="/categories/Build-Your-Own/">Build Your Own</a><small>3</small></li>
+  
+    <li><a href="/categories/Elasticsearch/">Elasticsearch</a><small>1</small></li>
+  
+    <li><a href="/categories/Failures/">Failures</a><small>1</small></li>
+  
+    <li><a href="/categories/Functional-Programming/">Functional Programming</a><small>1</small></li>
+  
+    <li><a href="/categories/Immutability/">Immutability</a><small>1</small></li>
+  
+    <li><a href="/categories/Javascript/">Javascript</a><small>4</small></li>
+  
+    <li><a href="/categories/Postgres/">Postgres</a><small>1</small></li>
+  
+    <li><a href="/categories/React/">React</a><small>2</small></li>
+  
+    <li><a href="/categories/Recursion/">Recursion</a><small>2</small></li>
+  
+    <li><a href="/categories/Redux/">Redux</a><small>1</small></li>
+  
+    <li><a href="/categories/Regular-Expressions/">Regular Expressions</a><small>2</small></li>
+  
+    <li><a href="/categories/Software-Ethics/">Software Ethics</a><small>1</small></li>
+  
+    <li><a href="/categories/Technical-Hiring/">Technical Hiring</a><small>1</small></li>
+  
+    <li><a href="/categories/Testing/">Testing</a><small>1</small></li>
+  
+    <li><a href="/categories/Web/">Web</a><small>1</small></li>
+  
+    <li><a href="/categories/Web-Scraping/">Web Scraping</a><small>1</small></li>
+  
+  </ul>
+</div>
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+    &copy; 2018 Nick Drane
+  
+</div>
+<div class="clearfix"></div></footer>
+</body>
+</html>
+

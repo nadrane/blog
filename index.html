@@ -1,0 +1,348 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  
+    <title>
+      Nick Drane
+    </title>
+    
+      <meta name="author" content="Nick Drane">
+      
+        
+            <meta name="description" content="Nick Drane&#39;s blog about programming and modern web development, particularly Node.js and React.">
+            
+                  
+                      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+                      
+                          <meta property="og:site_name" content="Nick Drane" />
+
+                          
+                              <meta property="og:image" content="" />
+                              
+                                <meta name="google-site-verification" content="0iahwlYFOHM2sYjk4TF5_lP0DqzgOgkXnZcKV-Qci8A" />
+
+                                <link href="/favicon.png" rel="icon">
+                                <link rel="alternate" href="/atom.xml" title="Nick Drane"
+                                  type="application/atom+xml">
+                                <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+                                <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+                                <script async src="https://www.googletagmanager.com/gtag/js?id=UA-107252357-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-107252357-1');
+</script>
+</head>
+
+<body>
+  <header id="header"><div class="meta inner">
+  <h1><a href="/">Nick Drane</a></h1>
+  <nav id="main-nav">
+    <ul>
+      <li><a href="/about">About</a></li>
+      <li><a href="/hire-me">Hire Me</a></li>
+      <li><a href="/projects">Projects</a></li>
+      <li><a href="/archives">Archives</a></li>
+    </ul>
+    <div class="clearfix"></div>
+  </nav>
+</div>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+  
+    <div id="main-col" class="alignleft"><div id="wrapper">
+  <article class="post">
+    <div class="post-content">
+      <header>
+          <h1 class="title"><a href="/hidden-costs-of-postgresql-jsonb/">The Hidden Costs of PostgreSQL&#39;s JSONB Datatype</a></h1>
+          <time datetime="2018-09-30T05:00:00.000Z">2018-09-30</time>
+      </header>
+      <div class="entry">
+        <p><a href="https://www.postgresql.org/" target="_blank" rel="noopener">Postgres</a> introduced the <a href="https://www.postgresql.org/docs/current/static/datatype-json.html" target="_blank" rel="noopener">JSONB</a> type in version 9.4 with considerable excitement. JSONB promised to marry a favorite relational database with the noSQL world, permitting data to be stored in the database as JSON without the need for re-parsing whenever a field is accessed. Moreover, the binary storage format permits indexing and complex queries against the stored JSON blobs. This data format embodies the flexible schema and was readily adopted at <a href="https://fraight.ai/" target="_blank" rel="noopener">Fraight</a>.</p>
+      </div>
+        <footer>
+          <div class="alignleft">
+            <a href="/hidden-costs-of-postgresql-jsonb/" class="more-link">Read More ›</a>
+          </div>
+        </footer>
+    </div>
+  </article>
+
+  <article class="post">
+    <div class="post-content">
+      <header>
+          <h1 class="title"><a href="/ethical-engineering-for-the-average-engineer/">Ethical Engineering for the Average Engineer</a></h1>
+          <time datetime="2018-09-16T20:41:16.000Z">2018-09-16</time>
+      </header>
+      <div class="entry">
+        <p>Two months ago I purchased a GPS device and associated service plan from <a href="https://www.findmespot.com/en/" target="_blank" rel="noopener">SPOT</a>. Today, upon trying to cancel the service, the customer service representative informed me that I had accidentally enrolled myself into a 1 year, $250 contract and that I was unable to cancel. He told me that if I blocked the monthly charges against my credit card that they would report the debt to a collections agency. I was initially upset but soon realized it was a great opportunity to talk about ethics in software engineering.</p>
+      </div>
+        <footer>
+          <div class="alignleft">
+            <a href="/ethical-engineering-for-the-average-engineer/" class="more-link">Read More ›</a>
+          </div>
+        </footer>
+    </div>
+  </article>
+
+  <article class="post">
+    <div class="post-content">
+      <header>
+          <h1 class="title"><a href="/build-your-own-nested-query-string-encoder/">Build Your Own Nested Query String Encoder/Decoder</a></h1>
+          <time datetime="2018-04-13T20:17:00.000Z">2018-04-13</time>
+      </header>
+      <div class="entry">
+        <p>The other day at work, one of my colleagues was frustrated that he was unable to encode nested objects in a query string and still maintain a readable URL. I went home that night and coded up a simple solution to this problem, and I thought I’d share it here today. This <a href="https://github.com/nadrane/querystring-encoder" target="_blank" rel="noopener">Github repo</a> contains specs and the solution code.</p>
+      </div>
+        <footer>
+          <div class="alignleft">
+            <a href="/build-your-own-nested-query-string-encoder/" class="more-link">Read More ›</a>
+          </div>
+        </footer>
+    </div>
+  </article>
+
+  <article class="post">
+    <div class="post-content">
+      <header>
+          <h1 class="title"><a href="/you're-hiring-programmers-wrong-a-case-for-interview-standardization/">You&#39;re Hiring Programmers Wrong: A Case for Interview Standardization</a></h1>
+          <time datetime="2018-03-20T22:03:01.000Z">2018-03-20</time>
+      </header>
+      <div class="entry">
+        <p>I’ve conducted about 100 technical interviews over the past 6 months for a software development recruiting company called <a href="https://triplebyte.com/iv/RrzqKKw/bp" target="_blank" rel="noopener">Triplebyte</a>. I’ve also been doing consulting work, which has required me to take numerous technical interviews. It’s interesting contrasting the experiences to identify what works and what doesn’t.</p>
+<p>Every Triplebyte interview begins with the candidate coding a short game. We have a series of steps, and each step precisely defines simple requirements for the program to handle. I can generally tell a couple minutes into the 2 hour interview whether the candidate will be successful. There are certainly outliers (as well as mechanisms to prevent bias), but in general, I can quickly ascertain how well a candidate stacks up technically. So then, it begs the question, why is it so hard to hire engineers? The answer is, most of us are doing it wrong.</p>
+      </div>
+        <footer>
+          <div class="alignleft">
+            <a href="/you're-hiring-programmers-wrong-a-case-for-interview-standardization/" class="more-link">Read More ›</a>
+          </div>
+        </footer>
+    </div>
+  </article>
+
+  <article class="post">
+    <div class="post-content">
+      <header>
+          <h1 class="title"><a href="/scraping-the-web-with-puppeteer-lessons-learned/">Scraping the Web with Puppeteer: Lessons Learned</a></h1>
+          <time datetime="2017-12-09T21:35:13.000Z">2017-12-09</time>
+      </header>
+      <div class="entry">
+        <p>I’m currently contracted to create a web service using some data from a third party Angular application. I worked off a proof of concept codebase that used Chrome’s new <a href="https://github.com/GoogleChrome/puppeteer" target="_blank" rel="noopener">Puppeteer</a> API to scrape this site. I strongly regret not starting from scratch.</p>
+      </div>
+        <footer>
+          <div class="alignleft">
+            <a href="/scraping-the-web-with-puppeteer-lessons-learned/" class="more-link">Read More ›</a>
+          </div>
+        </footer>
+    </div>
+  </article>
+
+  <article class="post">
+    <div class="post-content">
+      <header>
+          <h1 class="title"><a href="/regex-and-automated-test-fuzzing/">Regex And Automated Test Fuzzing</a></h1>
+          <time datetime="2017-12-06T06:00:00.000Z">2017-12-06</time>
+      </header>
+      <div class="entry">
+        <p>I posted my article <a href="https://nickdrane.com/build-your-own-regex/">Build Your Own Regex Engine</a> on Reddit the other day, and one of the commenters claimed that the implementation should be trivial to break. Since I had already tested my program against a customized suite of tests, the remark got me thinking about how I could further increase my confidence in the correctness of my program. One extremely low cost however effective strategy for identifying faults in software is known as fuzzing.</p>
+      </div>
+        <footer>
+          <div class="alignleft">
+            <a href="/regex-and-automated-test-fuzzing/" class="more-link">Read More ›</a>
+          </div>
+        </footer>
+    </div>
+  </article>
+
+  <article class="post">
+    <div class="post-content">
+      <header>
+          <h1 class="title"><a href="/build-your-own-regex/">Build a Regex Engine in Less than 40 Lines of Code</a></h1>
+          <time datetime="2017-11-28T17:36:04.000Z">2017-11-28</time>
+      </header>
+      <div class="entry">
+        <p>I stumbled upon an <a href="https://www.cs.princeton.edu/courses/archive/spr09/cos333/beautiful.html" target="_blank" rel="noopener">article</a> the other day where Rob Pike implements a rudimentary regular expression engine in c. I converted his code to Javascript and added test specs so that someone can self-guide themselves through the creation of the regex engine. The specs and solution can be found in this <a href="https://github.com/nadrane/build-your-own-regex" target="_blank" rel="noopener">GitHub repository</a>. This blog post walks through my solution.</p>
+      </div>
+        <footer>
+          <div class="alignleft">
+            <a href="/build-your-own-regex/" class="more-link">Read More ›</a>
+          </div>
+        </footer>
+    </div>
+  </article>
+
+  <article class="post">
+    <div class="post-content">
+      <header>
+          <h1 class="title"><a href="/optimizing-elasticsearch-score/">Optimizing Elasticsearch Score: How to Rank and Differentiate Similar Records</a></h1>
+          <time datetime="2017-10-11T05:00:00.000Z">2017-10-11</time>
+      </header>
+      <div class="entry">
+        <p>A client approached me with a puzzling problem:</p>
+<p>At Fraight, we have an omnisearch interface backed by an Elasticsearch datastore. The interface allows users yo type a freetext query and get a list of database records sorted by relevancy. At it’s core, this is a simple problem: if the user types in <code>Joe</code>, return all people whose name contains the word <code>Joe</code>. And indeed, returning all the <code>Joe&#39;s</code> in the system is trivial; the problem is that we worked hundreds, possibly even thousands of <code>Joes</code>. How do we identify the particular <code>Joe</code> that we care about?</p>
+      </div>
+        <footer>
+          <div class="alignleft">
+            <a href="/optimizing-elasticsearch-score/" class="more-link">Read More ›</a>
+          </div>
+        </footer>
+    </div>
+  </article>
+
+  <article class="post">
+    <div class="post-content">
+      <header>
+          <h1 class="title"><a href="/write-your-own-redux-connect/">Write Your Own React-Redux Connect</a></h1>
+          <time datetime="2017-09-29T18:14:18.000Z">2017-09-29</time>
+      </header>
+      <div class="entry">
+        <p><em>My inspiration for this blog post came from <a href="https://www.youtube.com/watch?v=VJ38wSFbM3A" target="_blank" rel="noopener">this video</a> where Dan Abramov walks through the source code to react-redux</em></p>
+<p>As frontend web developers, it’s not uncommon that we follow well-specified patterns - often blindly. The frontend landscape is changing rapidly, and sometimes there isn’t time to investigate why we use a specific pattern; we just know we should.</p>
+<p>One widely used pattern in <a href="https://github.com/reactjs/react-redux" target="_blank" rel="noopener">react-redux</a> applications looks like this</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">connect(mapStateToProps, mapDispatchToProps)(MyComponent)</span><br></pre></td></tr></table></figure>
+<p>I’ll assume you know how to implement this pattern, but why do we use it and how does it work under the hood?</p>
+      </div>
+        <footer>
+          <div class="alignleft">
+            <a href="/write-your-own-redux-connect/" class="more-link">Read More ›</a>
+          </div>
+        </footer>
+    </div>
+  </article>
+
+  <article class="post">
+    <div class="post-content">
+      <header>
+          <h1 class="title"><a href="/using-reduce/">Using Reduce</a></h1>
+          <time datetime="2017-09-28T15:36:30.000Z">2017-09-28</time>
+      </header>
+      <div class="entry">
+        <p>My first introduction to functional programming was a couple years ago when I read through the famous <a href="https://mitpress.mit.edu/sicp/full-text/book/book.html" target="_blank" rel="noopener">SICP</a>. As someone who had up to this point worked with mostly in object oriented and imperative languages, I had rarely seen <code>map</code>, <code>fitler</code>, and <code>reduce</code> before that time. The purpose of the former two felt obvious; the latter one not so much. This blog post is geared for someone who knows how <code>reduce</code> works but feels like they struggle to use it practically.</p>
+      </div>
+        <footer>
+          <div class="alignleft">
+            <a href="/using-reduce/" class="more-link">Read More ›</a>
+          </div>
+        </footer>
+    </div>
+  </article>
+
+
+<nav id="pagination">
+  
+  
+    <a href="/page/2/" class="alignright next">next</a>
+  
+  <div class="clearfix"></div>
+</nav></div></div>
+    <aside id="sidebar" class="alignright">  <div class="widget tag about">
+  <ul class="entry">
+    <div>
+      <img class="about-photo" src="/images/about-photo.jpg" alt="photo of Nick Drane" />
+    </div>
+    <p class="about-photo-text"> Nick Drane's blog about programming, hacking, software, computer security, and compute science.</p>
+
+  </ul>
+</div>
+  <div class="widget tag recent-posts">
+  <h3 class="title">Most Popular Posts</h3>
+  <ul class="entry">
+    <li>
+      <a href="/build-your-own-regex/">Build a Regex Engine in Less than 40 Lines of Code</a>
+    </li>
+    <li>
+      <a href="/scraping-the-web-with-puppeteer-lessons-learned/">Scraping the Web with Puppeteer: Lessons Learned</a>
+    </li>
+    <li>
+      <a href="/write-your-own-redux-connect/">Write Your Own React-Redux Connect</a>
+    </li>
+    <li>
+      <a href="/build-your-own-nested-query-string-encoder/">Build Your Own Nested Query String Encoder/Decoder</a>
+    </li>
+  </ul>
+</div>
+  <div class="widget tag recent-posts">
+  <h3 class="title">Recent Posts</h3>
+  <ul class="entry">
+    
+      <li>
+        <a href="/hidden-costs-of-postgresql-jsonb/">The Hidden Costs of PostgreSQL&#39;s JSONB Datatype</a>
+      </li>
+    
+      <li>
+        <a href="/ethical-engineering-for-the-average-engineer/">Ethical Engineering for the Average Engineer</a>
+      </li>
+    
+      <li>
+        <a href="/build-your-own-nested-query-string-encoder/">Build Your Own Nested Query String Encoder/Decoder</a>
+      </li>
+    
+      <li>
+        <a href="/you&#39;re-hiring-programmers-wrong-a-case-for-interview-standardization/">You&#39;re Hiring Programmers Wrong: A Case for Interview Standardization</a>
+      </li>
+    
+      <li>
+        <a href="/scraping-the-web-with-puppeteer-lessons-learned/">Scraping the Web with Puppeteer: Lessons Learned</a>
+      </li>
+    
+  </ul>
+</div>
+  
+<div class="widget tag category">
+  <h3 class="title">Categories</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/Architecture/">Architecture</a><small>1</small></li>
+  
+    <li><a href="/categories/Build-Your-Own/">Build Your Own</a><small>3</small></li>
+  
+    <li><a href="/categories/Elasticsearch/">Elasticsearch</a><small>1</small></li>
+  
+    <li><a href="/categories/Failures/">Failures</a><small>1</small></li>
+  
+    <li><a href="/categories/Functional-Programming/">Functional Programming</a><small>1</small></li>
+  
+    <li><a href="/categories/Immutability/">Immutability</a><small>1</small></li>
+  
+    <li><a href="/categories/Javascript/">Javascript</a><small>4</small></li>
+  
+    <li><a href="/categories/Postgres/">Postgres</a><small>1</small></li>
+  
+    <li><a href="/categories/React/">React</a><small>2</small></li>
+  
+    <li><a href="/categories/Recursion/">Recursion</a><small>2</small></li>
+  
+    <li><a href="/categories/Redux/">Redux</a><small>1</small></li>
+  
+    <li><a href="/categories/Regular-Expressions/">Regular Expressions</a><small>2</small></li>
+  
+    <li><a href="/categories/Software-Ethics/">Software Ethics</a><small>1</small></li>
+  
+    <li><a href="/categories/Technical-Hiring/">Technical Hiring</a><small>1</small></li>
+  
+    <li><a href="/categories/Testing/">Testing</a><small>1</small></li>
+  
+    <li><a href="/categories/Web/">Web</a><small>1</small></li>
+  
+    <li><a href="/categories/Web-Scraping/">Web Scraping</a><small>1</small></li>
+  
+  </ul>
+</div>
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+    &copy; 2018 Nick Drane
+  
+</div>
+<div class="clearfix"></div></footer>
+</body>
+</html>
+
