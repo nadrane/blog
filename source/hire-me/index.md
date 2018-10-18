@@ -9,8 +9,8 @@ I do software consulting work. Here are some things you can hire me for
 * **Cloud Architecture**
   I have worked extensively with [AWS](https://aws.amazon.com/)'s broad range of offerings and even have experience  implementing completely serverless systems. I can help you navigate this complicated ecosystem.
 
-* **Continuous Integration and Continuous Deployment Pipelines**
-  One click deployment is critical for agile application development. I recently optimized a client's CI/CD pipeline to complete in half the time while halving operations costs.
+* **Training**
+  I developed curriculum for and taught at Fullstack Javascript at [Fullstack Academy](https://www.fullstackacademy.com/) for a year and specialize in [React](https://reactjs.org/), [NodeJS](https://nodejs.org/en/), and [Elasticsearch](https://www.elastic.co/products/elasticsearch) training for software companies.
 
 
 Please reach out at me at [nick@nickdrane.com](mailto:nick@nickdrane.com) for rates and timelines.
