@@ -101,3 +101,20 @@ table
   .code
     padding-top 0;
     padding-bottom: 0;
+
+.social
+  @media screen and (min-width: 1360px)
+    position: absolute;
+    left: -50px;
+
+ul.share-buttons
+  display: flex
+  flex-direction: column;
+  @media screen and (max-width: 1360px)
+    flex-direction: row;
+  list-style: none;
+  padding: 0;
+
+
+ul.share-buttons li
+  display: inline;
