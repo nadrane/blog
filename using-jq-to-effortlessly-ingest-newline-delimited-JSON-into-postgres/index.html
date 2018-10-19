@@ -80,7 +80,7 @@
       
     </header>
     <div class="entry">
-      <p>I recently wanted to ingest a <a href="https://en.wikipedia.org/wiki/JSON_streaming#Line-delimited_JSON" target="_blank" rel="noopener">line-delimited</a> JSON file into <a href="https://www.postgresql.org/" target="_blank" rel="noopener">Postgres</a> for some quick data exploration. I was surprised when I couldn’t find a simple solution online. Here is my approach.</p>
+      <p>I recently wanted to ingest a <a href="https://en.wikipedia.org/wiki/JSON_streaming#Line-delimited_JSON" target="_blank" rel="noopener">line-delimited</a> JSON file into <a href="https://www.postgresql.org/" target="_blank" rel="noopener">Postgres</a> for some quick data exploration. I was surprised when I couldn’t find a simple solution that parsed and broke apart the JSON, loading each field into its own column. Here is my approach.</p>
 <a id="more"></a>
 <h2 id="Downloading-250000-Hacker-News-Comments"><a href="#Downloading-250000-Hacker-News-Comments" class="headerlink" title="Downloading 250000 Hacker News Comments"></a>Downloading 250000 Hacker News Comments</h2><p>Let’s say we want to download all of the <a href="https://news.ycombinator.com/" target="_blank" rel="noopener">Hacker News</a> comments from the month of May. A line-delimited JSON file is available from <a href="https://files.pushshift.io/hackernews/HNI_2018-05.bz2" target="_blank" rel="noopener">pushshift</a>. Fetching and decompressing the file is simple:</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl https://files.pushshift.io/hackernews/HNI_2018-05.bz2 | bzip2 -d</span><br></pre></td></tr></table></figure>
