@@ -10,7 +10,7 @@ I recently wanted to ingest a [line-delimited](https://en.wikipedia.org/wiki/JSO
 
 <!-- more -->
 
-## Download 250000 Hacker News Comments
+## Downloading 250000 Hacker News Comments
 
 Let's say we want to download all of the [Hacker News](https://news.ycombinator.com/) comments from the month of May. A line-delimited JSON file is available from [pushshift](https://files.pushshift.io/hackernews/HNI_2018-05.bz2). Fetching and decompressing the file is simple:
 
