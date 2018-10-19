@@ -53,9 +53,9 @@
     
     </summary>
     
-      <category term="Postgres" scheme="http://nickdrane.com/categories/Postgres/"/>
-    
       <category term="Architecture" scheme="http://nickdrane.com/categories/Architecture/"/>
+    
+      <category term="Postgres" scheme="http://nickdrane.com/categories/Postgres/"/>
     
     
   </entry>
