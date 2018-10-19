@@ -6,7 +6,7 @@ categories:
   - [Postgres]
 ---
 
-I recently wanted to ingest a [line-delimited](https://en.wikipedia.org/wiki/JSON_streaming#Line-delimited_JSON) JSON file into [Postgres](https://www.postgresql.org/) for some quick data exploration. I was surprised when I couldn't find a simple solution online. Here is my approach.
+I recently wanted to ingest a [line-delimited](https://en.wikipedia.org/wiki/JSON_streaming#Line-delimited_JSON) JSON file into [Postgres](https://www.postgresql.org/) for some quick data exploration. I was surprised when I couldn't find a simple solution that parsed and broke apart the JSON, loading each field into its own column. Here is my approach.
 
 <!-- more -->
 
