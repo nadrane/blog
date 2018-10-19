@@ -2,16 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://nickdrane.com/hidden-costs-of-postgresql-jsonb/</loc>
+    <loc>http://nickdrane.com/using-jq-to-effortlessly-ingest-newline-delimited-JSON-into-postgres/</loc>
     
-    <lastmod>2018-10-19T03:26:37.843Z</lastmod>
+    <lastmod>2018-10-19T03:27:57.855Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://nickdrane.com/using-jq-to-effortlessly-ingest-newline-delimited-JSON-into-postgres/</loc>
+    <loc>http://nickdrane.com/hidden-costs-of-postgresql-jsonb/</loc>
     
-    <lastmod>2018-10-19T03:26:33.267Z</lastmod>
+    <lastmod>2018-10-19T03:26:37.843Z</lastmod>
     
   </url>
   
