@@ -1,6 +1,6 @@
 ---
 title: Using jq to Effortlessly Ingest Line-delimited JSON into PostgreSQL
-date: 2018-09-30
+date: 2018-10-18
 categories:
   - [Command Line]
   - [Postgres]
