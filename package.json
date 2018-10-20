@@ -19,10 +19,11 @@
     "hexo-generator-sitemap": "^1.2.0",
     "hexo-generator-tag": "^0.2.0",
     "hexo-renderer-ejs": "^0.3.0",
-    "hexo-renderer-marked": "^0.3.0",
+    "hexo-renderer-markdown-it": "^3.4.1",
     "hexo-renderer-stylus": "^0.3.3",
     "hexo-server": "^0.2.0",
     "markdown-doctest": "^0.9.1",
+    "markdown-it-footnote": "^3.0.1",
     "spectre.css": "^0.5.3"
   }
 }

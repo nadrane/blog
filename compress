@@ -1,1 +1,0 @@
-convert -resize 191 cropped.jpg out.jpg && /usr/local/Cellar/mozjpeg/3.2/bin/cjpeg -quality 85 out.jpg > compressed.jpg
