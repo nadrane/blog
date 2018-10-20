@@ -1,12 +1,12 @@
 ---
-title: Using jq to Effortlessly Ingest Line-delimited JSON into PostgreSQL
+title: Using Shell Commands to Effortlessly Ingest Line-delimited JSON into PostgreSQL
 date: 2018-10-18
 categories:
-  - [Command Line]
+  - [Shell]
   - [Postgres]
 ---
 
-I recently wanted to ingest a [line-delimited](https://en.wikipedia.org/wiki/JSON_streaming#Line-delimited_JSON) JSON file into [Postgres](https://www.postgresql.org/) for some quick data exploration. I was surprised when I couldn't find a simple solution that parsed and broke apart the JSON, loading each field into its own column. Here is my approach.
+I recently wanted to ingest a [line-delimited](https://en.wikipedia.org/wiki/JSON_streaming#Line-delimited_JSON) JSON file into [Postgres](https://www.postgresql.org/) for some quick data exploration. I was surprised when I couldn't find a simple CLI solution that parsed the JSON and loaded each field into its own column. Every approach I found instead inserted the entire JSON object in a JSONB field. Here is my solution.
 
 <!-- more -->
 
@@ -84,6 +84,25 @@ curl https://files.pushshift.io/hackernews/HNI_2018-05.bz2 \
   | psql comment_db -c "COPY comment (id, by, parent, text) FROM STDIN WITH (FORMAT CSV)"
 ```
 
-One final caveat. You might notice that even though the `parent` column references a comment id, I've neglected to specify the foreign key constraint. This is because our command does not control for the order that comments are loaded. We would get a constraint error if a comment references a parent comment that has not yet been inserted. It would probably be easiest to apply these constraints after ingesting the data.
+## Supporting Referential Integrity
 
-My name is Nick Drane. I do [consulting](/hire-me) out of Chicago area and am looking for new opportunities.
+You will notice that despite the fact that the `comment.parent` refers to a comment id, we have omitted a foreign key constraint from our schema. This omission is because our command does not control for the order in which comments are loaded. We would have received constraint errors if we specified the foreign key relationship.
+
+We can overcome this obstacle by sorting our incoming comments by id.
+
+```bash
+curl https://files.pushshift.io/hackernews/HNI_2018-05.bz2 \
+  | bzip2 -d \
+  | jq -s -r 'sort_by(.id) | .[] | [.id, .by, .parent, .text] | @csv' \
+  | psql comment_db -c "COPY comment (id, by, parent, text) FROM STDIN WITH (FORMAT CSV)"
+```
+
+If you have a primary key that doesn't serially increase - perhaps you're using a [natural key](https://en.wikipedia.org/wiki/Natural_key) or a UUID as your primary key - then you could also sort on a `created_at` timestamp
+
+## Tradeoffs
+
+Everything in software engineering has a tradeoff, and I would be remiss to to not mention them here. That `-s` option we specified above instructs `jq` to download the entire dataset into memory, a requirement for sorting. If you dataset is too large, then the command will fail (`jq` failed for me at 769MB).
+
+The first option does not suffer this limitation and will work for arbitrarily large datasets. This is because it leverages [streams](https://en.wikipedia.org/wiki/Stream_(computing) to only work on small chunks of data at once. If your dataset is large and you want foreign key constraints, you could use this streaming approach and then apply the constraints after data ingestion completes.
+
+If you have a data ingestion or PostgreSQL related problem, I do [consulting](/hire-me) work out of Chicago area.
