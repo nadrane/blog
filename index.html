@@ -60,11 +60,11 @@
   <article class="post">
     <div class="post-content">
       <header>
-          <h1 class="title"><a href="/using-jq-to-effortlessly-ingest-newline-delimited-JSON-into-postgres/">Using jq to Effortlessly Ingest Line-delimited JSON into PostgreSQL</a></h1>
+          <h1 class="title"><a href="/using-jq-to-effortlessly-ingest-newline-delimited-JSON-into-postgres/">Using Shell Commands to Effortlessly Ingest Line-delimited JSON into PostgreSQL</a></h1>
           <time datetime="2018-10-18T05:00:00.000Z">2018-10-18</time>
       </header>
       <div class="entry">
-        <p>I recently wanted to ingest a <a href="https://en.wikipedia.org/wiki/JSON_streaming#Line-delimited_JSON" target="_blank" rel="noopener">line-delimited</a> JSON file into <a href="https://www.postgresql.org/" target="_blank" rel="noopener">Postgres</a> for some quick data exploration. I was surprised when I couldn’t find a simple solution that parsed and broke apart the JSON, loading each field into its own column. Here is my approach.</p>
+        <p>I recently wanted to ingest a <a href="https://en.wikipedia.org/wiki/JSON_streaming#Line-delimited_JSON" target="_blank" rel="noopener">line-delimited</a> JSON file into <a href="https://www.postgresql.org/" target="_blank" rel="noopener">Postgres</a> for some quick data exploration. I was surprised when I couldn’t find a simple CLI solution that parsed the JSON and loaded each field into its own column. Every approach I found instead inserted the entire JSON object in a JSONB field. Here is my solution.</p>
       </div>
         <footer>
           <div class="alignleft">
@@ -272,7 +272,7 @@
   <ul class="entry">
     
       <li>
-        <a href="/using-jq-to-effortlessly-ingest-newline-delimited-JSON-into-postgres/">Using jq to Effortlessly Ingest Line-delimited JSON into PostgreSQL</a>
+        <a href="/using-jq-to-effortlessly-ingest-newline-delimited-JSON-into-postgres/">Using Shell Commands to Effortlessly Ingest Line-delimited JSON into PostgreSQL</a>
       </li>
     
       <li>
@@ -302,8 +302,6 @@
   
     <li><a href="/categories/Build-Your-Own/">Build Your Own</a><small>3</small></li>
   
-    <li><a href="/categories/Command-Line/">Command Line</a><small>1</small></li>
-  
     <li><a href="/categories/Elasticsearch/">Elasticsearch</a><small>1</small></li>
   
     <li><a href="/categories/Failures/">Failures</a><small>1</small></li>
@@ -323,6 +321,8 @@
     <li><a href="/categories/Redux/">Redux</a><small>1</small></li>
   
     <li><a href="/categories/Regular-Expressions/">Regular Expressions</a><small>2</small></li>
+  
+    <li><a href="/categories/Shell/">Shell</a><small>1</small></li>
   
     <li><a href="/categories/Software-Ethics/">Software Ethics</a><small>1</small></li>
   

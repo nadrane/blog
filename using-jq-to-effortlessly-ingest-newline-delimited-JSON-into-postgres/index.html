@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   
     <title>
-      Using jq to Effortlessly Ingest Line-delimited JSON into PostgreSQL › Nick Drane
+      Using Shell Commands to Effortlessly Ingest Line-delimited JSON into PostgreSQL › Nick Drane
     </title>
     
       <meta name="author" content="Nick Drane">
@@ -17,7 +17,7 @@
                       <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
                       
-                        <meta property="og:title" content="Using jq to Effortlessly Ingest Line-delimited JSON into PostgreSQL" />
+                        <meta property="og:title" content="Using Shell Commands to Effortlessly Ingest Line-delimited JSON into PostgreSQL" />
                         
                           <meta property="og:site_name" content="Nick Drane" />
 
@@ -60,10 +60,10 @@
   
     <div class="social">
       <ul class="share-buttons">
-  <li><a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fnickdrane.com%2Fusing-jq-to-effortlessly-ingest-newline-delimited-JSON-into-postgres%2F&quote=Using%20jq%20to%20Effortlessly%20Ingest%20Line-delimited%20JSON%20into%20PostgreSQL" title="Share on Facebook" target="_blank"><img alt="Share on Facebook" src="/images/social/Facebook.png" /></a></li>
-  <li><a href="https://twitter.com/intent/tweet?url=http%3A%2F%2Fnickdrane.com%2Fusing-jq-to-effortlessly-ingest-newline-delimited-JSON-into-postgres%2F&text=Using%20jq%20to%20Effortlessly%20Ingest%20Line-delimited%20JSON%20into%20PostgreSQL" target="_blank" title="Tweet"><img alt="Tweet" src="/images/social/Twitter.png" /></a></li>
-  <li><a href="http://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Fnickdrane.com%2Fusing-jq-to-effortlessly-ingest-newline-delimited-JSON-into-postgres%2F&title=Using%20jq%20to%20Effortlessly%20Ingest%20Line-delimited%20JSON%20into%20PostgreSQL" target="_blank" title="Share on LinkedIn"><img alt="Share on LinkedIn" src="/images/social/LinkedIn.png" /></a></li>
-  <li><a href="mailto:?subject=Using jq to Effortlessly Ingest Line-delimited JSON into PostgreSQL&body=Check this out: http://nickdrane.com/using-jq-to-effortlessly-ingest-newline-delimited-JSON-into-postgres/" target="_blank" title="Send email"><img alt="Send email" src="/images/social/Email.png" /></a></li>
+  <li><a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fnickdrane.com%2Fusing-jq-to-effortlessly-ingest-newline-delimited-JSON-into-postgres%2F&quote=Using%20Shell%20Commands%20to%20Effortlessly%20Ingest%20Line-delimited%20JSON%20into%20PostgreSQL" title="Share on Facebook" target="_blank"><img alt="Share on Facebook" src="/images/social/Facebook.png" /></a></li>
+  <li><a href="https://twitter.com/intent/tweet?url=http%3A%2F%2Fnickdrane.com%2Fusing-jq-to-effortlessly-ingest-newline-delimited-JSON-into-postgres%2F&text=Using%20Shell%20Commands%20to%20Effortlessly%20Ingest%20Line-delimited%20JSON%20into%20PostgreSQL" target="_blank" title="Tweet"><img alt="Tweet" src="/images/social/Twitter.png" /></a></li>
+  <li><a href="http://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Fnickdrane.com%2Fusing-jq-to-effortlessly-ingest-newline-delimited-JSON-into-postgres%2F&title=Using%20Shell%20Commands%20to%20Effortlessly%20Ingest%20Line-delimited%20JSON%20into%20PostgreSQL" target="_blank" title="Share on LinkedIn"><img alt="Share on LinkedIn" src="/images/social/LinkedIn.png" /></a></li>
+  <li><a href="mailto:?subject=Using Shell Commands to Effortlessly Ingest Line-delimited JSON into PostgreSQL&body=Check this out: http://nickdrane.com/using-jq-to-effortlessly-ingest-newline-delimited-JSON-into-postgres/" target="_blank" title="Send email"><img alt="Send email" src="/images/social/Email.png" /></a></li>
 </ul>
     </div class="social">
   
@@ -72,7 +72,7 @@
     <header>
       
   
-    <h1 class="title">Using jq to Effortlessly Ingest Line-delimited JSON into PostgreSQL</h1>
+    <h1 class="title">Using Shell Commands to Effortlessly Ingest Line-delimited JSON into PostgreSQL</h1>
   
 
       
@@ -80,7 +80,7 @@
       
     </header>
     <div class="entry">
-      <p>I recently wanted to ingest a <a href="https://en.wikipedia.org/wiki/JSON_streaming#Line-delimited_JSON" target="_blank" rel="noopener">line-delimited</a> JSON file into <a href="https://www.postgresql.org/" target="_blank" rel="noopener">Postgres</a> for some quick data exploration. I was surprised when I couldn’t find a simple solution that parsed and broke apart the JSON, loading each field into its own column. Here is my approach.</p>
+      <p>I recently wanted to ingest a <a href="https://en.wikipedia.org/wiki/JSON_streaming#Line-delimited_JSON" target="_blank" rel="noopener">line-delimited</a> JSON file into <a href="https://www.postgresql.org/" target="_blank" rel="noopener">Postgres</a> for some quick data exploration. I was surprised when I couldn’t find a simple CLI solution that parsed the JSON and loaded each field into its own column. Every approach I found instead inserted the entire JSON object in a JSONB field. Here is my solution.</p>
 <a id="more"></a>
 <h2 id="Downloading-250000-Hacker-News-Comments"><a href="#Downloading-250000-Hacker-News-Comments" class="headerlink" title="Downloading 250000 Hacker News Comments"></a>Downloading 250000 Hacker News Comments</h2><p>Let’s say we want to download all of the <a href="https://news.ycombinator.com/" target="_blank" rel="noopener">Hacker News</a> comments from the month of May. A line-delimited JSON file is available from <a href="https://files.pushshift.io/hackernews/HNI_2018-05.bz2" target="_blank" rel="noopener">pushshift</a>. Fetching and decompressing the file is simple:</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl https://files.pushshift.io/hackernews/HNI_2018-05.bz2 | bzip2 -d</span><br></pre></td></tr></table></figure>
@@ -99,16 +99,21 @@
 <p>Note that the fields specified above need to be in the same order as the fields in the CSV stream generated by <code>jq</code>.</p>
 <p>Here is the final command</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">curl https://files.pushshift.io/hackernews/HNI_2018-05.bz2 \</span><br><span class="line">  | bzip2 -d \</span><br><span class="line">  | jq -r <span class="string">'[.id, .by, .parent, .text] | @csv'</span> \</span><br><span class="line">  | psql comment_db -c <span class="string">"COPY comment (id, by, parent, text) FROM STDIN WITH (FORMAT CSV)"</span></span><br></pre></td></tr></table></figure>
-<p>One final caveat. You might notice that even though the <code>parent</code> column references a comment id, I’ve neglected to specify the foreign key constraint. This is because our command does not control for the order that comments are loaded. We would get a constraint error if a comment references a parent comment that has not yet been inserted. It would probably be easiest to apply these constraints after ingesting the data.</p>
-<p>My name is Nick Drane. I do <a href="/hire-me">consulting</a> out of Chicago area and am looking for new opportunities.</p>
+<h2 id="Supporting-Referential-Integrity"><a href="#Supporting-Referential-Integrity" class="headerlink" title="Supporting Referential Integrity"></a>Supporting Referential Integrity</h2><p>You will notice that despite the fact that the <code>comment.parent</code> refers to a comment id, we have omitted a foreign key constraint from our schema. This omission is because our command does not control for the order in which comments are loaded. We would have received constraint errors if we specified the foreign key relationship.</p>
+<p>We can overcome this obstacle by sorting our incoming comments by id.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">curl https://files.pushshift.io/hackernews/HNI_2018-05.bz2 \</span><br><span class="line">  | bzip2 -d \</span><br><span class="line">  | jq -s -r <span class="string">'sort_by(.id) | .[] | [.id, .by, .parent, .text] | @csv'</span> \</span><br><span class="line">  | psql comment_db -c <span class="string">"COPY comment (id, by, parent, text) FROM STDIN WITH (FORMAT CSV)"</span></span><br></pre></td></tr></table></figure>
+<p>If you have a primary key that doesn’t serially increase - perhaps you’re using a <a href="https://en.wikipedia.org/wiki/Natural_key" target="_blank" rel="noopener">natural key</a> or a UUID as your primary key - then you could also sort on a <code>created_at</code> timestamp</p>
+<h2 id="Tradeoffs"><a href="#Tradeoffs" class="headerlink" title="Tradeoffs"></a>Tradeoffs</h2><p>Everything in software engineering has a tradeoff, and I would be remiss to to not mention them here. That <code>-s</code> option we specified above instructs <code>jq</code> to download the entire dataset into memory, a requirement for sorting. If you dataset is too large, then the command will fail (<code>jq</code> failed for me at 769MB).</p>
+<p>The first option does not suffer this limitation and will work for arbitrarily large datasets. This is because it leverages <a href="https://en.wikipedia.org/wiki/Stream_(computing" target="_blank" rel="noopener">streams</a> to only work on small chunks of data at once. If your dataset is large and you want foreign key constraints, you could use this streaming approach and then apply the constraints after data ingestion completes.</p>
+<p>If you have a data ingestion or PostgreSQL related problem, I do <a href="/hire-me">consulting</a> work out of Chicago area.</p>
 
     </div>
     <footer>
       <ul class="share-buttons">
-  <li><a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fnickdrane.com%2Fusing-jq-to-effortlessly-ingest-newline-delimited-JSON-into-postgres%2F&quote=Using%20jq%20to%20Effortlessly%20Ingest%20Line-delimited%20JSON%20into%20PostgreSQL" title="Share on Facebook" target="_blank"><img alt="Share on Facebook" src="/images/social/Facebook.png" /></a></li>
-  <li><a href="https://twitter.com/intent/tweet?url=http%3A%2F%2Fnickdrane.com%2Fusing-jq-to-effortlessly-ingest-newline-delimited-JSON-into-postgres%2F&text=Using%20jq%20to%20Effortlessly%20Ingest%20Line-delimited%20JSON%20into%20PostgreSQL" target="_blank" title="Tweet"><img alt="Tweet" src="/images/social/Twitter.png" /></a></li>
-  <li><a href="http://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Fnickdrane.com%2Fusing-jq-to-effortlessly-ingest-newline-delimited-JSON-into-postgres%2F&title=Using%20jq%20to%20Effortlessly%20Ingest%20Line-delimited%20JSON%20into%20PostgreSQL" target="_blank" title="Share on LinkedIn"><img alt="Share on LinkedIn" src="/images/social/LinkedIn.png" /></a></li>
-  <li><a href="mailto:?subject=Using jq to Effortlessly Ingest Line-delimited JSON into PostgreSQL&body=Check this out: http://nickdrane.com/using-jq-to-effortlessly-ingest-newline-delimited-JSON-into-postgres/" target="_blank" title="Send email"><img alt="Send email" src="/images/social/Email.png" /></a></li>
+  <li><a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fnickdrane.com%2Fusing-jq-to-effortlessly-ingest-newline-delimited-JSON-into-postgres%2F&quote=Using%20Shell%20Commands%20to%20Effortlessly%20Ingest%20Line-delimited%20JSON%20into%20PostgreSQL" title="Share on Facebook" target="_blank"><img alt="Share on Facebook" src="/images/social/Facebook.png" /></a></li>
+  <li><a href="https://twitter.com/intent/tweet?url=http%3A%2F%2Fnickdrane.com%2Fusing-jq-to-effortlessly-ingest-newline-delimited-JSON-into-postgres%2F&text=Using%20Shell%20Commands%20to%20Effortlessly%20Ingest%20Line-delimited%20JSON%20into%20PostgreSQL" target="_blank" title="Tweet"><img alt="Tweet" src="/images/social/Twitter.png" /></a></li>
+  <li><a href="http://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Fnickdrane.com%2Fusing-jq-to-effortlessly-ingest-newline-delimited-JSON-into-postgres%2F&title=Using%20Shell%20Commands%20to%20Effortlessly%20Ingest%20Line-delimited%20JSON%20into%20PostgreSQL" target="_blank" title="Share on LinkedIn"><img alt="Share on LinkedIn" src="/images/social/LinkedIn.png" /></a></li>
+  <li><a href="mailto:?subject=Using Shell Commands to Effortlessly Ingest Line-delimited JSON into PostgreSQL&body=Check this out: http://nickdrane.com/using-jq-to-effortlessly-ingest-newline-delimited-JSON-into-postgres/" target="_blank" title="Send email"><img alt="Send email" src="/images/social/Email.png" /></a></li>
 </ul>
       <div class="clearfix"></div>
     </footer>
@@ -145,7 +150,7 @@
   <ul class="entry">
     
       <li>
-        <a href="/using-jq-to-effortlessly-ingest-newline-delimited-JSON-into-postgres/">Using jq to Effortlessly Ingest Line-delimited JSON into PostgreSQL</a>
+        <a href="/using-jq-to-effortlessly-ingest-newline-delimited-JSON-into-postgres/">Using Shell Commands to Effortlessly Ingest Line-delimited JSON into PostgreSQL</a>
       </li>
     
       <li>
@@ -175,8 +180,6 @@
   
     <li><a href="/categories/Build-Your-Own/">Build Your Own</a><small>3</small></li>
   
-    <li><a href="/categories/Command-Line/">Command Line</a><small>1</small></li>
-  
     <li><a href="/categories/Elasticsearch/">Elasticsearch</a><small>1</small></li>
   
     <li><a href="/categories/Failures/">Failures</a><small>1</small></li>
@@ -196,6 +199,8 @@
     <li><a href="/categories/Redux/">Redux</a><small>1</small></li>
   
     <li><a href="/categories/Regular-Expressions/">Regular Expressions</a><small>2</small></li>
+  
+    <li><a href="/categories/Shell/">Shell</a><small>1</small></li>
   
     <li><a href="/categories/Software-Ethics/">Software Ethics</a><small>1</small></li>
   
