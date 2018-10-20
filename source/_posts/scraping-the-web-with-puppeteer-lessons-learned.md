@@ -135,6 +135,8 @@ I can only think of a single scenario where using Puppeteer for scraping is supe
 
 If, however, all you need is data from the server, go the simple route and hit the API with an HTTP library like [axios](https://github.com/axios/axios) or [request](https://github.com/request/request). If you are scraping a server side rendered application, you can combine one of the aforementioned tools with [Cheerio](https://github.com/cheeriojs/cheerio), giving you a far more user friendly DOM manipulation API than that offered my Puppeteer.
 
+_If you need help with webscraping or puppeteer, I do [consulting](/hire-me) work and am currently looking for new clients. Please contact me for more details._
+
 #### Footnotes
 
 <a name="footnote1">1</a>: You might be curious why Puppeteer exhibited flaky behavior. One issue that I ran into was animations. I might attempt to click a DOM node, but if the animation had not finished, the click would not register. In essence, it would appear as if the click had worked, but once the animation finished, the DOM would reset itself, undoing my click. I think this is simply how Angular's digest loop reacted to a click at an unexpected time. Unfortunately, Puppeteer provides no functionality to determine when an animation has finished (after all, how would it!). I tried a couple solutions. One entailed a sleep function to wait a couple hundred milliseconds for the animation to finish, but it simply exacerbated the flaky behavior. A second involved executing the click only once the DOM node had a particular class that indicated the animation had finished. At one point, I even tried to disable all animations across the website. All these solutions were half-baked.
