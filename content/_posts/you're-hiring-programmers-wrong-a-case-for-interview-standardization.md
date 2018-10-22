@@ -1,7 +1,6 @@
 ---
 title: "You're Hiring Programmers Wrong: A Case for Interview Standardization"
-categories:
-  - [Technical Hiring]
+categories: [Technical Hiring]
 date: 2018-03-20 17:03:01
 ---
 

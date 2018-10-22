@@ -1,10 +1,6 @@
 ---
-title: "Build Your Own Nested Query String Encoder/Decoder"
-categories:
-  - [Javascript]
-  - [Recursion]
-  - [Web]
-  - [Build Your Own]
+title: 'Build Your Own Nested Query String Encoder/Decoder'
+categories: [Javascript, Build Your Own]
 date: 2018-04-13 15:17:00
 ---
 
@@ -88,8 +84,8 @@ Let's write some code to encode
 ```js
 {
   filter: {
-    make: "honda";
-    model: "civic";
+    make: 'honda';
+    model: 'civic';
   }
 }
 ```
@@ -97,21 +93,21 @@ Let's write some code to encode
 into the query string `filter.make=honda&filter.model=civic`
 
 ```js
-const { escape } = require("querystring");
+const { escape } = require('querystring');
 
-function encode(queryObj, nesting = "") {
-  let queryString = "";
+function encode(queryObj, nesting = '') {
+  let queryString = '';
 
   const pairs = Object.entries(queryObj).map(([key, val]) => {
     // Handle the nested, recursive case, where the value to encode is an object itself
-    if (typeof val === "object") {
+    if (typeof val === 'object') {
       return encode(val, nesting + `${key}.`);
     } else {
       // Handle base case, where the value to encode is simply a string.
-      return [nesting + key, val].map(escape).join("=");
+      return [nesting + key, val].map(escape).join('=');
     }
   });
-  return pairs.join("&");
+  return pairs.join('&');
 }
 ```
 
@@ -131,20 +127,20 @@ If we want to add support to encode an object with array values, like the follow
 then we only need to add another base case to our function
 
 ```js
-function encode(queryObj, nesting = "") {
-  let queryString = "";
+function encode(queryObj, nesting = '') {
+  let queryString = '';
 
   const pairs = Object.entries(queryObj).map(([key, val]) => {
     // Handle a second base case where the value to encode is an array
     if (Array.isArray(val)) {
-      return val.map(subVal => [nesting + key, subVal].map(escape).join("=")).join("&");
-    } else if (typeof val === "object") {
+      return val.map(subVal => [nesting + key, subVal].map(escape).join('=')).join('&');
+    } else if (typeof val === 'object') {
       return encode(val, nesting + `${key}.`);
     } else {
-      return [nesting + key, val].map(escape).join("=");
+      return [nesting + key, val].map(escape).join('=');
     }
   });
-  return pairs.join("&");
+  return pairs.join('&');
 }
 ```
 
@@ -159,8 +155,8 @@ We want to write a function that will decode `filter.make=honda&filter.model=civ
 ```js
 {
   filter: {
-    make: "honda";
-    model: "civic";
+    make: 'honda';
+    model: 'civic';
   }
 }
 ```
@@ -168,15 +164,15 @@ We want to write a function that will decode `filter.make=honda&filter.model=civ
 The code to do this is fairly straightforward if we use a [Lodash](https://lodash.com/docs) utility called [set](https://lodash.com/docs/4.17.5#set) that allows us to set an arbitrarily nested key in an object.
 
 ```js
-const set = require("lodash.set");
+const set = require('lodash.set');
 
 function decode(queryString) {
-  const queryStringPieces = queryString.split("&");
+  const queryStringPieces = queryString.split('&');
   const decodedQueryString = {};
 
   for (const piece of queryStringPieces) {
-    let [key, value] = piece.split("=");
-    value = value || ""; // If a value is not defined, it should be decoded as an empty string
+    let [key, value] = piece.split('=');
+    value = value || ''; // If a value is not defined, it should be decoded as an empty string
     set(decodedQueryString, key, value);
   }
   return decodedQueryString;
@@ -188,17 +184,17 @@ function decode(queryString) {
 If we want to add support to decode arrays like we did above, then we need to do a little additional work. Fortunately, two additional [Lodash](https://lodash.com/docs) utilities, [has](https://lodash.com/docs/4.17.5#has) and [get](https://lodash.com/docs/4.17.5#get), allow us to check for the existence of a nested key and to get the value associated with a nested key, respectively, greatly simplifying our problem.
 
 ```js
-const set = require("lodash.set");
-const has = require("lodash.has");
-const get = require("lodash.get");
+const set = require('lodash.set');
+const has = require('lodash.has');
+const get = require('lodash.get');
 
 function decode(queryString) {
-  const queryStringPieces = queryString.split("&");
+  const queryStringPieces = queryString.split('&');
   const decodedQueryString = {};
 
   for (const piece of queryStringPieces) {
-    let [key, value] = piece.split("=");
-    value = value || "";
+    let [key, value] = piece.split('=');
+    value = value || '';
     if (has(decodedQueryString, key)) {
       const currentValueForKey = get(decodedQueryString, key);
       if (!Array.isArray(currentValueForKey)) {

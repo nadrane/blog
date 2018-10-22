@@ -25,6 +25,81 @@
         "path": "/build-your-own-regex/"
     },
     {
+        "componentChunkName": "component---src-templates-category-js",
+        "jsonName": "categories-architecture-03e",
+        "path": "/categories/Architecture/"
+    },
+    {
+        "componentChunkName": "component---src-templates-category-js",
+        "jsonName": "categories-build-your-own-85b",
+        "path": "/categories/Build Your Own/"
+    },
+    {
+        "componentChunkName": "component---src-templates-category-js",
+        "jsonName": "categories-elasticsearch-8d6",
+        "path": "/categories/Elasticsearch/"
+    },
+    {
+        "componentChunkName": "component---src-templates-category-js",
+        "jsonName": "categories-functional-programming-a8f",
+        "path": "/categories/Functional Programming/"
+    },
+    {
+        "componentChunkName": "component---src-templates-category-js",
+        "jsonName": "categories-immutability-7f0",
+        "path": "/categories/Immutability/"
+    },
+    {
+        "componentChunkName": "component---src-templates-category-js",
+        "jsonName": "categories-javascript-5dd",
+        "path": "/categories/Javascript/"
+    },
+    {
+        "componentChunkName": "component---src-templates-category-js",
+        "jsonName": "categories-postgres-5bc",
+        "path": "/categories/Postgres/"
+    },
+    {
+        "componentChunkName": "component---src-templates-category-js",
+        "jsonName": "categories-react-b42",
+        "path": "/categories/React/"
+    },
+    {
+        "componentChunkName": "component---src-templates-category-js",
+        "jsonName": "categories-redux-42b",
+        "path": "/categories/Redux/"
+    },
+    {
+        "componentChunkName": "component---src-templates-category-js",
+        "jsonName": "categories-regular-expressions-6f0",
+        "path": "/categories/Regular Expressions/"
+    },
+    {
+        "componentChunkName": "component---src-templates-category-js",
+        "jsonName": "categories-shell-d5f",
+        "path": "/categories/Shell/"
+    },
+    {
+        "componentChunkName": "component---src-templates-category-js",
+        "jsonName": "categories-software-ethics-232",
+        "path": "/categories/Software Ethics/"
+    },
+    {
+        "componentChunkName": "component---src-templates-category-js",
+        "jsonName": "categories-technical-hiring-233",
+        "path": "/categories/Technical Hiring/"
+    },
+    {
+        "componentChunkName": "component---src-templates-category-js",
+        "jsonName": "categories-testing-cc9",
+        "path": "/categories/Testing/"
+    },
+    {
+        "componentChunkName": "component---src-templates-category-js",
+        "jsonName": "categories-web-scraping-b95",
+        "path": "/categories/Web Scraping/"
+    },
+    {
         "componentChunkName": "component---cache-dev-404-page-js",
         "jsonName": "dev-404-page-5f9",
         "path": "/dev-404-page/"

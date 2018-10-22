@@ -1,8 +1,7 @@
 ---
-title: "Optimizing Elasticsearch Score: How to Rank and Differentiate Similar Records"
+title: 'Optimizing Elasticsearch Score: How to Rank and Differentiate Similar Records'
 date: 2017-10-11
-categories:
-  - [Elasticsearch]
+categories: [Elasticsearch]
 ---
 
 A client approached me with a puzzling problem:
@@ -30,8 +29,7 @@ Similarly, if we have recently interacted with an organization, there's a good c
 
 Both of these solutions require populating our database with information regarding how recently we've interacted with particular entities. Fortunately, all of this can be done during the data ingestion phase when records are loaded in Elasticsearch. The only requirement is making sure to keep the information in Elasticsearch up to date with our PostgreSQL database
 
-The one challenge with this solution is that it requires augmenting our documents with special data regarding total interactions and recency of interactions.  The huge advantage, however, is that it works seamlessly. We don't require there to be any special configuration when we begin working with a new partner.
-
+The one challenge with this solution is that it requires augmenting our documents with special data regarding total interactions and recency of interactions. The huge advantage, however, is that it works seamlessly. We don't require there to be any special configuration when we begin working with a new partner.
 
 ## Function Score Queries
 
@@ -58,14 +56,13 @@ We used a particular kind of Function Score Query known as a [Script Score](http
 
 We wanted our ultimate score to be a function of three values: the score returned from elasticsearch, the days since our last interaction, and our total interactions. Initially, our function looked something like this
 
-`newscore` = _score * doc['interactions'] *
+`newscore` = \_score _ doc['interactions'] _
 
 We found that Elasticsearch's relevancy score was being overwhelmed by parters with a high number of interactions, so much so that given a search term of `nick drane`, we might return `nick smith`, simply because we've worked with nick smith more.
 
 We needed to place an upperbound of the potential contribution of the total interactions. After initially looking at [logistic functions](https://en.wikipedia.org/wiki/Logistic_function) and other overly complicated strategies, we settled on a simple step function. If the number of interactions is greater than 25, then we multiply Elasticsearch's relevancy score by 2, otherwise we multiply it 1.
 
 The frequency contribution's function was similarly simple.
-
 
 (could be some density/decay function that looks at density of interactions over time)
 
@@ -75,12 +72,7 @@ Keeping the extra attributes up to date
 
 We did try to combine two guassian curves but couldn't get it working
 
-
-
-Sometimes was built using a `query_string` query against the `_all` field. Sometimes the returned results were good, but most of the time they fell short.  Their problem was simple: how do we ensure that the
-
-
-
+Sometimes was built using a `query_string` query against the `_all` field. Sometimes the returned results were good, but most of the time they fell short. Their problem was simple: how do we ensure that the
 
 health care
 select based on recent claim

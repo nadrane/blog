@@ -5,6 +5,7 @@ import { StaticQuery, graphql } from 'gatsby';
 
 import Header from './header';
 import './layout.css';
+import CategoryList from '../components/categoryList';
 
 const Layout = ({ children }) => (
   <StaticQuery
@@ -19,7 +20,7 @@ const Layout = ({ children }) => (
     `}
     render={(data, errors) => {
       return (
-        <React.Fragment>
+        <div className="wrapper">
           <Helmet
             title={data.site.siteMetadata.title}
             meta={[
@@ -31,6 +32,7 @@ const Layout = ({ children }) => (
           </Helmet>
           <Header siteTitle={data.site.siteMetadata.title} />
           <div
+            className="mainContent"
             style={{
               margin: '0 auto',
               maxWidth: 960,
@@ -40,7 +42,10 @@ const Layout = ({ children }) => (
           >
             {children}
           </div>
-        </React.Fragment>
+          <sidebar>
+            <CategoryList />
+          </sidebar>
+        </div>
       );
     }}
   />

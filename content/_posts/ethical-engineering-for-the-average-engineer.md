@@ -1,8 +1,7 @@
 ---
 title: Ethical Engineering for the Average Engineer
 date: 2018-09-16 15:41:16
-categories:
-  - [Software Ethics]
+categories: [Software Ethics]
 ---
 
 Two months ago I purchased a GPS device and associated service plan from [SPOT](https://www.findmespot.com/en/). Today, upon trying to cancel the service, the customer service representative informed me that I had accidentally enrolled myself into a 1 year, $250 contract and that I was unable to cancel. He told me that if I blocked the monthly charges against my credit card that they would report the debt to a collections agency. I was initially upset but soon realized it was a great opportunity to talk about ethics in software engineering.

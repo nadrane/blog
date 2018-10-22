@@ -1,10 +1,7 @@
 ---
 title: Write Your Own React-Redux Connect
 date: 2017-09-29 13:14:18
-categories:
-  - [React]
-  - [Redux]
-  - [Build Your Own]
+categories: [React, Redux, Build Your Own]
 ---
 
 _My inspiration for this blog post came from [this video](https://www.youtube.com/watch?v=VJ38wSFbM3A) where Dan Abramov walks through the source code to react-redux_
@@ -14,7 +11,10 @@ As frontend web developers, it's not uncommon that we follow well-specified patt
 One widely used pattern in [react-redux](https://github.com/reactjs/react-redux) applications looks like this
 
 ```js
-connect(mapStateToProps, mapDispatchToProps)(MyComponent)
+connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(MyComponent);
 ```
 
 I'll assume you know how to implement this pattern, but why do we use it and how does it work under the hood?
@@ -22,16 +22,18 @@ I'll assume you know how to implement this pattern, but why do we use it and how
 <!-- more -->
 
 # Why Do we Need React-Redux?
+
 React and Redux are two completely independent tools that have nothing to do with each other. React is a tool for creating user interfaces in the browser. Redux is a tool for managing state. Either tool can be used without the other. We often use them together because they both solve separate but very important and closely related problems. The purpose of react-redux is to get these two tools to talk.
 
 But first, what would we do without react-redux? How would React and Redux talk?
 
 # How to Integrate React and Redux Without react-redux
+
 More precisely, how do we ensure that a React component re-renders when the Redux store changes? The answer lies in Redux's [subscribe](http://redux.js.org/docs/api/Store.html#subscribe) API.
 
 ```js
-import store from './store'
-import { Component } from 'react'
+import store from './store';
+import { Component } from 'react';
 
 class MyComponent extends Component {
   constructor() {
@@ -62,7 +64,7 @@ class MyComponent extends Component {
 }
 ```
 
-If we insert the above boilerplate into every one of our React component's, then every component could have access to the store and would be informed through a subscription the moment the store's state changes. This configuration has three  flaws.
+If we insert the above boilerplate into every one of our React component's, then every component could have access to the store and would be informed through a subscription the moment the store's state changes. This configuration has three flaws.
 
 1. The boilerplate of subscribing and unsubscribing to the store is highly error prone and unnecessarily verbose.
 2. All of our React component's are dependent upon knowledge of the Redux store. This is a complete failure of [separation of concerns](https://en.wikipedia.org/wiki/Separation_of_concerns).
@@ -71,28 +73,33 @@ If we insert the above boilerplate into every one of our React component's, then
 Let's write a rudimentary implementation of connect that resolves the first problem.
 
 # Understanding The Syntax of Connect
+
 Typically, we invoke `connect` like this:
 
 ```js
-connect(mapStateToProps, mapDispatchToProps)(WrappedComponent);
+connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(WrappedComponent);
 ```
 
 `connect` takes in two functions as arguments and returns a function. Yes, you heard me, `connect` returns a function, not a component. Suppose I invoke `connect` and neglect to pass in a component.
 
 ```js
-const connectFunc = connect(mapStateToProps, mapDispatchToProps);
+const connectFunc = connect(
+  mapStateToProps,
+  mapDispatchToProps
+);
 const connctedComponent = connectFunc(WrappedComponent);
 ```
 
- `connect` will return to me a function. It's that function that takes in my component (`connect` is implemented this way as opposed to simply taking in 3 arguments to support decorator syntax. The Dan Abramov video I linked above explains this.)
+`connect` will return to me a function. It's that function that takes in my component (`connect` is implemented this way as opposed to simply taking in 3 arguments to support decorator syntax. The Dan Abramov video I linked above explains this.)
 
 Thus, the very first few lines of `connect` must look like this:
 
 ```js
 function connect(mapStateToProps, mapDispatchToProps) {
-  return function(WrappedComponent) {
-
-  };
+  return function(WrappedComponent) {};
 }
 ```
 
@@ -124,7 +131,15 @@ function connect(mapStateToProps, mapDispatchToProps) {
 If we were to run the above `connect` function on a component, the connected component would behave identically to original component. Furthermore, we could nest `connect` as many times as we want
 
 ```js
-connect(null, null)(connect(null, null)(App))
+connect(
+  null,
+  null
+)(
+  connect(
+    null,
+    null
+  )(App)
+);
 ```
 
 and still never distort the behavior of the original component. Our current implementation is effectively [idempotent](https://stackoverflow.com/questions/1077412/what-is-an-idempotent-operation).
@@ -166,7 +181,10 @@ function connect(mapStateToProps, mapDispatchToProps) {
 We just made huge progress! Now, whenever we invoke
 
 ```js
-connect(null, null)(MyComponent)
+connect(
+  null,
+  null
+)(MyComponent);
 ```
 
 we get a component that is subscribed to state changes on the store, and this state will be passed down to our component as props.
@@ -249,9 +267,9 @@ Now the implementer of `mapStateToProps` can choose which of `WrapperComponent`'
 `mapDispatchToProps` is designed to eliminate React's dependency upon Redux. If we were to use the above implementation of `connect`, every component that dispatch's an action must import `store.dispatch`, and the implementation would look like this:
 
 ```js
-import store from "./store";
-import { Component } from "react";
-import { updateThing } from "./store/actions";
+import store from './store';
+import { Component } from 'react';
+import { updateThing } from './store/actions';
 
 class ExampleComponent extends Component {
   handleChange(e) {
@@ -302,7 +320,6 @@ function connect(mapStateToProps, mapDispatchToProps) {
 }
 ```
 
-
 # More Efficiency Issues - Hello shouldComponentUpdate
 
 We never actually fixed any of the performance issues noted above. The crux of the problem is that every time the store updates, `WrapperComponent` re-renders (because of its Redux store subscription that calls `setState`) and that means `WrappedComponent` re-renders. This [re-rendering](/leveraging-immutability-in-react) happens despite the fact that `WrappedComponent`'s props might be unchanged between two invocations of `setState`. In fact, this scenario is highly probable and will occur whenever a piece of state in the store changes that your component does not depend on (aka, a piece of store state not returned from from `mapStateToProps`).
@@ -313,7 +330,7 @@ So, in the above scenario, when `WrapperComponent` calls `setState`, React first
 
 ```js
 // Just a simple shallow equality function
-import shallowEqual from "shallow-equal/objects"
+import shallowEqual from 'shallow-equal/objects';
 
 function connect(mapStateToProps, mapDispatchToProps) {
   return function(WrappedComponent) {
@@ -346,18 +363,15 @@ function connect(mapStateToProps, mapDispatchToProps) {
         // We need to hang onto the previous result of
         // mapStateToProps to use the next time
         // shouldComponentUpdate runs
-        this.oldProps = mapStateToProps(this.state.storeState, this.props)
-        const newProps = Object.assign(
-          {},
-          this.oldProps,
-          mapDispatchToProps(store.dispatch.bind(this))
-        );
+        this.oldProps = mapStateToProps(this.state.storeState, this.props);
+        const newProps = Object.assign({}, this.oldProps, mapDispatchToProps(store.dispatch.bind(this)));
         return <WrappedComponent {...newProps} />;
       }
     };
   };
 }
 ```
+
 I've created a demo [here](https://codesandbox.io/s/o43p70k66). Open the console and prove to yourself that `shouldComponentUpdate` is doing its job.
 
 _I should note that this is not exactly what react-redux does because of edge cases, but the concept is still the same._

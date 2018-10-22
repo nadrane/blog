@@ -1,9 +1,7 @@
 ---
 title: The Hidden Costs of PostgreSQL's JSONB Datatype
 date: 2018-09-30
-categories:
-  - [Postgres]
-  - [Architecture]
+categories: [Postgres, Architecture]
 ---
 
 [Postgres](https://www.postgresql.org/) introduced the [JSONB](https://www.postgresql.org/docs/current/static/datatype-json.html) type in version 9.4 with considerable excitement. JSONB promised to marry a favorite relational database with the noSQL world, permitting data to be stored in the database as JSON without the need for re-parsing whenever a field is accessed. Moreover, the binary storage format permits indexing and complex queries against the stored JSON blobs. This data format embodies the flexible schema and was readily adopted at [Fraight](https://fraight.ai/).
@@ -21,7 +19,6 @@ In an ideal world, the third party API responses we collected would have been br
 Fraight’s CTO approached me the other day and explained that query performance over the `message` table had deteriorated. He elaborated that the queries were only slow when the `meta` column was included in the result set. We had previously experienced slowdown in the `message` table when entire email attachment bodies were getting serialized and stored in the `meta` column, and I suspected that the root cause of our current performance problem was in a similar vein. A quick [query](#footnote1) revealed that our `meta` column was often quite large.
 
 The average size of the `meta` column was 3.7 kb. That might not seem large, but for our 100,000 row table, that meant 400mb of (mostly unused) metadata. At the high end of the spectrum, some messages were up to 17mb in size. The precise details of why this dataset slows down queries are a bit esoteric<sup>[2](#footnote2)</sup>, but it was clear that we were storing too much information. You can read more about how Postgres stores large data values using [TOAST](https://www.postgresql.org/docs/current/static/storage-toast.html) and [how I validated this was a problem](#footnote3).
-
 
 ## Further Complications
 
@@ -47,13 +44,11 @@ Our instinct was to go with #1 — the most simple and straightforward solution 
 
 This hiccup left the choice between S3 and a separate Postgres table. We agreed that pre-signed S3 URLs offered an ideal long-term alternative but ultimately chose a separate Postgres table for the same reason that we wanted to choose option #1: minimal risk and complexity. Our team is exceptionally experienced with Postgres, and we knew we could hit the ground running. S3, in contrast, had more unknowns, and given how rarely we access most of this metadata today, the value it would add over Postgres was tenuous at best.
 
-
 In addition to migrating metadata to its own table, we took a couple additional steps:
 
 1. We extracted the handful of regularly used fields from the metadata and migrated them into their own columns in the `message` table. This meant that we didn't need to retrieve large, megabyte sized blobs whenever we wanted a single field<sup>[5](#footnote5)</sup>. As an added advantage, we regained simple access to database [constraints](https://www.postgresql.org/docs/current/static/ddl-constraints.html).
 
 2. When we created the new `metadata` table in Postgres, we made sure not to define a relationship between it and its related tables at the ORM layer, only the database layer. This makes it far more difficult for a developer to hobble performance by absentmindedly joining large metadata into queries. We introduced an API for accessing the metadata instead. The added advantage of this API is that we can now change the underlying implementation to use S3 (or anything else) in the future, without modifying dependent application code.
-
 
 My name is Nick Drane. I do [consulting](/hire-me) work in the Chicago area and am always looking for new opportunities.
 
@@ -86,10 +81,9 @@ WHERE oid = ss.reltoastrelid OR
 For specifically the `message` table, this query returns the number of disk pages in the toast table and their total size in megabytes.
 
 | table       | disk pages | size (mb) |
-|-------------|------------|-----------|
-| toast	table | 17731      | 139       |
+| ----------- | ---------- | --------- |
+| toast table | 17731      | 139       |
 | toast index | 209        | 1         |
-
 
 <a name="footnote4">4</a>: We were not literally doing any `select *` queries. Our ORM's message model did, however, specify all of the columns of the `message` table. In retrospect, this was probably our biggest mistake. It meant that a call to `Message.find`, which is used all over the place, retrieved all columns on the `message` table, unless specifically directed otherwise. Usually, for a RESTful API, this is an acceptable performance tradeoff, but it didn't hold true in this circumstance.
 

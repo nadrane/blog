@@ -4,9 +4,11 @@ import Layout from '../components/layout';
 import ArticleList from '../components/articleList';
 
 const BlogIndex = ({ data, errors }) => {
+  const articles = data.allMarkdownRemark.edges;
+
   return (
     <Layout>
-      <ArticleList data={data} errors={errors} />
+      <ArticleList articles={articles} errors={errors} />
     </Layout>
   );
 };
