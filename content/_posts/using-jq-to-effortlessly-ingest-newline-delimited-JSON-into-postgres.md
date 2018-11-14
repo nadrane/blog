@@ -18,16 +18,11 @@ curl https://files.pushshift.io/hackernews/HNI_2018-05.bz2 | bzip2 -d
 
 Here is what the dataset looks like:
 
-```JSON
+```json
 {
   "by": "criddell",
   "id": 16966059,
-  "kids": [
-    16966312,
-    16966776,
-    16969455,
-    16966323
-  ],
+  "kids": [16966312, 16966776, 16969455, 16966323],
   "parent": 16965363,
   "retrieved_on": 1528401399,
   "text": "Yeah - there's always a HATEOAS comment somewhere and...",
@@ -38,7 +33,7 @@ Here is what the dataset looks like:
 
 ## Formatting the Data
 
-You might think that Postgres has a simple utility for loading line-delimited JSON. Like me, you'd be wrong. It's all the more surprising given that it has a [COPY](https://www.postgresql.org/docs/current/static/sql-copy.html) utility that's designed to load data from files. Unfortunately, that utility only supports `text`, `csv`, and `binary` formats.
+You might think that Postgres has a simple utility for loading line-delimited JSON. Like me, you'd be wrong. It's all the more surprising given that it has a [COPY](https://www.postgresql.org/docs/current/static/sql-copy.html) utility that's designed to load data from files. Unfortunately, that utility only supports `markup›text`, `markup›csv`, and `markup›binary` formats.
 
 Transforming our data into a CSV is a breeze with [jq](https://stedolan.github.io/jq/). We can pipe the JSON stream into the following command to extract the `id`, `by`, `parent`, and `text` fields. You can customize the command to extract whatever fields you like.
 
@@ -46,7 +41,7 @@ Transforming our data into a CSV is a breeze with [jq](https://stedolan.github.i
 jq -r '[.id, .by, .parent, .text] | @csv'
 ```
 
-The `-r` option indicates that we would like a raw string output, as opposed to JSON formatted with quotes. The `[.id, .by, .parent, .text]` part produces an array containing the desired fields and the pipe into `@csv` specifies the format. All that's left is to load the data into Postgres.
+The `-r` option indicates that we would like a raw string output, as opposed to JSON formatted with quotes. The `js›[.id, .by, .parent, .text]` part produces an array containing the desired fields and the pipe into `bash>@csv` specifies the format. All that's left is to load the data into Postgres.
 
 ## Ingesting the Data
 
@@ -56,7 +51,7 @@ After creating the database
 
 and applying the schema
 
-```SQL
+```sql
 CREATE TABLE comment (
     id INTEGER PRIMARY KEY,
     by VARCHAR,

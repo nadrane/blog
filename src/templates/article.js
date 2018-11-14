@@ -1,5 +1,6 @@
 import React from 'react';
 import Layout from '../components/layout';
+import styles from './styles.module.css';
 
 const Article = ({ data, errors }) => {
   if (errors && errors.length) {
@@ -11,8 +12,8 @@ const Article = ({ data, errors }) => {
   return (
     <Layout>
       <article>
-        <span>{date.toDateString()}</span>
-        <h1>{article.frontmatter.title}</h1>
+        <time className={styles.publishDate}>{date.toDateString()}</time>
+        <h1 className={styles.articleTitle}>{article.frontmatter.title}</h1>
         <div dangerouslySetInnerHTML={{ __html: article.html }} />
       </article>
     </Layout>

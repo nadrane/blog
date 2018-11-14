@@ -1,0 +1,1 @@
+{"data":{"allMarkdownRemark":{"edges":[{"node":{"excerpt":"I recently wanted to ingest a  line-delimited  JSON file into  Postgres  for some quick data exploration. I was surprised when I couldn't…","frontmatter":{"title":"Using Shell Commands to Effortlessly Ingest Line-delimited JSON into PostgreSQL","date":"2018-10-18T00:00:00.000Z"}}}]}},"pageContext":{"category":"Shell"}}

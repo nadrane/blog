@@ -6,13 +6,13 @@ categories: [Elasticsearch]
 
 A client approached me with a puzzling problem:
 
-At Fraight, we have an omnisearch interface backed by an Elasticsearch datastore. The interface allows users yo type a freetext query and get a list of database records sorted by relevancy. At it's core, this is a simple problem: if the user types in `Joe`, return all people whose name contains the word `Joe`. And indeed, returning all the `Joe's` in the system is trivial; the problem is that we worked hundreds, possibly even thousands of `Joes`. How do we identify the particular `Joe` that we care about?
+At Fraight, we have an omnisearch interface backed by an Elasticsearch datastore. The interface allows users to type a freetext query and get a list of database records sorted by relevancy. At it's core, this is a simple problem: if the user types in `Joe`, return all people whose name contains the word `Joe`. And indeed, returning all the `Joe's` in the system is trivial; the problem is that we work with hundreds, possibly even thousands of `Joes`. How do we identify the particular `Joe` that we care about?
 
 <!-- more -->
 
 ## A Poor Solution
 
-When I worked at [Epic](https://www.epic.com/), we had a similar problem. We had a search interface that allowed us to look up patients. Unfortunately, our full names are not as unique as we like to believe, and a simple query for `Luke Smith` would surely bring the system to a halt. Epic solved this problem by providing additional fields. That's why (along with HIPPA reasons), when you call the doctor, they might ask for your birthdate or your address; this additional identifying information is used to pare down the search results. This solution is slow, cumbersome and was deemed wholly inadequate for us.
+When I worked at [Epic](https://www.epic.com/), we had a similar problem. We had a search interface that allowed us to look up patients. Unfortunately, our full names are not as unique as we like to believe, and a simple query for `Luke Smith` would surely bring the system to a halt. Epic solved this problem by having the user fill additional fields like sex and date of birth. This additional identifying information is used to pare down the search results. This solution slows down the user and was deemed inadequate for us.
 
 ## Fraight's Solution
 
@@ -21,13 +21,13 @@ We settled on two attributes that should influence the score of a particular rec
 1. How often we interact with an entity
 2. How recently we've interacted with an entity
 
-It's important to know that most of the trucking organizations in our system have been worked with minimally. We needed a remove this noise from the search results. Phrased differently, if we regularly work with a particular `Great America Truckers` more than the other 1000 `Great America Truckers`, we want our partner to appear higher in the search results.
+It's important to know that most of the trucking organizations in our system have been worked with minimally. We needed a remove this noise from the search results. Phrased differently, if we regularly work with a particular `Great America Truckers` more than the other 50 `Great America Truckers`, we want our partner to appear higher in the search results.
 
-Similarly, if we have recently interacted with an organization, there's a good chance we will need to interact with them in the future. For example, if we've just initiated a conversation with a new business partner, there's a good chance we will continue interacting with them regularly in the near-term. It's important, however, to consider the time since our last interaction. If we interacted with someone yesterday or the day before, it's very important for them to be ranked higher than an organization we interacted with 10 days ago.
+Similarly, if we've recently interacted with an organization, there's a good chance we will need to interact with them in the future. For example, if we've just initiated a conversation with a new business partner, there's a good chance we will continue interacting with them regularly in the near-term. It's important, however, to consider the time since our last interaction. If we interacted with someone yesterday or the day before, it's very important for them to be ranked higher than an organization we interacted with 10 days ago.
 
 ## Getting the Data
 
-Both of these solutions require populating our database with information regarding how recently we've interacted with particular entities. Fortunately, all of this can be done during the data ingestion phase when records are loaded in Elasticsearch. The only requirement is making sure to keep the information in Elasticsearch up to date with our PostgreSQL database
+Both of these strategies required populating our database with information regarding how recently we've interacted with particular entities. Fortunately, all of this can be done during the data ingestion phase when records are loaded in Elasticsearch. The only requirement is making sure to keep the information in Elasticsearch up to date with our PostgreSQL database
 
 The one challenge with this solution is that it requires augmenting our documents with special data regarding total interactions and recency of interactions. The huge advantage, however, is that it works seamlessly. We don't require there to be any special configuration when we begin working with a new partner.
 

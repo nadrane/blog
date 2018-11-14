@@ -110,7 +110,7 @@ async function createCategoryPages(graphql, createPage) {
   categories.forEach(category => {
     console.log('creating page', category);
     createPage({
-      path: `/categories/${category}/`,
+      path: `/categories/${category.split(' ').join('-')}/`,
       component: categoryTemplate,
       context: {
         category
