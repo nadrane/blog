@@ -17,7 +17,7 @@ export const query = graphql`
     allMarkdownRemark(filter: { frontmatter: { categories: { in: [$category] } } }) {
       edges {
         node {
-          excerpt
+          html
           slug
           frontmatter {
             title

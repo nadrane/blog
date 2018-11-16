@@ -19,7 +19,7 @@ export const pageQuery = graphql`
       totalCount
       edges {
         node {
-          excerpt(pruneLength: 1000)
+          html
           slug
           frontmatter {
             title

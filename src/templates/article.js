@@ -1,26 +1,24 @@
 import React from 'react';
 import Layout from '../components/layout';
-import styles from './styles.module.css';
+import Article from '../components/article';
 
-const Article = ({ data, errors }) => {
+const ArticleTemplate = ({ data, errors }) => {
   if (errors && errors.length) {
     console.log('errors rendering article', errors);
   }
 
-  const article = data.markdownRemark;
-  const date = new Date(article.frontmatter.date);
+  console.log('data', data);
+
+  const { date, title } = data.markdownRemark.frontmatter;
+  const content = data.markdownRemark.html;
   return (
     <Layout>
-      <article>
-        <time className={styles.publishDate}>{date.toDateString()}</time>
-        <h1 className={styles.articleTitle}>{article.frontmatter.title}</h1>
-        <div dangerouslySetInnerHTML={{ __html: article.html }} />
-      </article>
+      <Article date={date} title={title} content={content} />
     </Layout>
   );
 };
 
-export default Article;
+export default ArticleTemplate;
 
 export const query = graphql`
   query($slug: String!) {

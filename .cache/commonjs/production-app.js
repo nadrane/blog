@@ -80,9 +80,15 @@ _loader.default.addProdRequires(_asyncRequires.default);
 
   const _window = window,
         page = _window.page,
-        browserLoc = _window.location; // TODO: comment what this check does
+        browserLoc = _window.location;
 
-  if (page && page.path !== `/404.html` && __PATH_PREFIX__ + page.path !== browserLoc.pathname && !page.path.match(/^\/offline-plugin-app-shell-fallback\/?$/) && (!page.matchPath || !(0, _utils.match)(__PATH_PREFIX__ + page.matchPath, browserLoc.pathname))) {
+  if ( // Make sure the window.page object is defined
+  page && // The canonical path doesn't match the actual path (i.e. the address bar)
+  __PATH_PREFIX__ + page.path !== browserLoc.pathname && ( // ...and if matchPage is specified, it also doesn't match the actual path
+  !page.matchPath || !(0, _utils.match)(__PATH_PREFIX__ + page.matchPath, browserLoc.pathname)) && // Ignore 404 pages, since we want to keep the same URL
+  page.path !== `/404.html` && !page.path.match(/^\/404\/?$/) && // Also ignore the offline shell (since when using the offline plugin, all
+  // pages have this canonical path)
+  !page.path.match(/^\/offline-plugin-app-shell-fallback\/?$/)) {
     (0, _router.navigate)(__PATH_PREFIX__ + page.path + browserLoc.search + browserLoc.hash, {
       replace: true
     });

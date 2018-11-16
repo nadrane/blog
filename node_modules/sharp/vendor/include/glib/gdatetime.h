@@ -118,6 +118,10 @@ GDateTime *             g_date_time_new_from_timeval_local              (const G
 GLIB_AVAILABLE_IN_ALL
 GDateTime *             g_date_time_new_from_timeval_utc                (const GTimeVal *tv);
 
+GLIB_AVAILABLE_IN_2_56
+GDateTime *             g_date_time_new_from_iso8601                    (const gchar    *text,
+                                                                         GTimeZone      *default_tz);
+
 GLIB_AVAILABLE_IN_ALL
 GDateTime *             g_date_time_new                                 (GTimeZone      *tz,
                                                                          gint            year,
@@ -240,6 +244,8 @@ gboolean                g_date_time_to_timeval                          (GDateTi
 
 GLIB_AVAILABLE_IN_ALL
 GTimeSpan               g_date_time_get_utc_offset                      (GDateTime      *datetime);
+GLIB_AVAILABLE_IN_2_58
+GTimeZone *             g_date_time_get_timezone                        (GDateTime      *datetime);
 GLIB_AVAILABLE_IN_ALL
 const gchar *           g_date_time_get_timezone_abbreviation           (GDateTime      *datetime);
 GLIB_AVAILABLE_IN_ALL

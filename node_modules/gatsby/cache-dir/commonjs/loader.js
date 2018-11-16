@@ -178,12 +178,6 @@ const onPostPrefetchPathname = pathname => {
 // let pathCount = {}
 
 
-let resourcesCount = Object.create(null);
-
-const sortResourcesByCount = (a, b) => {
-  if (resourcesCount[a] > resourcesCount[b]) return 1;else if (resourcesCount[a] < resourcesCount[b]) return -1;else return 0;
-};
-
 let findPage;
 let pathScriptsCache = {};
 let prefetchTriggered = {};
@@ -278,7 +272,8 @@ const queue = {
 
     if (failedPaths[path]) {
       handleResourceLoadError(path, `Previously detected load failure for "${path}"`);
-      return reject();
+      reject();
+      return;
     }
 
     const page = findPage(path); // In production, we lazy load page metadata. If that
@@ -287,17 +282,20 @@ const queue = {
     if (!page && !fetchedPageResourceMap && process.env.NODE_ENV === `production`) {
       // If page wasn't found check and we didn't fetch resources map for
       // all pages, wait for fetch to complete and try to get resources again
-      return fetchPageResourceMap().then(() => resolve(queue.getResourcesForPathname(path)));
+      fetchPageResourceMap().then(() => resolve(queue.getResourcesForPathname(path)));
+      return;
     }
 
     if (!page) {
       console.log(`A page wasn't found for "${path}"`); // Preload the custom 404 page
 
       if (path !== `/404.html`) {
-        return resolve(queue.getResourcesForPathname(`/404.html`));
+        resolve(queue.getResourcesForPathname(`/404.html`));
+        return;
       }
 
-      return resolve();
+      resolve();
+      return;
     } // Use the path from the page so the pathScriptsCache uses
     // the normalized path.
 
@@ -310,7 +308,8 @@ const queue = {
         pageResources: pathScriptsCache[path]
       });
 
-      return resolve(pathScriptsCache[path]);
+      resolve(pathScriptsCache[path]);
+      return;
     } // Nope, we need to load resource(s)
 
 

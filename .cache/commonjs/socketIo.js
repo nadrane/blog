@@ -6,6 +6,9 @@ exports.getPageData = getPageData;
 exports.registerPath = registerPath;
 exports.unregisterPath = unregisterPath;
 exports.getIsInitialized = exports.getPageQueryData = exports.getStaticQueryData = void 0;
+
+var _errorOverlayHandler = require("./error-overlay-handler");
+
 let socket = null;
 let staticQueryData = {};
 let pageQueryData = {};
@@ -40,13 +43,17 @@ function socketIo() {
                 [msg.payload.id]: msg.payload.result
               });
             }
-          }
-
-          if (msg.type === `pageQueryResult`) {
+          } else if (msg.type === `pageQueryResult`) {
             if (didDataChange(msg, pageQueryData)) {
               pageQueryData = Object.assign({}, pageQueryData, {
                 [msg.payload.id]: msg.payload.result
               });
+            }
+          } else if (msg.type === `overlayError`) {
+            if (msg.payload.message) {
+              (0, _errorOverlayHandler.reportError)(msg.payload.id, msg.payload.message);
+            } else {
+              (0, _errorOverlayHandler.clearError)(msg.payload.id);
             }
           }
 

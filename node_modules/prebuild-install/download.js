@@ -97,7 +97,7 @@ function downloadPrebuild (downloadUrl, opts, cb) {
         }
         log.info('unpack', 'resolved to ' + resolved)
 
-        if (opts.runtime === 'node' && opts.platform === process.platform && opts.abi === process.versions.modules) {
+        if (opts.runtime === 'node' && opts.platform === process.platform && opts.abi === process.versions.modules && opts.arch === process.arch) {
           try {
             require(resolved)
           } catch (err) {

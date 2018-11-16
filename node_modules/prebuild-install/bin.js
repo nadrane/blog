@@ -3,6 +3,7 @@
 var path = require('path')
 var fs = require('fs')
 var whichPmRuns = require('which-pm-runs')
+var napi = require('napi-build-utils')
 
 var pkg = require(path.resolve('package.json'))
 var rc = require('./rc')(pkg)
@@ -32,6 +33,8 @@ if (rc.help) {
 log.info('begin', 'Prebuild-install version', prebuildClientVersion)
 
 var opts = Object.assign({}, rc, {pkg: pkg, log: log})
+
+if (napi.isNapiRuntime(rc.runtime)) napi.logUnsupportedVersion(rc.target, log)
 
 var pm = whichPmRuns()
 var isNpm = !pm || pm.name === 'npm'
