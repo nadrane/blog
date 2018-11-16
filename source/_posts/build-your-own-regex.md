@@ -244,6 +244,7 @@ It's remarkable how simple and elegant the code for such a sophisticated and gen
 
 Here is a [follow up article](https://nickdrane.com/regex-and-automated-test-fuzzing/) where I fuzz test the regex engine.
 
+_If you work at a company using javascript, I do [consulting](/hire-me) work and am currently looking for new clients. Please [contact me](mailto:nick@nickdrane.com) for more details._
 
 #### Footnotes
 <a name="footnote1">1</a>: There is a small bug in this code that I'm choosing to ignore. We don't account for the case that text is an empty string. Currently when `text === ''`, `text.split("")` will return `[]` and will not appropriately call `match`.

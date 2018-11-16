@@ -80,4 +80,4 @@ If you are not properly respecting immutability, then you are going to run into 
 
 When used carefully however, `React.pureComponent` can yield enormous performance improvements at almost no cost. All you need to do is inherit your components from `React.pureComponent` instead of `React.Component` and respect immutability when changing state.
 
-I hope you found this article helpful. Please feel free to email me to reach out if you have questions.
+_If you have React performance problems, I do [consulting](/hire-me) work and am currently looking for new clients. Please [contact me](mailto:nick@nickdrane.com) for more details._

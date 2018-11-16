@@ -374,3 +374,6 @@ React-redux's `connect` method is remarkably simple and only performs a handful 
 4. It defines `shouldComponentUpdate`, ensuring that our components only re-render when the store state they depend on changes.
 
 I hope you found this article helpful. Please feel free to email me and reach out if you have questions. I put a [gist](https://gist.github.com/nadrane/5221c64c421efe421bda9fdaab167dc2) online containing the same code as the demo.
+
+_If you use the React/Redux stack and need help, I do [consulting](/hire-me) work and am currently looking for new clients. Please [contact me](mailto:nick@nickdrane.com) for more details._
+

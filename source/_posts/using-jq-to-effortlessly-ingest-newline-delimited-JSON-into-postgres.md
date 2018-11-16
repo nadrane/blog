@@ -105,4 +105,4 @@ Everything in software engineering has a tradeoff, and I would be remiss to to n
 
 The first option does not suffer this limitation and will work for arbitrarily large datasets. This is because it leverages [streams](https://en.wikipedia.org/wiki/Stream_(computing) to only work on small chunks of data at once. If your dataset is large and you want foreign key constraints, you could use this streaming approach and then apply the constraints after data ingestion completes.
 
-_If you have a data ingestion or PostgreSQL related problem, I do [consulting](/hire-me) work out of Chicago area and am currently looking for new clients. Please contact me for more details_
+_If you have a data engineering or PostgreSQL related problem, I do [consulting](/hire-me) work and am currently looking for new clients. Please [contact me](mailto:nick@nickdrane.com) for more details_

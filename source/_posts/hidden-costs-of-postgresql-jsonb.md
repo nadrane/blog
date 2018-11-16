@@ -54,8 +54,7 @@ In addition to migrating metadata to its own table, we took a couple additional 
 
 2. When we created the new `metadata` table in Postgres, we made sure not to define a relationship between it and its related tables at the ORM layer, only the database layer. This makes it far more difficult for a developer to hobble performance by absentmindedly joining large metadata into queries. We introduced an API for accessing the metadata instead. The added advantage of this API is that we can now change the underlying implementation to use S3 (or anything else) in the future, without modifying dependent application code.
 
-
-My name is Nick Drane. I do [consulting](/hire-me) work in the Chicago area and am always looking for new opportunities.
+_If you have ever had performance problems with PostgreSQL, I do [consulting](/hire-me) work and am currently looking for new clients. Please [contact me](mailto:nick@nickdrane.com) for more details._
 
 #### Footnotes
 

@@ -218,6 +218,9 @@ function decode(queryString) {
 
 And that's it! The whole thing, encoding and decoding, only takes ~40 lines of code. Perhaps next time you encounter something that feels a little too fundamental to code yourself, you won't hesitate to write some code if you can't find a sufficient open source package.
 
+_If you've run into challenges with your web applications, I do [consulting](/hire-me) work and am currently looking for new clients. Please [contact me](mailto:nick@nickdrane.com) for more details._
+
+
 #### Footnotes
 
 <a name="footnote1">1</a>: This example is straight from the [qs](https://www.npmjs.com/package/qs) documentation. Incidentally, qs provides an option to encode using a url safe character, which would result in readable urls, but this is not the default.
