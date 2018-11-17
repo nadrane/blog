@@ -16,6 +16,40 @@ const Header = ({ siteTitle }) => (
           {siteTitle}
         </Link>
       </h1>
+      <div style={{ flexGrow: 1 }} />
+      <ul
+        style={{
+          borderBottom: 'none',
+          listStyleType: 'none',
+          display: 'flex',
+          justifyContent: 'spaceBetween'
+        }}
+      >
+        <li>
+          <Link
+            to="/"
+            style={{
+              color: 'black',
+              textDecoration: 'none',
+              padding: '5px'
+            }}
+          >
+            About
+          </Link>
+        </li>
+        <li>
+          <Link
+            to="/"
+            style={{
+              color: 'black',
+              textDecoration: 'none',
+              padding: '5px'
+            }}
+          >
+            Hire Me
+          </Link>
+        </li>
+      </ul>
     </div>
   </div>
 );
