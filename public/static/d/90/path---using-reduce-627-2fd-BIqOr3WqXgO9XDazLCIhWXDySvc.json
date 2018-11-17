@@ -1,1 +1,0 @@
-{"errors":[{"message":"Variable \"$slug\" of required type \"String!\" was not provided.","locations":[{"line":2,"column":3}]}],"pageContext":{"previous":{"slug":"write-your-own-redux-connect","frontmatter":{"title":"Write Your Own React-Redux Connect"}},"next":{"slug":"leveraging-immutability-in-react","frontmatter":{"title":"Leveraging Immutability in React"}}}}
