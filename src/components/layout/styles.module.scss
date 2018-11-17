@@ -22,4 +22,8 @@
 
 .sidebar {
   margin-top: 5px;
+  max-width: 220px;
+  @media only screen and (max-width: 900px) {
+    display: none;
+  }
 }

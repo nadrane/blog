@@ -3,12 +3,6 @@
   flex-direction: column;
 }
 
-@media only screen and (max-width: 900px) {
-  .sideBarSection {
-    display: none;
-  }
-}
-
 .sideBarLabel {
   padding-top: 0;
   font-weight: 600;
