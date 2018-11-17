@@ -1,0 +1,20 @@
+.headerWrapper {
+  background-color: #fafafa;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header {
+  display: flex;
+  justify-content: start;
+  width: 100%;
+  max-width: 960px;
+  margin: 0 0 0 10px;
+  @media only screen and (max-width: 900px) {
+    color: red;
+    max-width: 680px;
+    margin: 0 10px;
+  }
+}

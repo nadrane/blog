@@ -16,7 +16,6 @@ const ArticleList = ({ articles, errors }) => {
     <div>
       {sortedArticles.map(({ node }) => {
         const { html, slug } = node;
-        console.log('slugs', slug);
         const { title, date } = node.frontmatter;
         const excerpt = html.split('<!-- more -->')[0];
         return <Article key={title} date={date} title={title} slug={slug} content={excerpt} />;

@@ -1,5 +1,5 @@
 ---
-title: Using Shell Commands to Effortlessly Ingest Line-delimited JSON into PostgreSQL
+title: Using Shell Commands to Effortlessly Ingest Line-Delimited JSON into PostgreSQL
 date: 2018-10-18
 categories: [Shell, Postgres]
 ---

@@ -5,9 +5,11 @@ import { StaticQuery, graphql } from 'gatsby';
 
 import Header from '../header';
 import CategoryList from '../categoryList';
+import RecentPosts from '../recentPosts';
+import PopularPosts from '../popularPosts';
 
 import './global.css';
-import styles from './styles.module.css';
+import styles from './styles.module.scss';
 
 const Layout = ({ children }) => (
   <StaticQuery
@@ -37,6 +39,8 @@ const Layout = ({ children }) => (
             <div className={styles.contentWrapper}>
               <section className={styles.content}>{children}</section>
               <aside className={styles.sidebar}>
+                <PopularPosts />
+                <RecentPosts />
                 <CategoryList />
               </aside>
             </div>

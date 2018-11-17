@@ -1,6 +1,6 @@
 import React from 'react';
 import * as R from 'ramda';
-import { StaticQuery, Link } from 'gatsby';
+import { StaticQuery, graphql } from 'gatsby';
 import SideBarList from './sideBarList';
 
 const CategoryList = () => (
@@ -29,8 +29,8 @@ const CategoryList = () => (
       const sortedCategories = R.sortBy(
         R.prop('name'),
         Object.entries(categoriesWithCounts(data)).map(([name, count]) => ({
-          name,
-          count
+          name: `${name} (${count})`,
+          link: `categories/${name.split(' ').join('-')}`
         }))
       );
 

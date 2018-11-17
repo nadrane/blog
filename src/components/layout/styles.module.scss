@@ -1,0 +1,25 @@
+.main {
+  display: flex;
+  justify-content: center;
+  min-width: 0;
+}
+
+.contentWrapper {
+  display: flex;
+  max-width: 960px;
+  min-width: 0;
+}
+
+.content {
+  max-width: 680px;
+  padding-top: 0;
+  margin: 26px 50px 15px 10px;
+  min-width: 300px;
+  @media only screen and (max-width: 900px) {
+    margin: 0 10px;
+  }
+}
+
+.sidebar {
+  margin-top: 5px;
+}

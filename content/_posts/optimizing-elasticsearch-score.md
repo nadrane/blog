@@ -1,6 +1,6 @@
 ---
 title: 'Optimizing Elasticsearch Score: How to Rank and Differentiate Similar Records'
-date: 2017-10-11
+date: 2018-10-11
 categories: [Elasticsearch]
 ---
 
