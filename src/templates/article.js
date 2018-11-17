@@ -7,8 +7,6 @@ const ArticleTemplate = ({ data, errors }) => {
     console.log('errors rendering article', errors);
   }
 
-  console.log('data', data);
-
   const { date, title } = data.markdownRemark.frontmatter;
   const content = data.markdownRemark.html;
   return (

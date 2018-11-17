@@ -42,7 +42,47 @@ exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions;
   await createPostPages(graphql, createPage);
   await createCategoryPages(graphql, createPage);
+  await createStaticPages(graphql, createPage);
 };
+
+async function createStaticPages(graphql, createPage) {
+  const articleTemplate = path.resolve('./src/templates/static.js');
+  const result = await graphql(`
+    query RenderPostsQuery {
+      pages: allMarkdownRemark {
+        edges {
+          node {
+            fileAbsolutePath
+            frontmatter {
+              title
+            }
+          }
+        }
+      }
+    }
+  `);
+  if (result.errors) {
+    console.log(result.errors);
+    throw new Error('Things broke, see console output above');
+  }
+  console.dir(result.data.pages.edges, { depth: 5, colors: true });
+  const pages = result.data.pages.edges.filter(({ node }) =>
+    node.fileAbsolutePath.includes('/_static/')
+  );
+
+  pages.forEach(({ node }) => {
+    const title = node.frontmatter.title;
+    console.log('title ', title);
+    createPage({
+      path: `/${title.toLowerCase()}/`,
+      component: articleTemplate,
+      context: {
+        title
+      }
+    });
+  });
+  return;
+}
 
 async function createPostPages(graphql, createPage) {
   const articleTemplate = path.resolve('./src/templates/article.js');
@@ -67,7 +107,6 @@ async function createPostPages(graphql, createPage) {
   }
 
   result.data.posts.edges.forEach(({ node }) => {
-    console.log('creating page', node.slug);
     createPage({
       path: `/${node.slug}/`,
       component: articleTemplate,
@@ -108,7 +147,6 @@ async function createCategoryPages(graphql, createPage) {
     }
   });
   categories.forEach(category => {
-    console.log('creating page', category);
     createPage({
       path: `/categories/${category.split(' ').join('-')}/`,
       component: categoryTemplate,
