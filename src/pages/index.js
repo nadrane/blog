@@ -5,10 +5,12 @@ import ArticleList from '../components/articleList';
 
 const BlogIndex = ({ data, errors }) => {
   const articles = data.allMarkdownRemark.edges;
-
   return (
     <Layout>
-      <ArticleList articles={articles} errors={errors} />
+      <ArticleList
+        articles={articles.filter(article => !article.node.fileAbsolutePath.includes('/_static/'))}
+        errors={errors}
+      />
     </Layout>
   );
 };
@@ -21,6 +23,7 @@ export const pageQuery = graphql`
         node {
           html
           slug
+          fileAbsolutePath
           frontmatter {
             title
             date
