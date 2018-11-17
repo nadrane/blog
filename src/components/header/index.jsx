@@ -17,37 +17,18 @@ const Header = ({ siteTitle }) => (
         </Link>
       </h1>
       <div style={{ flexGrow: 1 }} />
-      <ul
-        style={{
-          borderBottom: 'none',
-          listStyleType: 'none',
-          display: 'flex',
-          justifyContent: 'spaceBetween'
-        }}
-      >
+      <ul className={styles.headerLinks}>
         <li>
-          <Link
-            to="/"
-            style={{
-              color: 'black',
-              textDecoration: 'none',
-              padding: '5px'
-            }}
-          >
-            About
-          </Link>
+          <Link to="/about">About Me</Link>
         </li>
         <li>
-          <Link
-            to="/"
-            style={{
-              color: 'black',
-              textDecoration: 'none',
-              padding: '5px'
-            }}
-          >
-            Hire Me
-          </Link>
+          <Link to="/hire-me">Hire Me</Link>
+        </li>
+        <li>
+          <Link to="/projects">Projects</Link>
+        </li>
+        <li>
+          <Link to="/archives">Archives</Link>
         </li>
       </ul>
     </div>

@@ -19,3 +19,15 @@
     margin: 0 10px;
   }
 }
+
+.headerLinks {
+  border-bottom: none;
+  list-style-type: none;
+  display: flex;
+  li a {
+    color: rgba(0, 0, 0, 0.8);
+    font-size: 18px;
+    font-weight: 300;
+    padding: 10px;
+  }
+}
