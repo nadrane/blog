@@ -21,6 +21,7 @@ const CategoryList = () => (
     render={data => {
       const categoriesWithCounts = R.pipe(
         R.path(['allMarkdownRemark', 'edges']),
+        R.filter(({ node }) => node.frontmatter.categories),
         R.map(R.path(['node', 'frontmatter', 'categories'])),
         R.flatten,
         R.countBy(R.identity)
