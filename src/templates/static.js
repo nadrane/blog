@@ -1,5 +1,6 @@
 import React from 'react';
 import Layout from '../components/layout';
+import Article from '../components/article';
 
 const StaticTemplate = ({ data, errors }) => {
   if (errors && errors.length) {
@@ -7,9 +8,10 @@ const StaticTemplate = ({ data, errors }) => {
   }
 
   const content = data.markdownRemark.html;
+  const title = data.markdownRemark.frontmatter.title;
   return (
     <Layout>
-      <div dangerouslySetInnerHTML={{ __html: content }} />
+      <Article title={title} content={content} />
     </Layout>
   );
 };
@@ -20,6 +22,9 @@ export const query = graphql`
   query($title: String!) {
     markdownRemark(frontmatter: { title: { eq: $title } }) {
       html
+      frontmatter {
+        title
+      }
     }
   }
 `;

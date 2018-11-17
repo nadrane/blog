@@ -19,7 +19,7 @@ const Header = ({ siteTitle }) => (
       <div style={{ flexGrow: 1 }} />
       <ul className={styles.headerLinks}>
         <li>
-          <Link to="/about">About Me</Link>
+          <Link to="/about-me">About Me</Link>
         </li>
         <li>
           <Link to="/hire-me">Hire Me</Link>

@@ -11,6 +11,7 @@ const RecentPosts = () => (
           edges {
             node {
               slug
+              fileAbsolutePath
               frontmatter {
                 title
                 date
@@ -24,6 +25,7 @@ const RecentPosts = () => (
       const get5MostRecentPosts = R.pipe(
         R.path(['allMarkdownRemark', 'edges']),
         R.map(R.prop('node')),
+        R.filter(node => !node.fileAbsolutePath.includes('/_static/')),
         R.sortBy(R.path(['frontmatter', 'date'])),
         R.reverse,
         R.take(5),

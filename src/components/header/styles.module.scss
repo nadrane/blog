@@ -4,6 +4,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  white-space: nowrap;
 }
 
 .header {
@@ -17,6 +18,12 @@
     color: red;
     max-width: 680px;
     margin: 0 10px;
+  }
+  h1 {
+    padding-bottom: 0;
+    &:hover {
+      opacity: 0.7;
+    }
   }
 }
 
