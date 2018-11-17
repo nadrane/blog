@@ -8,6 +8,7 @@ import CategoryList from '../categoryList';
 import RecentPosts from '../recentPosts';
 import PopularPosts from '../popularPosts';
 
+// import 'normalize.css';
 import './global.css';
 import styles from './styles.module.scss';
 

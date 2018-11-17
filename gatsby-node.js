@@ -65,16 +65,17 @@ async function createStaticPages(graphql, createPage) {
     console.log(result.errors);
     throw new Error('Things broke, see console output above');
   }
-  console.dir(result.data.pages.edges, { depth: 5, colors: true });
   const pages = result.data.pages.edges.filter(({ node }) =>
     node.fileAbsolutePath.includes('/_static/')
   );
-
   pages.forEach(({ node }) => {
     const title = node.frontmatter.title;
     console.log('title ', title);
     createPage({
-      path: `/${title.toLowerCase()}/`,
+      path: `/${title
+        .toLowerCase()
+        .split(' ')
+        .join('-')}/`,
       component: articleTemplate,
       context: {
         title
