@@ -12,7 +12,7 @@ Two months ago I purchased a GPS device and associated service plan from [SPOT](
 
 The representative told me to look at their website where he claimed it would be very clear that I was signing up for a contract service. When I Googled "spot service plan", the first link I clicked on directed me to these marketing materials:
 
-![Spot Marketing Website](spot-marketing-material.png)
+![Spot Marketing Website](./spot-marketing-material.png)
 
 If you look at the image above, it appears as if several deliberate decisions have been made to disguise the total cost of the month-to-month arrangement.
 

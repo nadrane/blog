@@ -5,12 +5,7 @@ module.exports = {
   plugins: [
     'gatsby-plugin-react-helmet',
     `gatsby-plugin-sass`,
-    {
-      resolve: `gatsby-remark-images`,
-      options: {
-        maxWidth: 680
-      }
-    },
+
     'gatsby-remark-copy-linked-files',
     {
       resolve: `gatsby-plugin-typography`,
@@ -50,6 +45,13 @@ module.exports = {
       options: {
         plugins: [
           {
+            resolve: `gatsby-remark-images`,
+            options: {
+              maxWidth: 680,
+              withWebp: true
+            }
+          },
+          {
             resolve: `gatsby-remark-prismjs`,
             options: {
               classPrefix: 'language-',
@@ -67,6 +69,7 @@ module.exports = {
         ]
       }
     },
+    'gatsby-plugin-sharp',
     {
       resolve: `gatsby-plugin-google-analytics`,
       options: {
