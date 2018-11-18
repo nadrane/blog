@@ -39,7 +39,6 @@ const Layout = ({ children }) => (
           <Header siteTitle={data.site.siteMetadata.title} />
           <div className={styles.main}>
             <div className={styles.contentWrapper}>
-              <Social />
               <section className={styles.content}>{children}</section>
               <aside className={styles.sidebar}>
                 <PopularPosts />

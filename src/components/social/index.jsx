@@ -1,7 +1,11 @@
 import React from 'react';
 import querystring from 'querystring';
 import styles from './styles.module.scss';
-import '@fortawesome/fontawesome-free/css/all.css';
+
+import facebookImage from './images/Facebook.png';
+import twitterImage from './images/Twitter.png';
+import linkedInImage from './images/LinkedIn.png';
+import emailImage from './images/Email.png';
 
 export default function Social({ title, slug }) {
   return (
@@ -14,7 +18,7 @@ export default function Social({ title, slug }) {
           title="Share on Facebook"
           target="_blank"
         >
-          <i className="fab fa-facebook-f" />
+          <img alt="Share on Facebook" src={facebookImage} />
         </a>
       </li>
       <li>
@@ -25,7 +29,7 @@ export default function Social({ title, slug }) {
           target="_blank"
           title="Tweet"
         >
-          <i class="fab fa-twitter" />
+          <img alt="Tweet" src={twitterImage} />
         </a>
       </li>
       <li>
@@ -36,7 +40,7 @@ export default function Social({ title, slug }) {
           target="_blank"
           title="Share on LinkedIn"
         >
-          <i class="fab fa-linkedin-in" />
+          <img alt="Share on LinkedIn" src={linkedInImage} />
         </a>
       </li>
       <li>
@@ -45,7 +49,7 @@ export default function Social({ title, slug }) {
           target="_blank"
           title="Send email"
         >
-          <i class="far fa-envelope" />
+          <img alt="Send email" src={emailImage} />
         </a>
       </li>
     </ul>

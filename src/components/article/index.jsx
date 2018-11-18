@@ -3,10 +3,12 @@ import React from 'react';
 import styles from './styles.module.css';
 import globalStyles from '../../styles.module.css';
 import { Link } from 'gatsby';
+import Social from '../social';
 
-export default function Article({ date, title, content, slug }) {
+export default function Article({ showSocialTop, showSocialBottom, date, title, content, slug }) {
   return (
     <article className={styles.pb2}>
+      {showSocialTop && <Social title={title} slug={slug} />}
       {date && <time className={globalStyles.publishDate}>{new Date(date).toDateString()}</time>}
       <h1 className={globalStyles.articleTitle}>
         {slug ? (
@@ -18,6 +20,7 @@ export default function Article({ date, title, content, slug }) {
         )}
       </h1>
       <div dangerouslySetInnerHTML={{ __html: content }} />
+      {showSocialBottom && <Social title={title} slug={slug} />}
     </article>
   );
 }

@@ -1,13 +1,10 @@
 .socialButtons {
   display: flex;
+  justify-content: space-between;
   list-style-type: none;
-  li {
-    margin-left: 10px;
-  }
+  margin-left: 0;
+  width: 150px;
   a {
     cursor: pointer;
-  }
-  i {
-    color: black;
   }
 }

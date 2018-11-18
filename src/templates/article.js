@@ -11,7 +11,7 @@ const ArticleTemplate = ({ data, errors }) => {
   const content = data.markdownRemark.html;
   return (
     <Layout>
-      <Article date={date} title={title} content={content} />
+      <Article showSocialTop showSocialBottom date={date} title={title} content={content} />
     </Layout>
   );
 };
