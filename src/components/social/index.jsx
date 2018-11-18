@@ -17,6 +17,7 @@ export default function Social({ title, slug }) {
           )}&quote=${querystring.encode(title)}`}
           title="Share on Facebook"
           target="_blank"
+          rel="noopener noreferrer"
         >
           <img alt="Share on Facebook" src={facebookImage} />
         </a>
@@ -28,6 +29,7 @@ export default function Social({ title, slug }) {
           )}&text=${querystring.encode(title)}`}
           target="_blank"
           title="Tweet"
+          rel="noopener noreferrer"
         >
           <img alt="Tweet" src={twitterImage} />
         </a>
@@ -39,6 +41,7 @@ export default function Social({ title, slug }) {
           )}&title=${querystring.encode(title)}`}
           target="_blank"
           title="Share on LinkedIn"
+          rel="noopener noreferrer"
         >
           <img alt="Share on LinkedIn" src={linkedInImage} />
         </a>
@@ -48,6 +51,7 @@ export default function Social({ title, slug }) {
           href={`mailto:?subject=${title}&body=Check this out: ${slug}`}
           target="_blank"
           title="Send email"
+          rel="noopener noreferrer"
         >
           <img alt="Send email" src={emailImage} />
         </a>

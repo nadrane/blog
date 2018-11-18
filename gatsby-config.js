@@ -6,6 +6,13 @@ module.exports = {
     'gatsby-plugin-react-helmet',
     `gatsby-plugin-sass`,
     {
+      resolve: `gatsby-remark-images`,
+      options: {
+        maxWidth: 680
+      }
+    },
+    'gatsby-remark-copy-linked-files',
+    {
       resolve: `gatsby-plugin-typography`,
       options: {
         pathToConfigModule: `src/utils/typography.js`
@@ -58,6 +65,12 @@ module.exports = {
             }
           }
         ]
+      }
+    },
+    {
+      resolve: `gatsby-plugin-google-analytics`,
+      options: {
+        trackingId: `UA-107252357-1`
       }
     }
   ]

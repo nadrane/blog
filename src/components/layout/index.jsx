@@ -7,7 +7,6 @@ import Header from '../header';
 import CategoryList from '../categoryList';
 import RecentPosts from '../recentPosts';
 import PopularPosts from '../popularPosts';
-import Social from '../social';
 
 // import 'normalize.css';
 import './global.css';

@@ -1,6 +1,7 @@
 import React from 'react';
 import Layout from '../components/layout';
 import ArticleList from '../components/articleList';
+import { graphql } from 'gatsby';
 
 const Category = ({ data, errors }) => {
   if (errors && errors.length) {

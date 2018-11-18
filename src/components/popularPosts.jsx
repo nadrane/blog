@@ -1,7 +1,6 @@
 import React from 'react';
 
 import SideBarList from './sideBarList';
-import titleCase from 'title-case';
 
 const popularPosts = () => {
   const mostPopular = [

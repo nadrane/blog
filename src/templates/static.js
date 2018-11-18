@@ -1,6 +1,7 @@
 import React from 'react';
 import Layout from '../components/layout';
 import Article from '../components/article';
+import { graphql } from 'gatsby';
 
 const StaticTemplate = ({ data, errors }) => {
   if (errors && errors.length) {

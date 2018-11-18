@@ -70,7 +70,6 @@ async function createStaticPages(graphql, createPage) {
   );
   pages.forEach(({ node }) => {
     const title = node.frontmatter.title;
-    console.log('title ', title);
     createPage({
       path: `/${title
         .toLowerCase()
@@ -109,7 +108,7 @@ async function createPostPages(graphql, createPage) {
 
   result.data.posts.edges.forEach(({ node }) => {
     createPage({
-      path: `/${node.slug}/`,
+      path: `./${node.slug}/`,
       component: articleTemplate,
       context: {
         slug: node.slug

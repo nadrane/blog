@@ -2,6 +2,7 @@ import React from 'react';
 
 import Layout from '../components/layout';
 import ArticleList from '../components/articleList';
+import { graphql } from 'gatsby';
 
 const BlogIndex = ({ data, errors }) => {
   const articles = data.allMarkdownRemark.edges;
