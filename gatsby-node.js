@@ -100,7 +100,6 @@ async function createPostPages(graphql, createPage) {
       }
     }
   `);
-  console.log('post', result);
   if (result.errors) {
     console.log(result.errors);
     throw new Error('Things broke, see console output above');
@@ -108,7 +107,7 @@ async function createPostPages(graphql, createPage) {
 
   result.data.posts.edges.forEach(({ node }) => {
     createPage({
-      path: `./${node.slug}/`,
+      path: `/${node.slug}/`,
       component: articleTemplate,
       context: {
         slug: node.slug
@@ -133,7 +132,6 @@ async function createCategoryPages(graphql, createPage) {
       }
     }
   `);
-  console.log('post', result);
   if (result.errors) {
     console.log(result.errors);
     throw new Error('Things broke, see console output above');
