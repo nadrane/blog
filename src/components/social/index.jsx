@@ -1,5 +1,5 @@
 import React from 'react';
-import querystring from 'querystring';
+import qs from 'qs';
 import styles from './styles.module.scss';
 
 import facebookImage from './images/Facebook.png';
@@ -12,9 +12,10 @@ export default function Social({ title, slug }) {
     <ul className={styles.socialButtons}>
       <li>
         <a
-          href={`https://www.facebook.com/sharer/sharer.php?u=${querystring.encode(
-            slug
-          )}&quote=${querystring.encode(title)}`}
+          href={`https://www.facebook.com/sharer/sharer.php?${qs.stringify({
+            u: slug,
+            quote: title
+          })}`}
           title="Share on Facebook"
           target="_blank"
           rel="noopener noreferrer"
@@ -24,9 +25,10 @@ export default function Social({ title, slug }) {
       </li>
       <li>
         <a
-          href={`https://twitter.com/intent/tweet?url=${querystring.encode(
-            slug
-          )}&text=${querystring.encode(title)}`}
+          href={`https://twitter.com/intent/tweet?${qs.stringify({
+            url: slug,
+            text: title
+          })}`}
           target="_blank"
           title="Tweet"
           rel="noopener noreferrer"
@@ -36,9 +38,11 @@ export default function Social({ title, slug }) {
       </li>
       <li>
         <a
-          href={`http://www.linkedin.com/shareArticle?mini=true&url=${querystring.encode(
-            slug
-          )}&title=${querystring.encode(title)}`}
+          href={`http://www.linkedin.com/shareArticle?mini=true&url=${qs.stringify({
+            mini: true,
+            url: slug,
+            title
+          })}`}
           target="_blank"
           title="Share on LinkedIn"
           rel="noopener noreferrer"

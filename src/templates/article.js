@@ -9,10 +9,18 @@ const ArticleTemplate = ({ data, errors }) => {
   }
 
   const { date, title } = data.markdownRemark.frontmatter;
-  const content = data.markdownRemark.html;
+  const { html, slug } = data.markdownRemark;
   return (
     <Layout>
-      <Article showSocialTop showSocialBottom date={date} title={title} content={content} />
+      <Article
+        slug={slug}
+        makeTitleClickable={false}
+        showSocialTop
+        showSocialBottom
+        date={date}
+        title={title}
+        content={html}
+      />
     </Layout>
   );
 };
@@ -23,6 +31,7 @@ export const query = graphql`
   query($slug: String!) {
     markdownRemark(slug: { eq: $slug }) {
       html
+      slug
       frontmatter {
         title
         date

@@ -5,13 +5,21 @@ import globalStyles from '../../styles.module.css';
 import { Link } from 'gatsby';
 import Social from '../social';
 
-export default function Article({ showSocialTop, showSocialBottom, date, title, content, slug }) {
+export default function Article({
+  showSocialTop,
+  showSocialBottom,
+  date,
+  title,
+  content,
+  slug,
+  makeTitleClickable = true
+}) {
   return (
     <article className={styles.pb2}>
       {showSocialTop && <Social title={title} slug={slug} />}
       {date && <time className={globalStyles.publishDate}>{new Date(date).toDateString()}</time>}
       <h1 className={globalStyles.articleTitle}>
-        {slug ? (
+        {makeTitleClickable ? (
           <Link style={{ color: 'rgb(51, 51, 51)' }} to={slug}>
             {title}
           </Link>
