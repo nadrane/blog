@@ -96,6 +96,6 @@ If you have a primary key that doesn't serially increase - perhaps you're using 
 
 Everything in software engineering has a tradeoff, and I would be remiss to to not mention them here. That `-s` option we specified above instructs `jq` to download the entire dataset into memory, a requirement for sorting. If you dataset is too large, then the command will fail (`jq` failed for me at 769MB).
 
-The first option does not suffer this limitation and will work for arbitrarily large datasets. This is because it leverages [streams](https://en.wikipedia.org/wiki/Stream_(computing) to only work on small chunks of data at once. If your dataset is large and you want foreign key constraints, you could use this streaming approach and then apply the constraints after data ingestion completes.
+The first option does not suffer this limitation and will work for arbitrarily large datasets. This is because it leverages [streams](<https://en.wikipedia.org/wiki/Stream_(computing)>) to only work on small chunks of data at once. If your dataset is large and you want foreign key constraints, you could use this streaming approach and then apply the constraints after data ingestion completes.
 
 _If you have a data ingestion or PostgreSQL related problem, I do [consulting](/hire-me) work out of Chicago area and am currently looking for new clients. Please contact me for more details_

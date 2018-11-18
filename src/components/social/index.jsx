@@ -1,36 +1,42 @@
-import { escape } from 'querystring';
+import React from 'react';
+import querystring from 'querystring';
 import styles from './styles.module.scss';
+import '@fortawesome/fontawesome-free/css/all.css';
 
 export default function Social({ title, slug }) {
   return (
     <ul className={styles.socialButtons}>
       <li>
         <a
-          href={`https://www.facebook.com/sharer/sharer.php?u=${escape(slug)}&quote=${escape(title)}`}
+          href={`https://www.facebook.com/sharer/sharer.php?u=${querystring.encode(
+            slug
+          )}&quote=${querystring.encode(title)}`}
           title="Share on Facebook"
           target="_blank"
         >
-          <img alt="Share on Facebook" src="/images/social/Facebook.png" />
+          <i className="fab fa-facebook-f" />
         </a>
       </li>
       <li>
         <a
-          href={`https://twitter.com/intent/tweet?url=${escape(slug)}&text=${escape(title)}`}
+          href={`https://twitter.com/intent/tweet?url=${querystring.encode(
+            slug
+          )}&text=${querystring.encode(title)}`}
           target="_blank"
           title="Tweet"
         >
-          <img alt="Tweet" src="/images/social/Twitter.png" />
+          <i class="fab fa-twitter" />
         </a>
       </li>
       <li>
         <a
-          href={`http://www.linkedin.com/shareArticle?mini=true&url=${escape(slug)}&title=${escape(
-            title
-          )}`}
+          href={`http://www.linkedin.com/shareArticle?mini=true&url=${querystring.encode(
+            slug
+          )}&title=${querystring.encode(title)}`}
           target="_blank"
           title="Share on LinkedIn"
         >
-          <img alt="Share on LinkedIn" src="/images/social/LinkedIn.png" />
+          <i class="fab fa-linkedin-in" />
         </a>
       </li>
       <li>
@@ -39,10 +45,9 @@ export default function Social({ title, slug }) {
           target="_blank"
           title="Send email"
         >
-          <img alt="Send email" src="/images/social/Email.png" />
+          <i class="far fa-envelope" />
         </a>
       </li>
-      )
     </ul>
   );
 }

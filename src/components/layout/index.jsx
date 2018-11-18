@@ -7,6 +7,7 @@ import Header from '../header';
 import CategoryList from '../categoryList';
 import RecentPosts from '../recentPosts';
 import PopularPosts from '../popularPosts';
+import Social from '../social';
 
 // import 'normalize.css';
 import './global.css';
@@ -38,6 +39,7 @@ const Layout = ({ children }) => (
           <Header siteTitle={data.site.siteMetadata.title} />
           <div className={styles.main}>
             <div className={styles.contentWrapper}>
+              <Social />
               <section className={styles.content}>{children}</section>
               <aside className={styles.sidebar}>
                 <PopularPosts />
