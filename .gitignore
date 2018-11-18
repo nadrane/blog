@@ -1,3 +1,5 @@
+diskstore*
 node_modules
-.DS_Store
-public/**/*
+.cache
+public
+path*

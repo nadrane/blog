@@ -1,0 +1,15 @@
+pre[class^='language-']::before {
+  box-shadow: none;
+}
+
+pre[class^='language-'] > code {
+  box-shadow: none;
+  border-left: none;
+  background-color: #efefef;
+  background-image: none;
+  padding: 10px;
+}
+
+pre[class^='language-']::after {
+  box-shadow: none;
+}

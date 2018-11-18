@@ -1,0 +1,22 @@
+.sideBarSection {
+  display: flex;
+  flex-direction: column;
+}
+
+.sideBarLabel {
+  padding-top: 0;
+  font-weight: 600;
+  font-size: 14px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.sideBarEntry {
+  padding-top: 0;
+  box-sizing: border-box;
+  color: rgb(51, 51, 51);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 22.4px;
+  list-style-type: none;
+}
