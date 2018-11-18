@@ -15,26 +15,28 @@ import styles from './styles.module.scss';
 const Layout = ({ children }) => (
   <StaticQuery
     query={graphql`
-      query SiteTitleQuery {
+      query SiteMetaDataQuery {
         site {
           siteMetadata {
             title
+            description
+            keywords
           }
         }
       }
     `}
     render={(data, errors) => {
+      const siteMetadata = data.site.siteMetadata;
       return (
         <div>
           <Helmet
-            title={data.site.siteMetadata.title}
+            title={siteMetadata.title}
+            htmlAttributes={{ lang: 'en' }}
             meta={[
-              { name: 'description', content: 'Sample' },
-              { name: 'keywords', content: 'sample, something' }
+              { name: 'description', content: siteMetadata.description },
+              { name: 'keywords', content: siteMetadata.keywords }
             ]}
-          >
-            <html lang="en" />
-          </Helmet>
+          />
           <Header siteTitle={data.site.siteMetadata.title} />
           <div className={styles.main}>
             <div className={styles.contentWrapper}>

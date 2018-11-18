@@ -27,7 +27,8 @@
     "react-helmet": "^5.2.0",
     "react-typography": "^0.16.13",
     "typography": "^0.16.17",
-    "typography-theme-github": "^0.15.10"
+    "typography-theme-github": "^0.15.10",
+    "url-join": "^4.0.0"
   },
   "keywords": [
     "gatsby"
