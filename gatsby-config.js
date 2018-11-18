@@ -8,7 +8,6 @@ module.exports = {
   plugins: [
     'gatsby-plugin-react-helmet',
     `gatsby-plugin-sass`,
-
     'gatsby-remark-copy-linked-files',
     {
       resolve: `gatsby-plugin-typography`,
@@ -78,6 +77,7 @@ module.exports = {
       options: {
         trackingId: `UA-107252357-1`
       }
-    }
+    },
+    `gatsby-plugin-feed`
   ]
 };
