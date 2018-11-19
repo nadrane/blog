@@ -1,225 +1,92 @@
-<!DOCTYPE HTML>
-<html>
-
-<head>
-  <meta charset="utf-8">
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="ie=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/><style data-href="/app.a03716562d1e590f30ef.css">code[class*=language-],pre[class*=language-]{color:#000;background:none;font-family:Consolas,Monaco,Andale Mono,Ubuntu Mono,monospace;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{position:relative;margin:.5em 0;overflow:visible;padding:0}pre[class*=language-]>code{position:relative;border-left:10px solid #358ccb;box-shadow:-1px 0 0 0 #358ccb,0 0 0 1px #dfdfdf;background-color:#fdfdfd;background-image:linear-gradient(transparent 50%,rgba(69,142,209,.04) 0);background-size:3em 3em;background-origin:content-box;background-attachment:local}code[class*=language]{max-height:inherit;height:inherit;padding:0 1em;display:block;overflow:auto}:not(pre)>code[class*=language-],pre[class*=language-]{background-color:#fdfdfd;box-sizing:border-box;margin-bottom:1em}:not(pre)>code[class*=language-]{position:relative;padding:.2em;border-radius:.3em;color:#c92c2c;border:1px solid rgba(0,0,0,.1);display:inline;white-space:normal}pre[class*=language-]:after,pre[class*=language-]:before{content:"";z-index:-2;display:block;position:absolute;bottom:.75em;left:.18em;width:40%;height:20%;max-height:13em;box-shadow:0 13px 8px #979797;-webkit-transform:rotate(-2deg);transform:rotate(-2deg)}:not(pre)>code[class*=language-]:after,pre[class*=language-]:after{right:.75em;left:auto;-webkit-transform:rotate(2deg);transform:rotate(2deg)}.token.block-comment,.token.cdata,.token.comment,.token.doctype,.token.prolog{color:#7d8b99}.token.punctuation{color:#5f6364}.token.boolean,.token.constant,.token.deleted,.token.function-name,.token.number,.token.property,.token.symbol,.token.tag{color:#c92c2c}.token.attr-name,.token.builtin,.token.char,.token.function,.token.inserted,.token.selector,.token.string{color:#2f9c0a}.token.entity,.token.operator,.token.url,.token.variable{color:#a67f59;background:hsla(0,0%,100%,.5)}.token.atrule,.token.attr-value,.token.class-name,.token.keyword{color:#1990b8}.token.important,.token.regex{color:#e90}.language-css .token.string,.style .token.string{color:#a67f59;background:hsla(0,0%,100%,.5)}.token.important{font-weight:400}.token.bold{font-weight:700}.token.italic{font-style:italic}.token.entity{cursor:help}.namespace{opacity:.7}@media screen and (max-width:767px){pre[class*=language-]:after,pre[class*=language-]:before{bottom:14px;box-shadow:none}}.token.cr:before,.token.lf:before,.token.tab:not(:empty):before{color:#e0d7d1}pre[class*=language-].line-numbers.line-numbers{padding-left:0}pre[class*=language-].line-numbers.line-numbers code{padding-left:3.8em}pre[class*=language-].line-numbers.line-numbers .line-numbers-rows{left:0}pre[class*=language-][data-line]{padding-top:0;padding-bottom:0;padding-left:0}pre[data-line] code{position:relative;padding-left:4em}pre .line-highlight{margin-top:0}</style><style data-href="/1.c382007339bd0944329e.css">.styles-module--headerWrapper--2tn7j{background-color:#fafafa;height:100px;display:flex;justify-content:center;align-items:center;white-space:nowrap}.styles-module--header--3Gxg8{display:flex;justify-content:start;align-items:flex-end;width:100%;max-width:960px;margin:0 0 0 10px}.styles-module--header--3Gxg8 h1{padding-bottom:0}.styles-module--header--3Gxg8 h1:hover{opacity:.7}.styles-module--headerLinks--2TTvw{border-bottom:none;list-style-type:none;display:flex}.styles-module--headerLinks--2TTvw li a{color:rgba(0,0,0,.8);font-size:18px;font-weight:300;padding:0 10px;margin-bottom:0}@media only screen and (max-width:992px){.styles-module--headerLinks--2TTvw li a{font-size:16px;padding:0 8px}.styles-module--header--3Gxg8{max-width:680px;margin:0 10px}}@media only screen and (max-width:768px){.styles-module--headerLinks--2TTvw{margin-left:0;line-height:1.3rem}.styles-module--headerLinks--2TTvw li a{font-size:14px;padding:0 6px}.styles-module--headerWrapper--2tn7j{height:75px}.styles-module--header--3Gxg8 h1{font-size:20px}}.styles-module--sideBarSection--kbYhv{display:flex;flex-direction:column}.styles-module--sideBarLabel--1Yp9y{padding-top:0;font-weight:600;font-size:14px;text-transform:uppercase;white-space:nowrap}.styles-module--sideBarEntry--yZZc9{padding-top:0;box-sizing:border-box;color:#333;font-size:14px;font-weight:400;line-height:22.4px;list-style-type:none}pre[class^=language-]:before{box-shadow:none}pre[class^=language-]>code{box-shadow:none;border-left:none;background-color:#efefef;background-image:none;padding:10px}pre[class^=language-]:after{box-shadow:none}.styles-module--main--1m7Ru{display:flex;justify-content:center;min-width:0}.styles-module--contentWrapper--iDaC7{display:flex;max-width:960px;min-width:0}.styles-module--content--3pIkX{max-width:680px;padding-top:0;margin:26px 50px 15px 10px;min-width:300px}@media only screen and (max-width:992px){.styles-module--content--3pIkX{margin:26px 10px}}.styles-module--sidebar--WpqGz{margin-top:5px;max-width:220px}@media only screen and (max-width:992px){.styles-module--sidebar--WpqGz{display:none}}h2{clear:both;font-size:22px;margin-bottom:16.5px;overflow-wrap:break-word;padding-right:0;padding-top:24px;font-weight:400;line-height:30.8px}@media only screen and (max-width:992px){h2{font-size:20px;margin-bottom:14.5px;padding-top:6px}}.styles-module--pb2--AfFCT{margin-bottom:50px}.styles-module--publishDate--ykcEK{color:#767676;font-size:11px;font-size:.6875rem;font-weight:800;letter-spacing:.1818em;text-transform:uppercase}.styles-module--articleTitle--PGngd{color:#333;font-size:26px;font-weight:300;line-height:36.4px;margin-top:0;margin-bottom:14px;overflow-wrap:break-word}@media only screen and (max-width:992px){.styles-module--articleTitle--PGngd{font-size:22px}}.styles-module--socialButtons--1R7Rx{display:flex;justify-content:space-between;list-style-type:none;margin:0;width:150px}.styles-module--socialButtons--1R7Rx a{cursor:pointer}</style><meta name="generator" content="Gatsby 2.0.50"/><title data-react-helmet="true">Nick Drane</title><meta data-react-helmet="true" name="description" content="A blog about programming and modern web development, particularly Node.js and React"/><meta data-react-helmet="true" name="keywords" content="react, javascript, nodejs"/><meta data-react-helmet="true" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/><style id="typography.js">html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}body{margin:0}article,aside,details,figcaption,figure,footer,header,main,menu,nav,section,summary{display:block}audio,canvas,progress,video{display:inline-block}audio:not([controls]){display:none;height:0}progress{vertical-align:baseline}[hidden],template{display:none}a{background-color:transparent;-webkit-text-decoration-skip:objects}a:active,a:hover{outline-width:0}abbr[title]{border-bottom:none;text-decoration:underline;text-decoration:underline dotted}b,strong{font-weight:inherit;font-weight:bolder}dfn{font-style:italic}h1{font-size:2em;margin:.67em 0}mark{background-color:#ff0;color:#000}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}img{border-style:none}svg:not(:root){overflow:hidden}code,kbd,pre,samp{font-family:monospace,monospace;font-size:1em}figure{margin:1em 40px}hr{box-sizing:content-box;height:0;overflow:visible}button,input,optgroup,select,textarea{font:inherit;margin:0}optgroup{font-weight:700}button,input{overflow:visible}button,select{text-transform:none}[type=reset],[type=submit],button,html [type=button]{-webkit-appearance:button}[type=button]::-moz-focus-inner,[type=reset]::-moz-focus-inner,[type=submit]::-moz-focus-inner,button::-moz-focus-inner{border-style:none;padding:0}[type=button]:-moz-focusring,[type=reset]:-moz-focusring,[type=submit]:-moz-focusring,button:-moz-focusring{outline:1px dotted ButtonText}fieldset{border:1px solid silver;margin:0 2px;padding:.35em .625em .75em}legend{box-sizing:border-box;color:inherit;display:table;max-width:100%;padding:0;white-space:normal}textarea{overflow:auto}[type=checkbox],[type=radio]{box-sizing:border-box;padding:0}[type=number]::-webkit-inner-spin-button,[type=number]::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}[type=search]::-webkit-search-cancel-button,[type=search]::-webkit-search-decoration{-webkit-appearance:none}::-webkit-input-placeholder{color:inherit;opacity:.54}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}html{font:100%/1.625 -apple-system,'BlinkMacSystemFont','Segoe UI','Roboto','Helvetica','Arial',sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';box-sizing:border-box;overflow-y:scroll;}*{box-sizing:inherit;}*:before{box-sizing:inherit;}*:after{box-sizing:inherit;}body{color:hsla(0,0%,0%,0.8);font-family:-apple-system,'BlinkMacSystemFont','Segoe UI','Roboto','Helvetica','Arial',sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';font-weight:normal;word-wrap:break-word;font-kerning:normal;-moz-font-feature-settings:"kern", "liga", "clig", "calt";-ms-font-feature-settings:"kern", "liga", "clig", "calt";-webkit-font-feature-settings:"kern", "liga", "clig", "calt";font-feature-settings:"kern", "liga", "clig", "calt";}img{max-width:100%;margin-left:0;margin-right:0;margin-top:0;padding-bottom:0;padding-left:0;padding-right:0;padding-top:0;margin-bottom:0.8125rem;}h1{margin-left:0;margin-right:0;margin-top:2.4375rem;padding-bottom:calc(0.40625rem - 1px);padding-left:0;padding-right:0;padding-top:0;margin-bottom:1.21875rem;color:inherit;font-family:-apple-system,'BlinkMacSystemFont','Segoe UI','Roboto','Helvetica','Arial',sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';font-weight:600;text-rendering:optimizeLegibility;font-size:2rem;line-height:1.1;border-bottom:1px solid hsla(0,0%,0%,0.07);}h2{margin-left:0;margin-right:0;margin-top:1.625rem;padding-bottom:calc(0.40625rem - 1px);padding-left:0;padding-right:0;padding-top:0;margin-bottom:0.40625rem;color:inherit;font-family:-apple-system,'BlinkMacSystemFont','Segoe UI','Roboto','Helvetica','Arial',sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';font-weight:600;text-rendering:optimizeLegibility;font-size:1.51572rem;line-height:1.1;border-bottom:1px solid hsla(0,0%,0%,0.07);}h3{margin-left:0;margin-right:0;margin-top:0;padding-bottom:0;padding-left:0;padding-right:0;padding-top:0;margin-bottom:0.8125rem;color:inherit;font-family:-apple-system,'BlinkMacSystemFont','Segoe UI','Roboto','Helvetica','Arial',sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';font-weight:600;text-rendering:optimizeLegibility;font-size:1.31951rem;line-height:1.1;}h4{margin-left:0;margin-right:0;margin-top:0;padding-bottom:0;padding-left:0;padding-right:0;padding-top:0;margin-bottom:0.8125rem;color:inherit;font-family:-apple-system,'BlinkMacSystemFont','Segoe UI','Roboto','Helvetica','Arial',sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';font-weight:600;text-rendering:optimizeLegibility;font-size:1rem;line-height:1.1;}h5{margin-left:0;margin-right:0;margin-top:0;padding-bottom:0;padding-left:0;padding-right:0;padding-top:0;margin-bottom:0.8125rem;color:inherit;font-family:-apple-system,'BlinkMacSystemFont','Segoe UI','Roboto','Helvetica','Arial',sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';font-weight:600;text-rendering:optimizeLegibility;font-size:0.87055rem;line-height:1.1;}h6{margin-left:0;margin-right:0;margin-top:0;padding-bottom:0;padding-left:0;padding-right:0;padding-top:0;margin-bottom:0.8125rem;color:hsla(0,0%,0%,0.53);font-family:-apple-system,'BlinkMacSystemFont','Segoe UI','Roboto','Helvetica','Arial',sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';font-weight:600;text-rendering:optimizeLegibility;font-size:0.81225rem;line-height:1.1;}hgroup{margin-left:0;margin-right:0;margin-top:0;padding-bottom:0;padding-left:0;padding-right:0;padding-top:0;margin-bottom:0.8125rem;}ul{margin-left:1.625rem;margin-right:0;margin-top:0;padding-bottom:0;padding-left:0;padding-right:0;padding-top:0;margin-bottom:0.8125rem;list-style-position:outside;list-style-image:none;}ol{margin-left:1.625rem;margin-right:0;margin-top:0;padding-bottom:0;padding-left:0;padding-right:0;padding-top:0;margin-bottom:0.8125rem;list-style-position:outside;list-style-image:none;}dl{margin-left:0;margin-right:0;margin-top:0;padding-bottom:0;padding-left:0;padding-right:0;padding-top:0;margin-bottom:0.8125rem;}dd{margin-left:0;margin-right:0;margin-top:0;padding-bottom:0;padding-left:0;padding-right:0;padding-top:0;margin-bottom:0.8125rem;}p{margin-left:0;margin-right:0;margin-top:0;padding-bottom:0;padding-left:0;padding-right:0;padding-top:0;margin-bottom:0.8125rem;}figure{margin-left:0;margin-right:0;margin-top:0;padding-bottom:0;padding-left:0;padding-right:0;padding-top:0;margin-bottom:0.8125rem;}pre{margin-left:0;margin-right:0;margin-top:0;padding-bottom:0;padding-left:0;padding-right:0;padding-top:0;margin-bottom:0.8125rem;font-size:0.85rem;line-height:1.625rem;}table{margin-left:0;margin-right:0;margin-top:0;padding-bottom:0;padding-left:0;padding-right:0;padding-top:0;margin-bottom:0.8125rem;font-size:1rem;line-height:1.625rem;border-collapse:collapse;width:100%;}fieldset{margin-left:0;margin-right:0;margin-top:0;padding-bottom:0;padding-left:0;padding-right:0;padding-top:0;margin-bottom:0.8125rem;}blockquote{margin-left:0;margin-right:0;margin-top:0;padding-bottom:0;padding-left:calc(0.8125rem - 1px);padding-right:0;padding-top:0;margin-bottom:0.8125rem;border-left:4px solid hsla(0,0%,0%,0.13);color:hsla(0,0%,0%,0.53);}form{margin-left:0;margin-right:0;margin-top:0;padding-bottom:0;padding-left:0;padding-right:0;padding-top:0;margin-bottom:0.8125rem;}noscript{margin-left:0;margin-right:0;margin-top:0;padding-bottom:0;padding-left:0;padding-right:0;padding-top:0;margin-bottom:0.8125rem;}iframe{margin-left:0;margin-right:0;margin-top:0;padding-bottom:0;padding-left:0;padding-right:0;padding-top:0;margin-bottom:0.8125rem;}hr{margin-left:0;margin-right:0;margin-top:0;padding-bottom:0;padding-left:0;padding-right:0;padding-top:0;margin-bottom:calc(0.8125rem - 1px);background:hsla(0,0%,0%,0.2);border:none;height:1px;}address{margin-left:0;margin-right:0;margin-top:0;padding-bottom:0;padding-left:0;padding-right:0;padding-top:0;margin-bottom:0.8125rem;}b{font-weight:600;}strong{font-weight:600;}dt{font-weight:600;}th{font-weight:600;}li{margin-bottom:calc(0.8125rem / 2);}ol li{padding-left:0;}ul li{padding-left:0;}li > ol{margin-left:1.625rem;margin-bottom:calc(0.8125rem / 2);margin-top:calc(0.8125rem / 2);}li > ul{margin-left:1.625rem;margin-bottom:calc(0.8125rem / 2);margin-top:calc(0.8125rem / 2);}blockquote *:last-child{margin-bottom:0;}li *:last-child{margin-bottom:0;}p *:last-child{margin-bottom:0;}li > p{margin-bottom:calc(0.8125rem / 2);}code{font-size:0.85rem;line-height:1.625rem;}kbd{font-size:0.85rem;line-height:1.625rem;}samp{font-size:0.85rem;line-height:1.625rem;}abbr{border-bottom:1px dotted hsla(0,0%,0%,0.5);cursor:help;}acronym{border-bottom:1px dotted hsla(0,0%,0%,0.5);cursor:help;}abbr[title]{border-bottom:1px dotted hsla(0,0%,0%,0.5);cursor:help;text-decoration:none;}thead{text-align:left;}td,th{text-align:left;border-bottom:1px solid hsla(0,0%,0%,0.12);font-feature-settings:"tnum";-moz-font-feature-settings:"tnum";-ms-font-feature-settings:"tnum";-webkit-font-feature-settings:"tnum";padding-left:1.08333rem;padding-right:1.08333rem;padding-top:0.8125rem;padding-bottom:calc(0.8125rem - 1px);}th:first-child,td:first-child{padding-left:0;}th:last-child,td:last-child{padding-right:0;}h3,h4,h5,h6{margin-bottom:0.8125rem;margin-top:1.625rem;}ol,ul{margin-left:2.03125rem;}li>ol,li>ul{margin-left:2.03125rem;}a{color:#4078c0;text-decoration:none;}a:hover,a:active{text-decoration:underline;}</style><link rel="shortcut icon" href="/icons/icon-48x48.png"/><link rel="manifest" href="/manifest.webmanifest"/><meta name="theme-color" content="#663399"/><link as="script" rel="preload" href="/component---src-templates-article-js-1fbec1f75927d5c22ad3.js"/><link as="script" rel="preload" href="/1-bff131ac10cdc1826932.js"/><link as="script" rel="preload" href="/0-f07a4e60ba6d9a97b6e2.js"/><link as="script" rel="preload" href="/app-362ece02ccc79eb0b86d.js"/><link as="script" rel="preload" href="/webpack-runtime-de125465b3ac9d357a75.js"/><link rel="preload" href="/static/d/372/path---ethical-engineering-for-the-average-engineer-762-dbc-jZxM4yQJCfdSLUDqU2enEoKVBPY.json" as="fetch" crossOrigin="use-credentials"/></head><body><div id="___gatsby"><div style="outline:none" tabindex="-1" role="group"><div><div class="styles-module--headerWrapper--2tn7j"><div class="styles-module--header--3Gxg8"><h1 style="border-bottom:none"><a style="color:black;text-decoration:none" href="/">Nick Drane</a></h1><div style="flex-grow:1"></div><ul class="styles-module--headerLinks--2TTvw"><li><a href="/projects">Projects</a></li><li><a href="/hire-me">Hire Me</a></li><li><a href="/about-me">About Me</a></li></ul></div></div><div class="styles-module--main--1m7Ru"><div class="styles-module--contentWrapper--iDaC7"><section class="styles-module--content--3pIkX"><article class="styles-module--pb2--AfFCT"><ul class="styles-module--socialButtons--1R7Rx"><li><a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fnickdrane.com%2Fethical-engineering-for-the-average-engineer&amp;quote=Ethical%20Engineering%20for%20the%20Average%20Engineer" title="Share on Facebook" target="_blank" rel="noopener noreferrer"><img alt="Share on Facebook" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABBUlEQVR42u3XvWrCUBiAYYk0ji5JS0NzAx3EDl1sJ5euztKb6NS5jt5HL0CDLZXMvZFCtigigghy+g4ZPqQJxiQnFc4HzxIOnBfyw0lDKVUrE2AC/ryYjAWnJBZyBdiYIMaioBgB7DwBLrZQJdnhMk+AgxXUCdbYYH9wza06YIw7eLjBk86AFxyOpyvgB7bY+ApdDHQFfInNfURQgJ6AqQh4gNId8FlXwDP66IiANvqJ1yoD9rhG1gyrDvCRNW9V34JvhBiJTW8RJiJdD+FcBDzW8RYEIqBnAs4woPiB5EN+Ccs6kNgIsDzCuwi4T1kzQ+uUQ6l7hLYIuEhZ04T5LzAB/zPgF4mwkz3Asji2AAAAAElFTkSuQmCC"/></a></li><li><a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fnickdrane.com%2Fethical-engineering-for-the-average-engineer&amp;text=Ethical%20Engineering%20for%20the%20Average%20Engineer" target="_blank" title="Tweet" rel="noopener noreferrer"><img alt="Tweet" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABQklEQVR42u3WMUvDQByGcdt0qKA42Dq4hA4WdBAEUXGy4CYu/QIOBdGCjn4HndwcHQRnEerabOrkWEHHIA4WBUEqhfx9hoAQYs67C+hwL/yWTA/h0uuIiPwpF+ACXEDqQ8OVMQMfadMOKGAav1kL9xjiA10so4IdzJsETOERG8haG5JigGd04MPTDViA4BPbSNskXiE/iHCNFoq6ATVEkNglVhIBqxCFI3gwOoQdSEKAAzSwBcnQR9n0EFbRRKh4xZIhxKhpwCze8QYxdGPzGRYRQCwcGwfEq6NnEbBmFRBvHV2IpjuU8ghoQwxsgtkHlHAC0XBqdxekbwnnEIUAY/lcRt/zsYcHSIYLTORxGxbQwBl6UP3gPGE/EW39Bjws4hC3eMEQEQYIcYVdVKGY/RmooI451DAOnbn/hC7ABfzPgC/uMxh1wWVf+wAAAABJRU5ErkJggg=="/></a></li><li><a href="http://www.linkedin.com/shareArticle?mini=true&amp;url=mini=true&amp;url=https%3A%2F%2Fnickdrane.com%2Fethical-engineering-for-the-average-engineer&amp;title=Ethical%20Engineering%20for%20the%20Average%20Engineer" target="_blank" title="Share on LinkedIn" rel="noopener noreferrer"><img alt="Share on LinkedIn" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABK0lEQVR42u3WvyvEcRzHcSSlbiE/Fjl3MSnFKGUwXx2TY7Gd+AOUf8BCLDJRst2/YJFJhsspC7tNibI4vT2H9/Dt1Q3O3ffjyuddj+X9ru89+9a3rsvM/lQMiAGdGeDTjzL2UUIPWpmmArpxAUvYDRkwgA8JeAgZ0Id7CagEC/CZxSUeUcFYwIDGEzpgCSWsYg1zvs/Ad46d28QZzrGDyVYCbmAJx77Pw8QGqjDxhvXfBlzJww59P4FP6A+ZU3XMtDMgqwHuBdd4honTdgaMQwPukPX7KGpyf0Jvmm9gBcnZkvsrBtMMmJeAgtzfMZJmwMIPAoZT+grCB+RQ/9cBeXyFCLiVh5z4fgomFiVgGSaa/gq2cZRQ9P0QDuSWk4Bpue8hE/8Vx4AY0Mg3lT+VfWEazvQAAAAASUVORK5CYII="/></a></li><li><a href="mailto:?subject=Ethical Engineering for the Average Engineer&amp;body=Check this out: https://nickdrane.com/ethical-engineering-for-the-average-engineer" target="_blank" title="Send email" rel="noopener noreferrer"><img alt="Send email" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABU0lEQVR42u3WS0sCURyG8WhbS8egzNRuprRoUV+ibfsIt9GHiJaiBrXrIxVRRhimlbeSrqZhtvDfM3AWgwQ6R8UW54Xfep5h4JwZE5GRMgEmwAT8zwA2gX3EkcKRpkPEcYBJNwEW2hB8I4eCS3nUIIrXTYAHHxBUEIW98R7Zm8EVBJ+w3Aa0kMA1ylhEr/PiElWcoKUTIIhhGgUXEVNIo44ItiE6AW3swd4CSihivsubX6COddjb7TtAbQkV3COIzlk4RwMbYAMMUAupiCwCHQ8/RQ1rYMMJCOMJglv44cEZBK+IDCsgihdksKlCvvCOBraQxhtWBx0QRhV5+B2fI4ljxznhQxbPiPQbIIjBhzIeEES3zeEOj5jFjm5AC0lkUEQIvS6ggm+QwA8s3aO4jBWNo3gZJedRrHsZNTUvoxyaEMU7ius45byOzR+RCTABJuAvv4FRbl/e6OHvAAAAAElFTkSuQmCC"/></a></li></ul><time class="styles-module--publishDate--ykcEK">Sun Sep 16 2018</time><h1 class="styles-module--articleTitle--PGngd">Ethical Engineering for the Average Engineer</h1><div><p>Two months ago I purchased a GPS device and associated service plan from <a href="https://www.findmespot.com/en/">SPOT</a>. Today, upon trying to cancel the service, the customer service representative informed me that I had accidentally enrolled myself into a 1 year, $250 contract and that I was unable to cancel. He told me that if I blocked the monthly charges against my credit card that they would report the debt to a collections agency. I was initially upset but soon realized it was a great opportunity to talk about ethics in software engineering.</p>
+<!-- more -->
+<h2>SPOT's Marketing Materials</h2>
+<p>The representative told me to look at their website where he claimed it would be very clear that I was signing up for a contract service. When I Googled "spot service plan", the first link I clicked on directed me to these marketing materials:</p>
+<p>
+  <a
+    class="gatsby-resp-image-link"
+    href="/static/b0870a859d70750b1190db9b43a37846/2effb/spot-marketing-material.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
   
-    <title>
-      Ethical Engineering for the Average Engineer › Nick Drane
-    </title>
-    
-      <meta name="author" content="Nick Drane">
-      
-        
-            <meta name="description" content="Nick Drane&#39;s blog about programming and modern web development, particularly Node.js and React.">
-            
-                  
-                      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
-                      
-                        <meta property="og:title" content="Ethical Engineering for the Average Engineer" />
-                        
-                          <meta property="og:site_name" content="Nick Drane" />
-
-                          
-                              <meta property="og:image" content="" />
-                              
-                                <meta name="google-site-verification" content="0iahwlYFOHM2sYjk4TF5_lP0DqzgOgkXnZcKV-Qci8A" />
-
-                                <link href="/favicon.png" rel="icon">
-                                <link rel="alternate" href="/atom.xml" title="Nick Drane"
-                                  type="application/atom+xml">
-                                <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
-                                <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-                                <script async src="https://www.googletagmanager.com/gtag/js?id=UA-107252357-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-107252357-1');
-</script>
-</head>
-
-<body>
-  <header id="header"><div class="meta inner">
-  <h1><a href="/">Nick Drane</a></h1>
-  <nav id="main-nav">
-    <ul>
-      <li><a href="/about">About</a></li>
-      <li><a href="/hire-me">Hire Me</a></li>
-      <li><a href="/projects">Projects</a></li>
-      <li><a href="/archives">Archives</a></li>
-    </ul>
-    <div class="clearfix"></div>
-  </nav>
-</div>
-<div class="clearfix"></div>
-</header>
-  <div id="content" class="inner">
+  <span
+    class="gatsby-resp-image-wrapper"
+    style="position: relative; display: block;  max-width: 680px; margin-left: auto; margin-right: auto;"
+  >
+    <span
+      class="gatsby-resp-image-background-image"
+      style="padding-bottom: 67.47624076029567%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAANCAIAAAAmMtkJAAAACXBIWXMAABYlAAAWJQFJUiTwAAACMUlEQVQoz5VSy27TQBT1IutIlCAUFSFRKQtW7FiXb6EfwS58Qd5FojyWgIQoTVU2RQUpgsR9JA5Rmia0oolTOy8nfsRuPJ6xw7FTVSCx4Wg8c2bm3nvuvWNuryy82f384mP+1db2y638XqGwz/PFYrFcLjcajXq9zvN8pVIBr9VqpVJJqFaF6o/DoyOccGtrj29FIqFQiPsb4XA4FovdWV4GX1q6ubKyEo1GwWP37j58cP925Mbq6iPuw+ZmPB5PJBKZbDaduUIWPJ1OJpOpVCqXy2G+5s+y6dcb6+uZdD6/zc1ms+l0aprm/P/B2bY9HAwkSdI0bTKZ6Lo+Ho+N6ZQQQhlj1AEIsRmlGAF3GPNYAA6aiqKMRqM+0OsNh0OscMad53kIjxl8IeWCU4oVx76yaVoQhLKqqjBCIsS2nflcF89auSfHO+92vxQYsbyLotcX3JnmaBLpHhC55jGHazabglDpdDqtVkudqEgEHaCuZxva4ODr6eF3vlxFrnPHnDsWdP0e6app6K7rcihVliVRFM/bbVXFTsdYlPSPtF33mvtp4w4e+BlOTprt87YkybKMykeUUugsPP9wXgTyrmrGh7116cMwdPQT4eHjOwfK2Po8MA84c4POARz2eBXLstA51AM7ZAY7Yyj1v+2MO2cdsUuJTVWR6RIlM2KqTGkxrevXjNjwwVPhkRRljECLDM1ep/X86f7bjff5T459OZ/89MannmPZpq5fHE8Hv+D8GyFRj7RSZKXCAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+    >
+      <picture>
+        <source
+          srcset="/static/b0870a859d70750b1190db9b43a37846/4ca7d/spot-marketing-material.webp 170w,
+/static/b0870a859d70750b1190db9b43a37846/515c8/spot-marketing-material.webp 340w,
+/static/b0870a859d70750b1190db9b43a37846/d6460/spot-marketing-material.webp 680w,
+/static/b0870a859d70750b1190db9b43a37846/c4056/spot-marketing-material.webp 1020w,
+/static/b0870a859d70750b1190db9b43a37846/862d7/spot-marketing-material.webp 1360w,
+/static/b0870a859d70750b1190db9b43a37846/a5684/spot-marketing-material.webp 1894w"
+          sizes="(max-width: 680px) 100vw, 680px"
+          type="image/webp"
+        />
+        <source
+          srcset="/static/b0870a859d70750b1190db9b43a37846/f4d37/spot-marketing-material.png 170w,
+/static/b0870a859d70750b1190db9b43a37846/dee79/spot-marketing-material.png 340w,
+/static/b0870a859d70750b1190db9b43a37846/7ef4c/spot-marketing-material.png 680w,
+/static/b0870a859d70750b1190db9b43a37846/7236f/spot-marketing-material.png 1020w,
+/static/b0870a859d70750b1190db9b43a37846/1cc92/spot-marketing-material.png 1360w,
+/static/b0870a859d70750b1190db9b43a37846/2effb/spot-marketing-material.png 1894w"
+          sizes="(max-width: 680px) 100vw, 680px"
+          type="image/png"
+        />
+        <img
+          class="gatsby-resp-image-image"
+          style="width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;"
+          src="/static/b0870a859d70750b1190db9b43a37846/7ef4c/spot-marketing-material.png"
+          alt="Spot Marketing Website"
+          title=""
+          src="/static/b0870a859d70750b1190db9b43a37846/7ef4c/spot-marketing-material.png"
+        />
+      </picture>
+      </span>
+  </span>
   
-    <div class="social">
-      <ul class="share-buttons">
-  <li><a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fnickdrane.com%2Fethical-engineering-for-the-average-engineer%2F&quote=Ethical%20Engineering%20for%20the%20Average%20Engineer" title="Share on Facebook" target="_blank"><img alt="Share on Facebook" src="/images/social/Facebook.png" /></a></li>
-  <li><a href="https://twitter.com/intent/tweet?url=http%3A%2F%2Fnickdrane.com%2Fethical-engineering-for-the-average-engineer%2F&text=Ethical%20Engineering%20for%20the%20Average%20Engineer" target="_blank" title="Tweet"><img alt="Tweet" src="/images/social/Twitter.png" /></a></li>
-  <li><a href="http://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Fnickdrane.com%2Fethical-engineering-for-the-average-engineer%2F&title=Ethical%20Engineering%20for%20the%20Average%20Engineer" target="_blank" title="Share on LinkedIn"><img alt="Share on LinkedIn" src="/images/social/LinkedIn.png" /></a></li>
-  <li><a href="mailto:?subject=Ethical Engineering for the Average Engineer&body=Check this out: http://nickdrane.com/ethical-engineering-for-the-average-engineer/" target="_blank" title="Send email"><img alt="Send email" src="/images/social/Email.png" /></a></li>
-</ul>
-    </div class="social">
-  
-    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
-  <div class="post-content">
-    <header>
-      
-  
-    <h1 class="title">Ethical Engineering for the Average Engineer</h1>
-  
-
-      
-        <time datetime="2018-09-16T20:41:16.000Z">2018-09-16</time>
-      
-    </header>
-    <div class="entry">
-      <p>Two months ago I purchased a GPS device and associated service plan from <a href="https://www.findmespot.com/en/" target="_blank" rel="noopener">SPOT</a>. Today, upon trying to cancel the service, the customer service representative informed me that I had accidentally enrolled myself into a 1 year, $250 contract and that I was unable to cancel. He told me that if I blocked the monthly charges against my credit card that they would report the debt to a collections agency. I was initially upset but soon realized it was a great opportunity to talk about ethics in software engineering.</p>
-<a id="more"></a>
-<h2 id="SPOT’s-Marketing-Materials"><a href="#SPOT’s-Marketing-Materials" class="headerlink" title="SPOT’s Marketing Materials"></a>SPOT’s Marketing Materials</h2><p>The representative told me to look at their website where he claimed it would be very clear that I was signing up for a contract service. When I Googled “spot service plan”, the first link I clicked on directed me to these marketing materials:</p>
-<p><img src="/images/spot-marketing-material.png" alt="Spot Marketing Website"></p>
+  </a>
+    </p>
 <p>If you look at the image above, it appears as if several deliberate decisions have been made to disguise the total cost of the month-to-month arrangement.</p>
 <ol>
-<li>The font of the month-to-month price is large, bold, and colorful. It’s designed to stand out</li>
+<li>The font of the month-to-month price is large, bold, and colorful. It's designed to stand out</li>
 <li>The 12 month contractual stipulation, on the other hand, is written in unnecessarily small font</li>
-<li>The contractual stipulation is low contrast and visually underwhelming, particularly when juxtaposed against the big, bright, and bold “monthly cost” header</li>
+<li>The contractual stipulation is low contrast and visually underwhelming, particularly when juxtaposed against the big, bright, and bold "monthly cost" header</li>
 <li>The terms of the contract are visually separated from the price</li>
 </ol>
-<p>None of this could be chalked up to accident, except perhaps point 3. Ultimately, this page’s content is designed to mislead the consumer, hurting them for the business’s gain.<sup><a href="#footnote1">1</a></sup></p>
-<h2 id="Software-Ethics-and-Mainstream-Media"><a href="#Software-Ethics-and-Mainstream-Media" class="headerlink" title="Software Ethics and Mainstream Media"></a>Software Ethics and Mainstream Media</h2><p>The software industry is rife with ethics scandals, and they are rarely cut and dry. Some examples</p>
+<p>None of this could be chalked up to accident, except perhaps point 3. Ultimately, this page's content is designed to mislead the consumer, hurting them for the business's gain.<sup><a href="#footnote1">1</a></sup></p>
+<h2>Software Ethics and Mainstream Media</h2>
+<p>The software industry is rife with ethics scandals, and they are rarely cut and dry. Some examples</p>
 <ol>
-<li><a href="https://techcrunch.com/2018/09/07/a-dozen-popular-iphone-apps-caught-quietly-sending-user-locations-to-monetization-firms/" target="_blank" rel="noopener">Dozens of iPhone applications selling user location data</a></li>
-<li><a href="https://en.wikipedia.org/wiki/PRISM_(surveillance_program" target="_blank" rel="noopener">United States surveillance software (PRISMA)</a></li>
-<li><a href="https://money.cnn.com/2018/06/01/technology/google-maven-contract/index.html" target="_blank" rel="noopener">DOD’s Project Maven (drone imaging AI)</a></li>
+<li><a href="https://techcrunch.com/2018/09/07/a-dozen-popular-iphone-apps-caught-quietly-sending-user-locations-to-monetization-firms/">Dozens of iPhone applications selling user location data</a></li>
+<li>[United States surveillance software (PRISMA)](<a href="https://en.wikipedia.org/wiki/PRISM_(surveillance_program">https://en.wikipedia.org/wiki/PRISM<em>(surveillance</em>program</a>)</li>
+<li><a href="https://money.cnn.com/2018/06/01/technology/google-maven-contract/index.html">DOD's Project Maven (drone imaging AI)</a></li>
 </ol>
-<p>Two arguments exist in each of these scenarios. iPhone application engineers might argue that they aren’t hurting consumers by selling their location information. Governments argue that they protect their citizens through surveillance software, even if that’s at the cost of citizen privacy. An engineer of that very software might believe that the code itself is not unethical, only improper use of it. A utilitarian might argue that software that facilitates accurate drone strikes is ethical if the cost of the deaths of its targets is outweighed by its net good. Ultimately, it’s often unclear what constitutes unethical. But it raises a good question: as software engineers, what ethical code should we live by?</p>
-<h2 id="Ethics-for-the-Average-Engineer"><a href="#Ethics-for-the-Average-Engineer" class="headerlink" title="Ethics for the Average Engineer"></a>Ethics for the Average Engineer</h2><p>It’s easy to get consumed in the minutia. The media tends to focus on ethics scandals that have immense gravity, either in the scope of the number of people they affect or in the magnitude with which they affect their targets. But the majority of software engineers aren’t writing software that necessitates answering the above questions. Most of us are writing simple e-commerce applications or iPhone apps – boring software.</p>
-<p>The case study with SPOT is interesting precisely because of how boring it is. It’s true to life, and it serves as a reminder that the average engineer also faces ethical dilemmas. And fortunately for us, these “ethical dilemmas” are sometimes pretty cut and dry, provided we have the awareness to recognize them and the courage to speak up. In the case with SPOT, I think most people would agree that making an effort to mislead the consumer is dishonest and thus unethical.</p>
-<h2 id="The-Takeaway"><a href="#The-Takeaway" class="headerlink" title="The Takeaway"></a>The Takeaway</h2><p>Just because you work on boring software does not mean that it can’t negatively impact your users in an unethical way. The first step towards protecting users is increased developer awareness. As a developer, it’s essential to ask how your software affects your users. If it might hurt them, step back and consider the the greater picture. If you think your code might manipulate or mislead your users, it’s time to speak up.</p>
-<h4 id="Footnotes"><a href="#Footnotes" class="headerlink" title="Footnotes"></a>Footnotes</h4><p><a name="footnote1">1</a>: I think it’s important to be fair here. The marketing material across the site is inconsistent and ranges in the clarity of its term of service. <a href="https://www.findmespot.com/en/index.php?cid=131" target="_blank" rel="noopener">This page</a> makes the 12 month contract abundantly clear. <a href="https://www.findmespot.com/en/index.php?cid=130" target="_blank" rel="noopener">This one</a> falls somewhere in the middle.</p>
-
-    </div>
-    <footer>
-      <ul class="share-buttons">
-  <li><a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fnickdrane.com%2Fethical-engineering-for-the-average-engineer%2F&quote=Ethical%20Engineering%20for%20the%20Average%20Engineer" title="Share on Facebook" target="_blank"><img alt="Share on Facebook" src="/images/social/Facebook.png" /></a></li>
-  <li><a href="https://twitter.com/intent/tweet?url=http%3A%2F%2Fnickdrane.com%2Fethical-engineering-for-the-average-engineer%2F&text=Ethical%20Engineering%20for%20the%20Average%20Engineer" target="_blank" title="Tweet"><img alt="Tweet" src="/images/social/Twitter.png" /></a></li>
-  <li><a href="http://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Fnickdrane.com%2Fethical-engineering-for-the-average-engineer%2F&title=Ethical%20Engineering%20for%20the%20Average%20Engineer" target="_blank" title="Share on LinkedIn"><img alt="Share on LinkedIn" src="/images/social/LinkedIn.png" /></a></li>
-  <li><a href="mailto:?subject=Ethical Engineering for the Average Engineer&body=Check this out: http://nickdrane.com/ethical-engineering-for-the-average-engineer/" target="_blank" title="Send email"><img alt="Send email" src="/images/social/Email.png" /></a></li>
-</ul>
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article></div></div>
-    <aside id="sidebar" class="alignright">  <div class="widget tag about">
-  <ul class="entry">
-    <div>
-      <img class="about-photo" src="/images/about-photo.jpg" alt="photo of Nick Drane" />
-    </div>
-    <p class="about-photo-text">My name is Nick Drane. I'm a programmer and consultant</p>
-
-  </ul>
-</div>
-  <div class="widget tag recent-posts">
-  <h3 class="title">Most Popular Posts</h3>
-  <ul class="entry">
-    <li>
-      <a href="/build-your-own-regex/">Build a Regex Engine in Less than 40 Lines of Code</a>
-    </li>
-    <li>
-      <a href="/scraping-the-web-with-puppeteer-lessons-learned/">Scraping the Web with Puppeteer: Lessons Learned</a>
-    </li>
-    <li>
-      <a href="/write-your-own-redux-connect/">Write Your Own React-Redux Connect</a>
-    </li>
-    <li>
-      <a href="/build-your-own-nested-query-string-encoder/">Build Your Own Nested Query String Encoder/Decoder</a>
-    </li>
-  </ul>
-</div>
-  <div class="widget tag recent-posts">
-  <h3 class="title">Recent Posts</h3>
-  <ul class="entry">
-    
-      <li>
-        <a href="/using-jq-to-effortlessly-ingest-newline-delimited-JSON-into-postgres/">Using Shell Commands to Effortlessly Ingest Line-delimited JSON into PostgreSQL</a>
-      </li>
-    
-      <li>
-        <a href="/hidden-costs-of-postgresql-jsonb/">The Hidden Costs of PostgreSQL&#39;s JSONB Datatype</a>
-      </li>
-    
-      <li>
-        <a href="/ethical-engineering-for-the-average-engineer/">Ethical Engineering for the Average Engineer</a>
-      </li>
-    
-      <li>
-        <a href="/build-your-own-nested-query-string-encoder/">Build Your Own Nested Query String Encoder/Decoder</a>
-      </li>
-    
-      <li>
-        <a href="/you&#39;re-hiring-programmers-wrong-a-case-for-interview-standardization/">You&#39;re Hiring Programmers Wrong: A Case for Interview Standardization</a>
-      </li>
-    
-  </ul>
-</div>
+<p>Two arguments exist in each of these scenarios. iPhone application engineers might argue that they aren't hurting consumers by selling their location information. Governments argue that they protect their citizens through surveillance software, even if that's at the cost of citizen privacy. An engineer of that very software might believe that the code itself is not unethical, only improper use of it. A utilitarian might argue that software that facilitates accurate drone strikes is ethical if the cost of the deaths of its targets is outweighed by its net good. Ultimately, it's often unclear what constitutes unethical. But it raises a good question: as software engineers, what ethical code should we live by?</p>
+<h2>Ethics for the Average Engineer</h2>
+<p>It's easy to get consumed in the minutia. The media tends to focus on ethics scandals that have immense gravity, either in the scope of the number of people they affect or in the magnitude with which they affect their targets. But the majority of software engineers aren't writing software that necessitates answering the above questions. Most of us are writing simple e-commerce applications or iPhone apps -- boring software.</p>
+<p>The case study with SPOT is interesting precisely because of how boring it is. It's true to life, and it serves as a reminder that the average engineer also faces ethical dilemmas. And fortunately for us, these "ethical dilemmas" are sometimes pretty cut and dry, provided we have the awareness to recognize them and the courage to speak up. In the case with SPOT, I think most people would agree that making an effort to mislead the consumer is dishonest and thus unethical.</p>
+<h2>The Takeaway</h2>
+<p>Just because you work on boring software does not mean that it can't negatively impact your users in an unethical way. The first step towards protecting users is increased developer awareness. As a developer, it's essential to ask how your software affects your users. If it might hurt them, step back and consider the the greater picture. If you think your code might manipulate or mislead your users, it's time to speak up.</p>
+<h4>Footnotes</h4>
+<p><a name="footnote1">1</a>: I think it's important to be fair here. The marketing material across the site is inconsistent and ranges in the clarity of its term of service. <a href="https://www.findmespot.com/en/index.php?cid=131">This page</a> makes the 12 month contract abundantly clear. <a href="https://www.findmespot.com/en/index.php?cid=130">This one</a> falls somewhere in the middle.</p></div><ul class="styles-module--socialButtons--1R7Rx"><li><a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fnickdrane.com%2Fethical-engineering-for-the-average-engineer&amp;quote=Ethical%20Engineering%20for%20the%20Average%20Engineer" title="Share on Facebook" target="_blank" rel="noopener noreferrer"><img alt="Share on Facebook" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABBUlEQVR42u3XvWrCUBiAYYk0ji5JS0NzAx3EDl1sJ5euztKb6NS5jt5HL0CDLZXMvZFCtigigghy+g4ZPqQJxiQnFc4HzxIOnBfyw0lDKVUrE2AC/ryYjAWnJBZyBdiYIMaioBgB7DwBLrZQJdnhMk+AgxXUCdbYYH9wza06YIw7eLjBk86AFxyOpyvgB7bY+ApdDHQFfInNfURQgJ6AqQh4gNId8FlXwDP66IiANvqJ1yoD9rhG1gyrDvCRNW9V34JvhBiJTW8RJiJdD+FcBDzW8RYEIqBnAs4woPiB5EN+Ccs6kNgIsDzCuwi4T1kzQ+uUQ6l7hLYIuEhZ04T5LzAB/zPgF4mwkz3Asji2AAAAAElFTkSuQmCC"/></a></li><li><a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fnickdrane.com%2Fethical-engineering-for-the-average-engineer&amp;text=Ethical%20Engineering%20for%20the%20Average%20Engineer" target="_blank" title="Tweet" rel="noopener noreferrer"><img alt="Tweet" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABQklEQVR42u3WMUvDQByGcdt0qKA42Dq4hA4WdBAEUXGy4CYu/QIOBdGCjn4HndwcHQRnEerabOrkWEHHIA4WBUEqhfx9hoAQYs67C+hwL/yWTA/h0uuIiPwpF+ACXEDqQ8OVMQMfadMOKGAav1kL9xjiA10so4IdzJsETOERG8haG5JigGd04MPTDViA4BPbSNskXiE/iHCNFoq6ATVEkNglVhIBqxCFI3gwOoQdSEKAAzSwBcnQR9n0EFbRRKh4xZIhxKhpwCze8QYxdGPzGRYRQCwcGwfEq6NnEbBmFRBvHV2IpjuU8ghoQwxsgtkHlHAC0XBqdxekbwnnEIUAY/lcRt/zsYcHSIYLTORxGxbQwBl6UP3gPGE/EW39Bjws4hC3eMEQEQYIcYVdVKGY/RmooI451DAOnbn/hC7ABfzPgC/uMxh1wWVf+wAAAABJRU5ErkJggg=="/></a></li><li><a href="http://www.linkedin.com/shareArticle?mini=true&amp;url=mini=true&amp;url=https%3A%2F%2Fnickdrane.com%2Fethical-engineering-for-the-average-engineer&amp;title=Ethical%20Engineering%20for%20the%20Average%20Engineer" target="_blank" title="Share on LinkedIn" rel="noopener noreferrer"><img alt="Share on LinkedIn" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABK0lEQVR42u3WvyvEcRzHcSSlbiE/Fjl3MSnFKGUwXx2TY7Gd+AOUf8BCLDJRst2/YJFJhsspC7tNibI4vT2H9/Dt1Q3O3ffjyuddj+X9ru89+9a3rsvM/lQMiAGdGeDTjzL2UUIPWpmmArpxAUvYDRkwgA8JeAgZ0Id7CagEC/CZxSUeUcFYwIDGEzpgCSWsYg1zvs/Ad46d28QZzrGDyVYCbmAJx77Pw8QGqjDxhvXfBlzJww59P4FP6A+ZU3XMtDMgqwHuBdd4honTdgaMQwPukPX7KGpyf0Jvmm9gBcnZkvsrBtMMmJeAgtzfMZJmwMIPAoZT+grCB+RQ/9cBeXyFCLiVh5z4fgomFiVgGSaa/gq2cZRQ9P0QDuSWk4Bpue8hE/8Vx4AY0Mg3lT+VfWEazvQAAAAASUVORK5CYII="/></a></li><li><a href="mailto:?subject=Ethical Engineering for the Average Engineer&amp;body=Check this out: https://nickdrane.com/ethical-engineering-for-the-average-engineer" target="_blank" title="Send email" rel="noopener noreferrer"><img alt="Send email" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABU0lEQVR42u3WS0sCURyG8WhbS8egzNRuprRoUV+ibfsIt9GHiJaiBrXrIxVRRhimlbeSrqZhtvDfM3AWgwQ6R8UW54Xfep5h4JwZE5GRMgEmwAT8zwA2gX3EkcKRpkPEcYBJNwEW2hB8I4eCS3nUIIrXTYAHHxBUEIW98R7Zm8EVBJ+w3Aa0kMA1ylhEr/PiElWcoKUTIIhhGgUXEVNIo44ItiE6AW3swd4CSihivsubX6COddjb7TtAbQkV3COIzlk4RwMbYAMMUAupiCwCHQ8/RQ1rYMMJCOMJglv44cEZBK+IDCsgihdksKlCvvCOBraQxhtWBx0QRhV5+B2fI4ljxznhQxbPiPQbIIjBhzIeEES3zeEOj5jFjm5AC0lkUEQIvS6ggm+QwA8s3aO4jBWNo3gZJedRrHsZNTUvoxyaEMU7ius45byOzR+RCTABJuAvv4FRbl/e6OHvAAAAAElFTkSuQmCC"/></a></li></ul></article></section><aside class="styles-module--sidebar--WpqGz"><div class="styles-module--sideBarSection--kbYhv"><h2 class="styles-module--sideBarLabel--1Yp9y">Most Popular Posts</h2><ul style="margin-left:0"><li class="styles-module--sideBarEntry--yZZc9"><a style="color:inherit" href="/scraping-the-web-with-puppeteer-lessons-learned">Scraping the Web with Puppeteer: Lessons Learned</a></li><li class="styles-module--sideBarEntry--yZZc9"><a style="color:inherit" href="/build-your-own-nested-query-string-encoder">Build Your Own Nested Query String Encoder/Decoder</a></li><li class="styles-module--sideBarEntry--yZZc9"><a style="color:inherit" href="/build-your-own-regex">Build Your Own Regex in Less Than 40 Lines of Code</a></li><li class="styles-module--sideBarEntry--yZZc9"><a style="color:inherit" href="/write-your-own-redux-connect">Write Your Own React-Redux Connect</a></li><li class="styles-module--sideBarEntry--yZZc9"><a style="color:inherit" href="/hidden-costs-of-postgresql-jsonb">The Hidden Costs of PostgreSQL&#x27;s JSONB Datatype</a></li></ul></div><div class="styles-module--sideBarSection--kbYhv"><h2 class="styles-module--sideBarLabel--1Yp9y">Most Recent Posts</h2><ul style="margin-left:0"><li class="styles-module--sideBarEntry--yZZc9"><a style="color:inherit" href="/using-jq-to-effortlessly-ingest-newline-delimited-JSON-into-postgres">Using Shell Commands to Effortlessly Ingest Line-Delimited JSON into PostgreSQL</a></li><li class="styles-module--sideBarEntry--yZZc9"><a style="color:inherit" href="/hidden-costs-of-postgresql-jsonb">The Hidden Costs of PostgreSQL&#x27;s JSONB Datatype</a></li><li class="styles-module--sideBarEntry--yZZc9"><a style="color:inherit" href="/ethical-engineering-for-the-average-engineer">Ethical Engineering for the Average Engineer</a></li><li class="styles-module--sideBarEntry--yZZc9"><a style="color:inherit" href="/build-your-own-nested-query-string-encoder">Build Your Own Nested Query String Encoder/Decoder</a></li><li class="styles-module--sideBarEntry--yZZc9"><a style="color:inherit" href="/you&#x27;re-hiring-programmers-wrong-a-case-for-interview-standardization">You&#x27;re Hiring Programmers Wrong: A Case for Interview Standardization</a></li></ul></div><div class="styles-module--sideBarSection--kbYhv"><h2 class="styles-module--sideBarLabel--1Yp9y">categories</h2><ul style="margin-left:0"><li class="styles-module--sideBarEntry--yZZc9"><a style="color:inherit" href="/categories/Architecture">Architecture (1)</a></li><li class="styles-module--sideBarEntry--yZZc9"><a style="color:inherit" href="/categories/Build-Your-Own">Build Your Own (3)</a></li><li class="styles-module--sideBarEntry--yZZc9"><a style="color:inherit" href="/categories/Functional-Programming">Functional Programming (1)</a></li><li class="styles-module--sideBarEntry--yZZc9"><a style="color:inherit" href="/categories/Immutability">Immutability (1)</a></li><li class="styles-module--sideBarEntry--yZZc9"><a style="color:inherit" href="/categories/Javascript">Javascript (4)</a></li><li class="styles-module--sideBarEntry--yZZc9"><a style="color:inherit" href="/categories/Postgres">Postgres (2)</a></li><li class="styles-module--sideBarEntry--yZZc9"><a style="color:inherit" href="/categories/React">React (2)</a></li><li class="styles-module--sideBarEntry--yZZc9"><a style="color:inherit" href="/categories/Redux">Redux (1)</a></li><li class="styles-module--sideBarEntry--yZZc9"><a style="color:inherit" href="/categories/Regular-Expressions">Regular Expressions (2)</a></li><li class="styles-module--sideBarEntry--yZZc9"><a style="color:inherit" href="/categories/Shell">Shell (1)</a></li><li class="styles-module--sideBarEntry--yZZc9"><a style="color:inherit" href="/categories/Software-Ethics">Software Ethics (1)</a></li><li class="styles-module--sideBarEntry--yZZc9"><a style="color:inherit" href="/categories/Technical-Hiring">Technical Hiring (1)</a></li><li class="styles-module--sideBarEntry--yZZc9"><a style="color:inherit" href="/categories/Testing">Testing (1)</a></li><li class="styles-module--sideBarEntry--yZZc9"><a style="color:inherit" href="/categories/Web-Scraping">Web Scraping (1)</a></li></ul></div></aside></div></div></div></div></div><script>
   
-<div class="widget tag category">
-  <h3 class="title">Categories</h3>
-  <ul class="entry">
   
-    <li><a href="/categories/Architecture/">Architecture</a><small>1</small></li>
-  
-    <li><a href="/categories/Build-Your-Own/">Build Your Own</a><small>3</small></li>
-  
-    <li><a href="/categories/Elasticsearch/">Elasticsearch</a><small>1</small></li>
-  
-    <li><a href="/categories/Failures/">Failures</a><small>1</small></li>
-  
-    <li><a href="/categories/Functional-Programming/">Functional Programming</a><small>1</small></li>
-  
-    <li><a href="/categories/Immutability/">Immutability</a><small>1</small></li>
-  
-    <li><a href="/categories/Javascript/">Javascript</a><small>4</small></li>
-  
-    <li><a href="/categories/Postgres/">Postgres</a><small>2</small></li>
-  
-    <li><a href="/categories/React/">React</a><small>2</small></li>
-  
-    <li><a href="/categories/Recursion/">Recursion</a><small>2</small></li>
-  
-    <li><a href="/categories/Redux/">Redux</a><small>1</small></li>
-  
-    <li><a href="/categories/Regular-Expressions/">Regular Expressions</a><small>2</small></li>
-  
-    <li><a href="/categories/Shell/">Shell</a><small>1</small></li>
-  
-    <li><a href="/categories/Software-Ethics/">Software Ethics</a><small>1</small></li>
-  
-    <li><a href="/categories/Technical-Hiring/">Technical Hiring</a><small>1</small></li>
-  
-    <li><a href="/categories/Testing/">Testing</a><small>1</small></li>
-  
-    <li><a href="/categories/Web/">Web</a><small>1</small></li>
-  
-    <li><a href="/categories/Web-Scraping/">Web Scraping</a><small>1</small></li>
-  
-  </ul>
-</div>
-</aside>
-    <div class="clearfix"></div>
-  </div>
-  <footer id="footer" class="inner"><div class="alignleft">
-  
-    &copy; 2018 Nick Drane
-  
-</div>
-<div class="clearfix"></div></footer>
-</body>
-</html>
-
+  if(true) {
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  }
+  if (typeof ga === "function") {
+    ga('create', 'UA-107252357-1', 'auto', {});
+      
+      }
+      </script><script id="gatsby-script-loader">/*<![CDATA[*/window.page={"componentChunkName":"component---src-templates-article-js","jsonName":"ethical-engineering-for-the-average-engineer-762","path":"/ethical-engineering-for-the-average-engineer/"};window.dataPath="372/path---ethical-engineering-for-the-average-engineer-762-dbc-jZxM4yQJCfdSLUDqU2enEoKVBPY";/*]]>*/</script><script id="gatsby-chunk-mapping">/*<![CDATA[*/window.___chunkMapping={"app":["/app.a03716562d1e590f30ef.css","/app-362ece02ccc79eb0b86d.js"],"component---node-modules-gatsby-plugin-offline-app-shell-js":["/component---node-modules-gatsby-plugin-offline-app-shell-js-6516b4fc02241387c10d.js"],"component---src-templates-article-js":["/component---src-templates-article-js-1fbec1f75927d5c22ad3.js"],"component---src-templates-category-js":["/component---src-templates-category-js-1b3eee676e5ac1a71595.js"],"component---src-templates-static-js":["/component---src-templates-static-js-fe4e843ea0436357811d.js"],"component---src-pages-404-js":["/component---src-pages-404-js.462052c14ce9bee46840.css","/component---src-pages-404-js-ba848f15678f8aad4ac4.js"],"component---src-pages-index-js":["/component---src-pages-index-js-5e229e64d1d562ec1168.js"]};/*]]>*/</script><script src="/webpack-runtime-de125465b3ac9d357a75.js" async=""></script><script src="/app-362ece02ccc79eb0b86d.js" async=""></script><script src="/0-f07a4e60ba6d9a97b6e2.js" async=""></script><script src="/1-bff131ac10cdc1826932.js" async=""></script><script src="/component---src-templates-article-js-1fbec1f75927d5c22ad3.js" async=""></script></body></html>
