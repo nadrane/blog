@@ -14,11 +14,6 @@
   width: 100%;
   max-width: 960px;
   margin: 0 0 0 10px;
-  @media only screen and (max-width: 900px) {
-    color: red;
-    max-width: 680px;
-    margin: 0 10px;
-  }
   h1 {
     padding-bottom: 0;
     &:hover {
@@ -35,6 +30,38 @@
     color: rgba(0, 0, 0, 0.8);
     font-size: 18px;
     font-weight: 300;
-    padding: 10px;
+    padding: 0 10px;
+    margin-bottom: 0;
+  }
+}
+
+@media only screen and (max-width: 992px) {
+  .headerLinks {
+    li a {
+      font-size: 16px;
+      padding: 0 8px;
+    }
+  }
+  .header {
+    max-width: 680px;
+    margin: 0 10px;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .headerLinks {
+    li a {
+      font-size: 14px;
+      padding: 0 6px;
+    }
+    margin-left: 0;
+    line-height: 1.3rem;
+  }
+
+  .headerWrapper {
+    height: 75px;
+  }
+  .header h1 {
+    font-size: 20px;
   }
 }

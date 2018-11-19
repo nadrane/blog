@@ -15,7 +15,7 @@
   padding-top: 0;
   margin: 26px 50px 15px 10px;
   min-width: 300px;
-  @media only screen and (max-width: 900px) {
+  @media only screen and (max-width: 992px) {
     margin: 26px 10px;
   }
 }
@@ -23,7 +23,7 @@
 .sidebar {
   margin-top: 5px;
   max-width: 220px;
-  @media only screen and (max-width: 900px) {
+  @media only screen and (max-width: 992px) {
     display: none;
   }
 }

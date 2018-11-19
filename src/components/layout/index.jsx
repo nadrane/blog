@@ -34,7 +34,8 @@ const Layout = ({ children }) => (
             htmlAttributes={{ lang: 'en' }}
             meta={[
               { name: 'description', content: siteMetadata.description },
-              { name: 'keywords', content: siteMetadata.keywords }
+              { name: 'keywords', content: siteMetadata.keywords },
+              { name: 'viewport', content: 'width=device-width, initial-scale=1, maximum-scale=1' }
             ]}
           />
           <Header siteTitle={data.site.siteMetadata.title} />
