@@ -12,7 +12,7 @@ const StaticTemplate = ({ data, errors }) => {
   const title = data.markdownRemark.frontmatter.title;
   return (
     <Layout>
-      <Article title={title} content={content} />
+      <Article makeTitleClickable={false} title={title} content={content} />
     </Layout>
   );
 };
