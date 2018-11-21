@@ -1,6 +1,6 @@
 ---
 title: Build a Regex Engine in Less than 40 Lines of Code
-date: 2017-11-28 11:36:04
+date: 2017-11-28
 categories: [Regular Expressions, Javascript, Build Your Own]
 ---
 
