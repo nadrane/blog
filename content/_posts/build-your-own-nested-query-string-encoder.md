@@ -4,7 +4,7 @@ categories: [Javascript, Build Your Own]
 date: 2018-04-13 15:17:00
 ---
 
-The other day at work, one of my colleagues was frustrated that he was unable to encode nested objects in a query string and still maintain a readable URL. I went home that night and coded up a simple solution to this problem, and I thought I'd share it here today. This [Github repo](https://github.com/nadrane/querystring-encoder) contains specs and the solution code.
+The other day at work, one of my colleagues was frated that he was unable to encode nested objects in a query string and still maintain a readable URL. I went home that night and coded up a simple solution to this problem, and I thought I'd share it here today. This [Github repo](https://github.com/nadrane/querystring-encoder) contains specs and the solution code.
 
 <!-- more -->
 
@@ -75,9 +75,7 @@ Fortunately, the `.` is not considered unsafe and does not need to be escaped, m
 
 The solution is broken down into two parts. The first is _encoding_ a nested object into a query string. The second part is _decoding_ a query string back into a nested object.
 
-### Encoding<sup>[2](#footnote2)</sup>
-
-#### Just Nested Objects
+### Encoding Nested Objects <sup>[2](#footnote2)</sup>
 
 Let's write some code to encode
 
@@ -113,7 +111,7 @@ function encode(queryObj, nesting = '') {
 
 Notice that we use the [escape](https://nodejs.org/api/querystring.html#querystring_querystring_escape_str) function provided in Node.js core to percent encode specific characters.
 
-#### Encoding Arrays as Values
+### Encoding Arrays as Values
 
 If we want to add support to encode an object with array values, like the following:
 
@@ -144,11 +142,9 @@ function encode(queryObj, nesting = '') {
 }
 ```
 
-### Decoding
-
 An encoding function is not very useful unless you can decode the encoded string back to it's original form.
 
-#### Just Nested Objects
+### Decoding Nested Objects
 
 We want to write a function that will decode `filter.make=honda&filter.model=civic` back into a nested object
 
@@ -179,7 +175,7 @@ function decode(queryString) {
 }
 ```
 
-#### Decoding Arrays as Values
+### Decoding Arrays as Values
 
 If we want to add support to decode arrays like we did above, then we need to do a little additional work. Fortunately, two additional [Lodash](https://lodash.com/docs) utilities, [has](https://lodash.com/docs/4.17.5#has) and [get](https://lodash.com/docs/4.17.5#get), allow us to check for the existence of a nested key and to get the value associated with a nested key, respectively, greatly simplifying our problem.
 
@@ -215,7 +211,6 @@ function decode(queryString) {
 And that's it! The whole thing, encoding and decoding, only takes ~40 lines of code. Perhaps next time you encounter something that feels a little too fundamental to code yourself, you won't hesitate to write some code if you can't find a sufficient open source package.
 
 _If you've run into challenges with your web applications, I do [consulting](/hire-me) work and am currently looking for new clients. Please [contact me](mailto:nick@nickdrane.com) for more details._
-
 
 #### Footnotes
 

@@ -62,13 +62,29 @@ Behind the scenes, Gatsby configures webpack for you, ensuring that some of the 
 
 ## Documentation
 
+### Hexo
+
 Hexo does a great job of ensuring you need to read as little text as possible in order to get a blog up and running. Once you want to start customizing your blog, however, the documentation's previously appreciated brevity shows it's warts. It's not uncommon to be looking at the right thing and not know what you're looking at. If you want to customize your theme, chances are this page will be your best friend (https://hexo.io/docs/variables.html). Unfortunately, the page makes absolutely no indication as to its purpose. For the record, it documents the variable names that are injected into your template engine's rendering system.
+
+### Gatsby
 
 Gatsby's documentation is thoughtful, well-organized, and remarkably detailed. It has everything from [tutorials](https://www.gatsbyjs.org/tutorial/) to deep dives [1](https://www.gatsbyjs.org/docs/adding-images-fonts-files/)[2](https://www.gatsbyjs.org/docs/creating-and-modifying-pages/)[3](https://www.gatsbyjs.org/docs/styling/). The last link is a collection of deep dives all about styling! It even has pages explaining and justifying [architecture and implementation details](https://www.gatsbyjs.org/docs/behind-the-scenes/). And to top all this off, it has a [style guide](https://www.gatsbyjs.org/docs/gatsby-style-guide/) to ensure readability. With all this said, there are still placeholder pages ([like this one](https://www.gatsbyjs.org/docs/dropping-images-into-static-folders/)), though I never found myself unable to answer a question about their system.
 
 ## API Discoverability
 
-Hexo's variables are documented in the link mentioned above. Inside, many key topics are ambiguously referenced but never expounded upon. I remember agonizing over providing support for both pagination and article excerpts. The variables link above seemed to hint that the next and previous blog posts are available from their API, though the fields were always `undefined`. I never figured out why. The same page also suggests excerpts are available. It wasn't until I discovered this GitHub issue that I learned it's required to add the comment `<!-- more -->` to each post to ensure that this excerpt is populated. There is no sensible default like grabbing the first 150 characters. These problems were exacerbated by EJS, which doesn't provide an environment conducive to rapid code changes for environment exploration.
+A static site generator needs to make it easy to edit your website. One of the first requirements to editing your site is understanding the data structures the static site generator makes available to you.
+
+### Hexo
+
+Hexo's variables are documented in the link mentioned above. Inside, many key topics are ambiguously referenced but never expounded upon. I remember agonizing over providing support for both pagination and article excerpts.
+
+The variables link above seems to hint that the next and previous blog posts are available from their API, though the fields were always `undefined`. I never figured out why.
+
+The same page also suggests excerpts are available. It wasn't until I discovered this [GitHub issue](https://github.com/hexojs/hexo/issues/1143) where I learned it's required to add the comment `<!-- more -->` to each post to ensure that this excerpt is populated. This feature is otherwise undocumented.
+
+These documentation problems were exacerbated by EJS, which doesn't provide an environment conducive to rapid code changes for environment exploration.
+
+### Gatsby
 
 Gatsby exquisitely solves the problem of discoverability with [GraphiQL](https://github.com/graphql/graphiql). It automatically spins up a GraphiQL server which allows you to interactively browse the GraphQL associated with your data. You can see what fields exist and how they are structured. You can even experiment with queries, and the environment provides feedback included autocomplete and errors messages. Here is a simple example of me querying article excerpts and titles:
 

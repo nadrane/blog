@@ -21,13 +21,13 @@ I'll assume you know how to implement this pattern, but why do we use it and how
 
 <!-- more -->
 
-# Why Do we Need React-Redux?
+## Why Do we Need React-Redux?
 
 React and Redux are two completely independent tools that have nothing to do with each other. React is a tool for creating user interfaces in the browser. Redux is a tool for managing state. Either tool can be used without the other. We often use them together because they both solve separate but very important and closely related problems. The purpose of react-redux is to get these two tools to talk.
 
 But first, what would we do without react-redux? How would React and Redux talk?
 
-# How to Integrate React and Redux Without react-redux
+## How to Integrate React and Redux Without react-redux
 
 More precisely, how do we ensure that a React component re-renders when the Redux store changes? The answer lies in Redux's [subscribe](http://redux.js.org/docs/api/Store.html#subscribe) API.
 
@@ -72,7 +72,7 @@ If we insert the above boilerplate into every one of our React component's, then
 
 Let's write a rudimentary implementation of connect that resolves the first problem.
 
-# Understanding The Syntax of Connect
+## Understanding The Syntax of Connect
 
 Typically, we invoke `connect` like this:
 
@@ -103,7 +103,7 @@ function connect(mapStateToProps, mapDispatchToProps) {
 }
 ```
 
-# Higher Order Components
+## Higher Order Components
 
 And what does the function we returned above do? This function is implemented as a [higher order component](https://reactjs.org/docs/higher-order-components.html) (HOC). A HOC is a function that takes in a component as a parameter and returns a new component. The new component is generally a modified or augmented version of the original component.
 
@@ -144,7 +144,7 @@ connect(
 
 and still never distort the behavior of the original component. Our current implementation is effectively [idempotent](https://stackoverflow.com/questions/1077412/what-is-an-idempotent-operation).
 
-# Eliminating Boilerplate
+## Eliminating Boilerplate
 
 Our next step is to eliminate some of the boilerplate code. We don't want to have to subscribe to the store every time we create a new component, so let's have our new `connect` function do it instead.
 
@@ -189,7 +189,7 @@ connect(
 
 we get a component that is subscribed to state changes on the store, and this state will be passed down to our component as props.
 
-# Implementing Support for mapStateToProps
+## Implementing Support for mapStateToProps
 
 Our connected components still all depend on the entirety of the store's state tree. Look up above, the entire state is passed down as props to every connected component. To reiterate, this means that if any piece of the store's state is updated, our component will re-render.
 
@@ -228,7 +228,7 @@ function connect(mapStateToProps, mapDispatchToProps) {
 
 All we did was insert a call to `mapStateToProps`, allowing us to make each connected component dependent upon only the state it cares about, as defined by the return value of `mapStateToProps`. `mapStateToProps` is a wonderful form of explicit documentation, clearly stating the slices of the state tree each component depends on. Unfortunately, our change does not fix the efficiency problems noted above. More on that below.
 
-# mapStateToProps and ownProps
+## mapStateToProps and ownProps
 
 An astute reader might note that `mapStateToProps` actually takes two arguments: the first is a copy of the store's state, and the second are the props that are originally passed down to `WrapperComponent`. `react-redux` does not pass these down to the wrapped component by default as we do in the example immediately above. Let's modify our implementation to mirror `react-redux`.
 
@@ -262,7 +262,7 @@ function connect(mapStateToProps, mapDispatchToProps) {
 
 Now the implementer of `mapStateToProps` can choose which of `WrapperComponent`'s props it would like to keep and which it would like to disregard.
 
-# What's the Point of mapDispatchToProps?
+## What's the Point of mapDispatchToProps?
 
 `mapDispatchToProps` is designed to eliminate React's dependency upon Redux. If we were to use the above implementation of `connect`, every component that dispatch's an action must import `store.dispatch`, and the implementation would look like this:
 
@@ -320,7 +320,7 @@ function connect(mapStateToProps, mapDispatchToProps) {
 }
 ```
 
-# More Efficiency Issues - Hello shouldComponentUpdate
+## More Efficiency Issues - Hello shouldComponentUpdate
 
 We never actually fixed any of the performance issues noted above. The crux of the problem is that every time the store updates, `WrapperComponent` re-renders (because of its Redux store subscription that calls `setState`) and that means `WrappedComponent` re-renders. This [re-rendering](/leveraging-immutability-in-react) happens despite the fact that `WrappedComponent`'s props might be unchanged between two invocations of `setState`. In fact, this scenario is highly probable and will occur whenever a piece of state in the store changes that your component does not depend on (aka, a piece of store state not returned from from `mapStateToProps`).
 
@@ -378,7 +378,7 @@ _I should note that this is not exactly what react-redux does because of edge ca
 
 Now our wrapper and wrapped components will only re-render when the props returned from `mapStateToProps` change! This is a huge performance gain. This implementation of `connect` explains why adherence to [immutability is so important](http://redux.js.org/docs/faq/ReactRedux.html#react-not-rerendering) in redux's reducers. If you fail to respect immutability, the shallow comparison in the `shouldComponentUpdate` in `WrapperComponent` will likely return `false`, causing your connected component to not re-render when it should.
 
-# Wrapping up
+## Wrapping up
 
 React-redux's `connect` method is remarkably simple and only performs a handful of operations.
 
