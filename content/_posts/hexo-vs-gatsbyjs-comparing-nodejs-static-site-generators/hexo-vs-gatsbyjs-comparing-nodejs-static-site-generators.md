@@ -44,7 +44,7 @@ When I began with Hexo, I picked a theme called [Concise](https://github.com/hmy
 
 ![Code sample from Concise](concise-code.png)
 
-Apart from the obvious readability problems, the syntax is challenging to edit and thus is at odds with application discoverability. It makes trivial exercises like console logging error-prone. Furthermore, the syntax is incompatible to the modern formatting tool, [Prettier](https://prettier.io/).
+Apart from the obvious readability problems, the syntax is challenging to edit and thus is at odds with application discoverability. It makes trivial exercises like console logging error-prone. Furthermore, the syntax is incompatible with the modern formatting tool, [Prettier](https://prettier.io/).
 
 Today Hexo supports other templating languages, but it's a shame so many themes are tightly coupled to such an unergonomic tool.
 
