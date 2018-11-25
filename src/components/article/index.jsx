@@ -13,10 +13,14 @@ export default function Article({
   slug,
   makeTitleClickable = true
 }) {
+  const month = new Date(date).getUTCMonth();
+  const day = new Date(date).getUTCDate();
+  const year = new Date(date).getUTCFullYear();
+  const formattedDate = new Date(year, month, day);
   return (
     <article className={styles.pb2}>
       {showSocialTop && <Social title={title} slug={slug} />}
-      {date && <time className={styles.publishDate}>{new Date(date).toDateString()}</time>}
+      {date && <time className={styles.publishDate}>{formattedDate.toDateString()}</time>}
       <h1 className={styles.articleTitle}>
         {makeTitleClickable ? (
           <Link style={{ color: 'rgb(51, 51, 51)' }} to={slug}>
