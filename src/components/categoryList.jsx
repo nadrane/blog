@@ -1,5 +1,4 @@
 import React from 'react';
-import * as R from 'ramda';
 import { StaticQuery, graphql } from 'gatsby';
 import SideBarList from './sideBarList';
 
@@ -19,21 +18,27 @@ const CategoryList = () => (
       }
     `}
     render={data => {
-      const categoriesWithCounts = R.pipe(
-        R.path(['allMarkdownRemark', 'edges']),
-        R.filter(({ node }) => node.frontmatter.categories),
-        R.map(R.path(['node', 'frontmatter', 'categories'])),
-        R.flatten,
-        R.countBy(R.identity)
-      );
+      const categoriesWithCounts = data.allMarkdownRemark.edges
+        .map(edge => edge.node)
+        .filter(node => node.frontmatter.categories)
+        .reduce((accum, node) => {
+          for (const category of node.frontmatter.categories) {
+            const found = accum.findIndex(entry => entry.name === category);
+            if (found !== -1) {
+              accum[found].count++;
+            } else {
+              accum.push({ name: category, count: 1 });
+            }
+          }
+          return accum;
+        }, []);
 
-      const sortedCategories = R.sortBy(
-        R.prop('name'),
-        Object.entries(categoriesWithCounts(data)).map(([name, count]) => ({
+      const sortedCategories = categoriesWithCounts
+        .sort((a, b) => (a.name > b.name ? 1 : a.name < b.name ? -1 : 0))
+        .map(({ name, count }) => ({
           name: `${name} (${count})`,
           link: `categories/${name.split(' ').join('-')}`
-        }))
-      );
+        }));
 
       return <SideBarList items={sortedCategories} label="categories" />;
     }}

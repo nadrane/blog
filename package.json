@@ -23,7 +23,6 @@
     "normalize.css": "^8.0.1",
     "prismjs": "^1.15.0",
     "qs": "^6.5.2",
-    "ramda": "^0.25.0",
     "react": "^16.5.1",
     "react-dom": "^16.5.1",
     "react-helmet": "^5.2.0",

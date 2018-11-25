@@ -1,21 +1,10 @@
 const path = require('path');
-const { replace, pipe, path: keyPath } = require('ramda');
 const { GraphQLString } = require('graphql');
 
-const getFilename = pipe(
-  keyPath(['fileAbsolutePath']),
-  path.basename
-);
+const getFilename = node => path.basename(node.fileAbsolutePath);
 
 // What if two blog posts share a slug though...
-const getSlug = pipe(
-  getFilename,
-  replace(/\.md$/, '') // Strip trailing extension
-);
-
-const getCategory = node => {
-  console.log('n', node);
-};
+const getSlug = node => getFilename(node).replace(/\.md$/, '');
 
 exports.setFieldsOnGraphQLNodeType = ({ type }) => {
   if (type.name !== 'MarkdownRemark') {
@@ -23,10 +12,6 @@ exports.setFieldsOnGraphQLNodeType = ({ type }) => {
   }
 
   return Promise.resolve({
-    category: {
-      type: GraphQLString,
-      resolve: getCategory
-    },
     slug: {
       type: GraphQLString,
       resolve: getSlug
