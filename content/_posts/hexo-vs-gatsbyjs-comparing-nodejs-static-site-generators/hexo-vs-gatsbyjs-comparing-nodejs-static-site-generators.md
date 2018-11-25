@@ -10,7 +10,7 @@ There are two major [static site generators](https://davidwalsh.name/introductio
 
 ## Different Products
 
-First, let's talk high level. Hexo and Gatsby both generate static websites, but at their hearts, they are very different products. Hexo is a blog generator; Gatsby can is a generalized static site generator. Let me elaborate.
+First, let's talk high level. Hexo and Gatsby both generate static websites, but at their hearts, they are very different products. Hexo is a blog generator; Gatsby is a generalized static site generator. Let me elaborate.
 
 ### Hexo
 
