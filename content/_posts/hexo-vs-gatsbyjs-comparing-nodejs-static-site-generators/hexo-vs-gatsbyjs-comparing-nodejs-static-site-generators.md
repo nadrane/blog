@@ -1,6 +1,6 @@
 ---
-title: 'How to Choose a Javascript Static Site Generators: Gatsby vs. Hexo'
-date: 2018-11-18
+title: 'A Deep Dive into Javascript Static Site Generators: Gatsby vs. Hexo'
+date: 2018-11-24
 categories: [Node.js Ecosystem]
 ---
 
@@ -10,7 +10,7 @@ There are two major [static site generators](https://davidwalsh.name/introductio
 
 ## Different Products
 
-First, let's talk high level. Hexo and Gatsby both generate static websites, but at their hearts, they are very different products. Hexo is a blog generator; Gatsby can create sophisticated [Progressive Web Applications](https://en.wikipedia.org/wiki/Progressive_web_applications).
+First, let's talk high level. Hexo and Gatsby both generate static websites, but at their hearts, they are very different products. Hexo is a blog generator; Gatsby can is a generalized static site generator. Let me elaborate.
 
 ### Hexo
 
