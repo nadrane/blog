@@ -24,8 +24,8 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: 'gatsby-starter-default',
-        short_name: 'starter',
+        name: 'Nick Drane',
+        short_name: 'Nick Drane',
         start_url: '/',
         background_color: '#663399',
         theme_color: '#663399',
@@ -51,6 +51,7 @@ module.exports = {
     {
       resolve: 'gatsby-transformer-remark',
       options: {
+        excerpt_separator: '<!-- more -->',
         plugins: [
           {
             resolve: `gatsby-remark-images`,

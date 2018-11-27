@@ -3,7 +3,6 @@ const { GraphQLString } = require('graphql');
 
 const getFilename = node => path.basename(node.fileAbsolutePath);
 
-// What if two blog posts share a slug though...
 const getSlug = node => getFilename(node).replace(/\.md$/, '');
 
 exports.setFieldsOnGraphQLNodeType = ({ type }) => {
