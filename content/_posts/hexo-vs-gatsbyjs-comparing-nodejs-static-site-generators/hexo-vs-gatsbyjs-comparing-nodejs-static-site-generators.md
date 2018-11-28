@@ -130,9 +130,41 @@ Gatsby has a [plugin search system](https://hexo.io/plugins/index.html) with twi
 
 On a side note, I appreciated that Gatsby sorts their plugin search results based on number of downloads. This primitive but effective metric makes it easier to evaluate the quality of a given plugin.
 
-## Misc
+## Performance
 
-One thing I didn't know before I nearly completed my Gatsby blog is that even after building the project, it is not completely javascript free! This isn't to say the site is not fast; it excels in every performance test I've looked at so far. But your site will nevertheless not run on the machines of users who do not have javascript enabled.
+There are two types of performance relevant to this discussion: the speed of the static site generator itself, and the speed of the website it produces.
+
+If a a static site generator is slow to render your changes, it slows down your development speed. Fortunately, both Hexo and Gatsby refresh changes without perceptible delay.
+
+The speed of the sites these tools produce varies quite drastically.
+
+### Hexo
+
+With Hexo, the speed of your static site will be completely coupled to your theme. Your theme might load tons of unnecessary javascript; it also might not use any.
+
+The most important point here is that Hexo adds absolutely no overhead to your website. It introduces no additional dependencies into your built project. If you want a pure static site without any javascript, you can create that. If you want no page to exceed 40kb, that's entirely doable.
+
+### Gatsby
+
+Gatsby takes a much different approach.
+
+For starters, it introduces a javascript dependency into your web site, clocking in around 65kb. Aside from the fact that this dependency is larger than any single page on my original Hexo website, it also means that your site will never be able to run on browsers without javascript enabled. It does give quite a few benefits in return, however.
+
+Gatsby either automatically or through plugins applies numerous performance tricks to every website. To explain a few:
+
+1. When you reference a style sheet using a `link` tag, the page blocks rendering until the entire roundtrip server request is complete. Gatsby circumvents this problem by inlining critical CSS into your HTML.
+
+2. When you visit a page, once it has finished loading, Gatsby will begin loading every page you can reach from the page you're on. This technique is known as prefetching and makes subsequent page loads fast.
+
+3. Gatsby uses [service workers](https://developers.google.com/web/fundamentals/primers/service-workers/) via [gatsby-plugin-offline](https://www.gatsbyjs.org/packages/gatsby-plugin-offline/) to cache all the pages you download. This allows subsequent requests for those pages to hit the cache instead of the network. It also allow for users to browse your page offline later.
+
+4. [Gatsby Image](https://www.gatsbyjs.org/packages/gatsby-image/) preprocesses and calibrates images for various screen sizes. This ensures that high resolution screens get high resolution images and vice-versa, resulting in significant bandwidth savings for smaller screens.
+
+All of these performance abstractions don't come without a cost. I think my experience was quite telling. When I finished my Hexo website, the main page was about 40kb; when I finished my Gatsby website, the main page was ~200kb, though it's a little difficult to be precise, which brings me to my next point.
+
+Optimization is initially challenging and opaque with Gatsby. When I started, not only did I have no idea my final site would contain Javascript, I had no idea what would influence its performance.
+
+It turns out that everything I returned from my GraphQL queries would be loaded at runtime, regardless of whether the site used it. Similarly, any dependencies used in my application code made it into the final bundle. These were facts I simply didn't understand going in, and they've influenced how I will use Gatsby going forward. This contrasts with Hexo where the performance consequences of my development choices were obvious.
 
 ## Conclusion
 
