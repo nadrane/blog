@@ -160,7 +160,7 @@ Gatsby either automatically or through plugins applies numerous performance tric
 
 4. [Gatsby Image](https://www.gatsbyjs.org/packages/gatsby-image/) preprocesses and calibrates images for various screen sizes. This ensures that high resolution screens get high resolution images and vice-versa, resulting in significant bandwidth savings for smaller screens.
 
-All of these performance abstractions don't come without a cost. I think my experience was quite telling. When I finished my Hexo website, the main page was about 40kb; when I finished my Gatsby website, the main page was ~200kb, though it's a little difficult to be precise, which brings me to my next point.
+All of these performance abstractions don't come without a cost. I think my experience was quite telling. When I finished my Hexo website, the main page was ~40kb, whereas when I finished my Gatsby website, the main page was ~200kb, though it's a little difficult to be precise, which brings me to my next point.
 
 Optimization is initially challenging and opaque with Gatsby. When I started, not only did I have no idea my final site would contain Javascript, I had no idea what would influence its performance.
 
