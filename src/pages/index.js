@@ -22,7 +22,7 @@ export const pageQuery = graphql`
       totalCount
       edges {
         node {
-          html
+          excerpt(format: HTML)
           slug
           fileAbsolutePath
           frontmatter {
