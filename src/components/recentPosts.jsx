@@ -6,14 +6,16 @@ const RecentPosts = () => (
   <StaticQuery
     query={graphql`
       {
-        allMarkdownRemark {
+        allMarkdownRemark(
+          limit: 5
+          filter: { isPost: { eq: true } }
+          sort: { fields: [frontmatter___date], order: DESC }
+        ) {
           edges {
             node {
               slug
-              fileAbsolutePath
               frontmatter {
                 title
-                date
               }
             }
           }
@@ -21,19 +23,11 @@ const RecentPosts = () => (
       }
     `}
     render={data => {
-      const get5MostRecentPosts = data =>
-        data.allMarkdownRemark.edges
-          .map(edge => edge.node)
-          .filter(node => !node.fileAbsolutePath.includes('/_static/'))
-          .sort((node1, node2) => {
-            const a = new Date(node1.frontmatter.date);
-            const b = new Date(node2.frontmatter.date);
-            return a > b ? -1 : a < b ? 1 : 0;
-          })
-          .slice(0, 5)
-          .map(node => ({ name: node.frontmatter.title, link: node.slug }));
+      const formattedLinks = data.allMarkdownRemark.edges
+        .map(edge => edge.node)
+        .map(node => ({ name: node.frontmatter.title, link: node.slug }));
 
-      return <SideBarList items={get5MostRecentPosts(data)} label="Most Recent Posts" />;
+      return <SideBarList items={formattedLinks} label="Most Recent Posts" />;
     }}
   />
 );

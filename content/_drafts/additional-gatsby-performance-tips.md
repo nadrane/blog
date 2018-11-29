@@ -1,7 +1,3 @@
-- Be careful about what you include in your graphql requests
-  Show that the entirety of the results is sent over the network
-  Prefer to do filtering/logic at the graphql layer instead of the application layer
-
 - Be careful what dependencies you include and how large they are
   Does code splitting on a per page basis help mitigate this issue?
   Is there any dead code elimination?

@@ -1,9 +1,11 @@
 const path = require('path');
-const { GraphQLString } = require('graphql');
+const { GraphQLString, GraphQLBoolean } = require('graphql');
 
 const getFilename = node => path.basename(node.fileAbsolutePath);
 
 const getSlug = node => getFilename(node).replace(/\.md$/, '');
+
+const isPost = node => node.fileAbsolutePath.includes('/_posts/');
 
 exports.setFieldsOnGraphQLNodeType = ({ type }) => {
   if (type.name !== 'MarkdownRemark') {
@@ -18,6 +20,10 @@ exports.setFieldsOnGraphQLNodeType = ({ type }) => {
     filename: {
       type: GraphQLString,
       resolve: getFilename
+    },
+    isPost: {
+      type: GraphQLBoolean,
+      resolve: isPost
     }
   });
 };
