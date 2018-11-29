@@ -148,7 +148,7 @@ The most important point here is that Hexo adds absolutely no overhead to your w
 
 Gatsby takes a much different approach.
 
-For starters, it introduces a javascript dependency into your web site, clocking in around 65kb. Aside from the fact that this dependency is larger than any single page on my original Hexo website, it also means that your site will never be able to run on browsers without javascript enabled. It does give quite a few benefits in return, however.
+For starters, it introduces a javascript dependency into your web site, clocking in around 65kb. This dependency is larger than any single page on my original Hexo website! Fortunately, Gatsby websites will continue to work on browsers with javascript disabled.
 
 Gatsby either automatically or through plugins applies numerous performance tricks to every website. To explain a few:
 
@@ -156,11 +156,13 @@ Gatsby either automatically or through plugins applies numerous performance tric
 
 2. When you visit a page, once it has finished loading, Gatsby will begin loading every page you can reach from the page you're on. This technique is known as prefetching and makes subsequent page loads fast.
 
-3. Gatsby uses [service workers](https://developers.google.com/web/fundamentals/primers/service-workers/) via [gatsby-plugin-offline](https://www.gatsbyjs.org/packages/gatsby-plugin-offline/) to cache all the pages you download. This allows subsequent requests for those pages to hit the cache instead of the network. It also allow for users to browse your page offline later.
+3. Gatsby does per route code/data splitting. This means that when you go to a page, Gatsby ensures that only the data and javascript needed to render that page is passed over the network.
 
-4. [Gatsby Image](https://www.gatsbyjs.org/packages/gatsby-image/) preprocesses and calibrates images for various screen sizes. This ensures that high resolution screens get high resolution images and vice-versa, resulting in significant bandwidth savings for smaller screens.
+4. Gatsby uses [service workers](https://developers.google.com/web/fundamentals/primers/service-workers/) via [gatsby-plugin-offline](https://www.gatsbyjs.org/packages/gatsby-plugin-offline/) to cache all the pages you download. This allows subsequent requests for those pages to hit the cache instead of the network. It also allow for users to browse your page offline later.
 
-All of these performance abstractions don't come without a cost. I think my experience was quite telling. When I finished my Hexo website, the main page was ~40kb, whereas when I finished my Gatsby website, the main page was ~200kb, though it's a little difficult to be precise, which brings me to my next point.
+5. [Gatsby Image](https://www.gatsbyjs.org/packages/gatsby-image/) preprocesses and calibrates images for various screen sizes. This ensures that high resolution screens get high resolution images and vice-versa, resulting in significant bandwidth savings for smaller screens.
+
+All of these performance abstractions don't come without a cost. I think my experience was quite telling. When I finished my Hexo website, the main page was ~40kb, whereas when I finished my Gatsby website, the main page was ~134kb, though it's a little difficult to be precise, which brings me to my next point.
 
 Optimization is initially challenging and opaque with Gatsby. When I started, not only did I have no idea my final site would contain Javascript, I had no idea what would influence its performance.
 

@@ -15,6 +15,8 @@ Finish blog
 - use google analytics to load most popular posts on the fly instead of hard coding
 - add archives
 - add pagination
+- sitemap
+- robotstxt?
 
 Finish ES article
 Finish Gatsby/hexo article
