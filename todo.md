@@ -1,6 +1,5 @@
 Finish blog
 
-- RSS feed
 - add signup form for mail chimp email
 - test that social links actually work
 - add copyright
