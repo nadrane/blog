@@ -134,7 +134,7 @@ On a side note, I appreciated that Gatsby sorts their plugin search results base
 
 There are two types of performance relevant to this discussion: the speed of the static site generator itself, and the speed of the website it produces.
 
-If a a static site generator is slow to render your changes, it slows down your development speed. Fortunately, both Hexo and Gatsby refresh changes without perceptible delay.
+If a static site generator is slow to render your changes, it slows down your development speed. Fortunately, both Hexo and Gatsby refresh changes without perceptible delay.
 
 The speed of the sites these tools produce varies quite drastically.
 
@@ -166,7 +166,7 @@ All of these performance abstractions don't come without a cost. I think my expe
 
 Optimization is initially challenging and opaque with Gatsby. When I started, not only did I have no idea my final site would contain Javascript, I had no idea what would influence its performance.
 
-It turns out that everything I returned from my GraphQL queries would be loaded at runtime, regardless of whether the site used it. Similarly, any dependencies used in my application code made it into the final bundle. These were facts I simply didn't understand going in, and they've influenced how I will use Gatsby going forward. This contrasts with Hexo where the performance consequences of my development choices were obvious.
+It turns out that everything I returned from my GraphQL queries is loaded at runtime, regardless of whether the site used it. I didn't understand this going in, and it influences [how I use Gatsby today](/a-performance-guide-to-gatsby). This contrasts with Hexo where the performance consequences of my development choices were obvious.
 
 ## Conclusion
 

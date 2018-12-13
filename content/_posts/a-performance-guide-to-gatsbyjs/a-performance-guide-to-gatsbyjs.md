@@ -1,12 +1,12 @@
 ---
-title: 'A Performance Guide to GatsbyJS'
-date: 2018-11-28
+date: 2018-12-13
+title: 'One Simple Performance Tip to Optimize GatsbyJS Static Sites'
 categories: [Javascript]
 ---
 
 In my article [comparing Gatsby to Hexo](/hexo-vs-gatsbyjs-comparing-nodejs-static-site-generators), I talked about my experience switching writing this blog using [Hexo](https://hexo.io/) and then later using [Gatsby](https://www.gatsbyjs.org/). In the process, the size of my initial page ballooned 5x.
 
-In retrospect, I did not fully understand the abstraction that Gatsby provides. Fortunately, if you follow a couple rules of thumb, you can avoid bloating your network requests and maintain an ultra-performant website.
+In retrospect, I did not fully understand the abstraction that Gatsby provides. Fortunately, if you follow a simple rule of thumb, you can avoid bloating your network requests and maintain an ultra-performant website.
 
 <!-- more -->
 
@@ -16,7 +16,7 @@ If you walk away learning nothing else, this is the most important point.
 
 When you build your website, Gatsby will effectively run all of the GraphQL queries needed to load each page and save the resulting JSON. When you visit a given page on your site, requests will be made for these JSON payloads, completely unmodified.
 
-I originally thought that `gatsby build` would combine my react components and GraphQL requests, transforming them into HTML, resulting in a website that sends strictly HTML over the wire. This is not the case! Here a small piece of the JSON payload for the homepage of my website:
+I originally thought that `gatsby build` would combine my react components and GraphQL requests, transforming them into HTML, resulting in a website that sends strictly HTML over the wire. This is not the case (unless you have Javascript disabled)! Here a small piece of the JSON payload for the homepage of my website:
 
 ![JSON payload for the homepage website](./json-payload.png)
 
@@ -75,8 +75,12 @@ const mostRecentPosts = data.allMarkdownRemark.edges
 
 I was initially uncomfortable with GraphQL and coded everything in the former style, making broad GraphQL queries and later performing additional processing using Javascript. This strategy has numerous problems.
 
-1. As I mentioned above, instead of grabbing the html of just 5 posts, we are grabbing it for every post. This translates directly into what is sent over the wire when you load your page.
+1. As I mentioned above, instead of grabbing the html of just 5 posts, we are grabbing it for every post. This translates directly into what is sent over the wire when you load your page. To compound the problem, the performance hit grows with every single post we add to our site.
 
 2. Not only am I grabbing more posts than I need, every post includes additional information. Notice in the second example that we don't need to query the date because sorting is handled by GraphQL.
 
 3. Lastly, the second example is so much more readable
+
+## Conclusion
+
+Gatsby is a powerful static site generator, though it's not immediately obvious how your code influences the resulting site's performance. You can make great strides, however, if you always offload as much work onto GraphQL as possible.
