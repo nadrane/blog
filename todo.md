@@ -20,7 +20,6 @@ Finish blog
 - JSON-LD
 
 Finish ES article
-Finish Gatsby/hexo article
 Finish eager promises article
 Finish Promisie implementation article
 Write article on web crawler
