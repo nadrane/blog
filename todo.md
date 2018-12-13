@@ -1,7 +1,4 @@
-Finish blog
-
-- add signup form for mail chimp email
-- test that social links actually work
+- test that facebook social link actually works
 - add copyright
 - spend time to ensure H3s and H4s display correctly
 - extract footnotes and display separately

@@ -16,6 +16,7 @@ const ArticleTemplate = ({ data, errors }) => {
       <Article
         slug={slug}
         makeTitleClickable={false}
+        showMailingListForm
         showSocialTop
         showSocialBottom
         date={date}

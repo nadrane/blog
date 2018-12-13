@@ -3,6 +3,7 @@ import React from 'react';
 import styles from './styles.module.scss';
 import { Link } from 'gatsby';
 import Social from '../social';
+import MailChimpForm from '../mailChimpForm';
 
 export default function Article({
   showSocialTop,
@@ -11,6 +12,7 @@ export default function Article({
   title,
   content,
   slug,
+  showMailingListForm = false,
   makeTitleClickable = true
 }) {
   const month = new Date(date).getUTCMonth();
@@ -31,6 +33,7 @@ export default function Article({
         )}
       </h1>
       <div dangerouslySetInnerHTML={{ __html: content }} />
+      {showMailingListForm && <MailChimpForm />}
       {showSocialBottom && <Social title={title} slug={slug} />}
     </article>
   );

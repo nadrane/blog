@@ -93,6 +93,13 @@ module.exports = {
         policy: [{ userAgent: '*', allow: '/' }]
       }
     },
+    {
+      resolve: 'gatsby-plugin-mailchimp',
+      options: {
+        endpoint:
+          'https://nickdrane.us19.list-manage.com/subscribe/post?u=929bf07429061f0ef58f67fdd&amp;id=040d79920b'
+      }
+    },
     `gatsby-plugin-feed`,
     `gatsby-plugin-sitemap`
   ]

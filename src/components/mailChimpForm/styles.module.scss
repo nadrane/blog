@@ -1,0 +1,63 @@
+.border {
+  margin-top: 25px;
+  border-top: 1px solid hsla(0, 0%, 0%, 0.25);
+  margin-bottom: 25px;
+}
+.mcHeader {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.emailLabel {
+  display: none;
+}
+
+.flexForm {
+  display: flex;
+  width: 100%;
+  box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.3);
+
+  * {
+    border: 0;
+    padding: 0 0 0 10px;
+    background: #fff;
+    line-height: 45px;
+    font-size: 1rem;
+    border-radius: 0;
+    outline: 0;
+  }
+  input[type='email'] {
+    width: 75%;
+  }
+
+  button[type='submit'] {
+    background: #ef3f5a;
+    border: 1px solid #ef3f5a;
+    color: #fff;
+    padding: 0 30px;
+    cursor: pointer;
+    white-space: nowrap;
+    width: 25%;
+    min-width: 150px;
+  }
+
+  button[type='submit']:hover {
+    background: #d73851;
+    border: 1px solid #d73851;
+  }
+}
+
+.flexForm {
+  @media only screen and (max-width: 768px) {
+    * {
+      line-height: 35px;
+      font-size: 0.75rem;
+    }
+
+    button[type='submit'] {
+      padding: 0 10px;
+      width: 25%;
+      min-width: 0;
+    }
+  }
+}
