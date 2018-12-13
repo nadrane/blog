@@ -8,22 +8,21 @@ const BlogIndex = ({ data, errors }) => {
   const articles = data.allMarkdownRemark.edges;
   return (
     <Layout>
-      <ArticleList
-        articles={articles.filter(article => !article.node.fileAbsolutePath.includes('/_static/'))}
-        errors={errors}
-      />
+      <ArticleList articles={articles} errors={errors} />
     </Layout>
   );
 };
 
 export const pageQuery = graphql`
   {
-    allMarkdownRemark {
+    allMarkdownRemark(filter: { fields: { contentType: { eq: "post" } } }) {
       totalCount
       edges {
         node {
+          fields {
+            slug
+          }
           excerpt(format: HTML)
-          slug
           fileAbsolutePath
           frontmatter {
             title

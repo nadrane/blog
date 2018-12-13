@@ -19,7 +19,9 @@ export const query = graphql`
       edges {
         node {
           html
-          slug
+          fields {
+            slug
+          }
           frontmatter {
             title
             date

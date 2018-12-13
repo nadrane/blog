@@ -9,7 +9,8 @@ const ArticleTemplate = ({ data, errors }) => {
   }
 
   const { date, title } = data.markdownRemark.frontmatter;
-  const { html, slug } = data.markdownRemark;
+  const { html } = data.markdownRemark;
+  const { slug } = data.markdownRemark.fields;
   return (
     <Layout>
       <Article
@@ -29,9 +30,11 @@ export default ArticleTemplate;
 
 export const query = graphql`
   query($slug: String!) {
-    markdownRemark(slug: { eq: $slug }) {
+    markdownRemark(fields: { slug: { eq: $slug } }) {
       html
-      slug
+      fields {
+        slug
+      }
       frontmatter {
         title
         date

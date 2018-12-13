@@ -18,7 +18,8 @@ const ArticleList = ({ articles, errors }) => {
   return (
     <div>
       {sortedArticles.map(({ node }) => {
-        const { slug, excerpt } = node;
+        const { excerpt } = node;
+        const { slug } = node.fields;
         const { title, date } = node.frontmatter;
         return <Article key={title} date={date} title={title} slug={slug} content={excerpt} />;
       })}

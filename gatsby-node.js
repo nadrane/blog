@@ -1,30 +1,37 @@
 const path = require('path');
-const { GraphQLString, GraphQLBoolean } = require('graphql');
 
 const getFilename = node => path.basename(node.fileAbsolutePath);
-
 const getSlug = node => getFilename(node).replace(/\.md$/, '');
 
-const isPost = node => node.fileAbsolutePath.includes('/_posts/');
+const getContentType = node => {
+  const filePath = node.fileAbsolutePath;
+  if (filePath.includes('/_posts/')) {
+    return 'post';
+  } else if (filePath.includes('/_static/')) {
+    return 'static';
+  } else if (filepath.includes('/_drafts/')) {
+    return 'drafts';
+  }
+  throw new Error('unknown post type');
+};
 
-exports.setFieldsOnGraphQLNodeType = ({ type }) => {
-  if (type.name !== 'MarkdownRemark') {
-    return {};
+exports.onCreateNode = ({ node, actions, getNode }) => {
+  const { createNodeField } = actions;
+
+  if (node.internal.type !== `MarkdownRemark`) {
+    return;
   }
 
-  return Promise.resolve({
-    slug: {
-      type: GraphQLString,
-      resolve: getSlug
-    },
-    filename: {
-      type: GraphQLString,
-      resolve: getFilename
-    },
-    isPost: {
-      type: GraphQLBoolean,
-      resolve: isPost
-    }
+  createNodeField({
+    name: `slug`,
+    node,
+    value: getSlug(node)
+  });
+
+  createNodeField({
+    name: `contentType`,
+    node,
+    value: getContentType(node)
   });
 };
 
@@ -84,7 +91,9 @@ async function createPostPages(graphql, createPage) {
       ) {
         edges {
           node {
-            slug
+            fields {
+              slug
+            }
           }
         }
       }
@@ -97,10 +106,10 @@ async function createPostPages(graphql, createPage) {
 
   result.data.posts.edges.forEach(({ node }) => {
     createPage({
-      path: `/${node.slug}/`,
+      path: `/${node.fields.slug}/`,
       component: articleTemplate,
       context: {
-        slug: node.slug
+        slug: node.fields.slug
       }
     });
   });

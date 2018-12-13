@@ -8,12 +8,14 @@ const RecentPosts = () => (
       {
         allMarkdownRemark(
           limit: 5
-          filter: { isPost: { eq: true } }
+          filter: { fields: { contentType: { eq: "post" } } }
           sort: { fields: [frontmatter___date], order: DESC }
         ) {
           edges {
             node {
-              slug
+              fields {
+                slug
+              }
               frontmatter {
                 title
               }
@@ -25,7 +27,7 @@ const RecentPosts = () => (
     render={data => {
       const formattedLinks = data.allMarkdownRemark.edges
         .map(edge => edge.node)
-        .map(node => ({ name: node.frontmatter.title, link: node.slug }));
+        .map(node => ({ name: node.frontmatter.title, link: node.fields.slug }));
 
       return <SideBarList items={formattedLinks} label="Most Recent Posts" />;
     }}

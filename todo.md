@@ -1,10 +1,10 @@
 Finish blog
 
+- RSS feed
 - add signup form for mail chimp email
 - test that social links actually work
 - add copyright
 - spend time to ensure H3s and H4s display correctly
-- RSS feed
 - extract footnotes and display separately
 - work on mobile display - hamburger menu in header
 - add some color??
@@ -17,6 +17,8 @@ Finish blog
 - add pagination
 - sitemap
 - robotstxt?
+- Open Graph tags
+- JSON-LD
 
 Finish ES article
 Finish Gatsby/hexo article
