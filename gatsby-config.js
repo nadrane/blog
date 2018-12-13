@@ -85,6 +85,14 @@ module.exports = {
         trackingId: `UA-107252357-1`
       }
     },
+    {
+      resolve: 'gatsby-plugin-robots-txt',
+      options: {
+        host: 'https://www.nickdrane.com',
+        sitemap: 'https://www.nickdrane.com/sitemap.xml',
+        policy: [{ userAgent: '*', allow: '/' }]
+      }
+    },
     `gatsby-plugin-feed`,
     `gatsby-plugin-sitemap`
   ]
