@@ -4,7 +4,8 @@ import styles from './styles.module.scss';
 
 export default class MailChimpForm extends React.Component {
   state = {
-    value: ''
+    value: '',
+    submitted: false
   };
 
   _handleInput = e => {
@@ -19,7 +20,8 @@ export default class MailChimpForm extends React.Component {
     addToMailchimp(this.state.value)
       .then(data => {
         this.setState({
-          value: ''
+          value: '',
+          submitted: true
         });
       })
       .catch(err => {
@@ -32,26 +34,32 @@ export default class MailChimpForm extends React.Component {
       <React.Fragment>
         <div className={styles.border} />
         <div>
-          <span className={styles.mcHeader}>
-            Want to be notified when I release a new article? Subscirbe to my mailing list.
-          </span>
+          {!this.state.submitted ? (
+            <React.Fragment>
+              <span className={styles.mcHeader}>
+                Want to be notified when I release a new article? Subscirbe to my mailing list.
+              </span>
 
-          <form onSubmit={this._handleSubmit}>
-            <div className={styles.flexForm}>
-              <label className={styles.emailLabel} htmlFor="mc-email">
-                Your email address
-              </label>
-              <input
-                onChange={this._handleInput}
-                value={this.state.value}
-                type="email"
-                name="email"
-                id="mc-email"
-                placeholder="Your email address"
-              />
-              <button type="submit">Subscribe</button>
-            </div>
-          </form>
+              <form onSubmit={this._handleSubmit}>
+                <div className={styles.flexForm}>
+                  <label className={styles.emailLabel} htmlFor="mc-email">
+                    Your email address
+                  </label>
+                  <input
+                    onChange={this._handleInput}
+                    value={this.state.value}
+                    type="email"
+                    name="email"
+                    id="mc-email"
+                    placeholder="Your email address"
+                  />
+                  <button type="submit">Subscribe</button>
+                </div>
+              </form>
+            </React.Fragment>
+          ) : (
+            <span>You signed up!</span>
+          )}
         </div>
       </React.Fragment>
     );
