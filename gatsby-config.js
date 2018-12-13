@@ -85,6 +85,7 @@ module.exports = {
         trackingId: `UA-107252357-1`
       }
     },
-    `gatsby-plugin-feed`
+    `gatsby-plugin-feed`,
+    `gatsby-plugin-sitemap`
   ]
 };
