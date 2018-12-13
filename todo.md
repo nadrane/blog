@@ -1,5 +1,5 @@
 - email users on mailchimp signup
-- make UI respond on mailchimp signup
+- Make mailchimp work without JS
 - test that facebook social link actually works
 - add copyright
 - spend time to ensure H3s and H4s display correctly
