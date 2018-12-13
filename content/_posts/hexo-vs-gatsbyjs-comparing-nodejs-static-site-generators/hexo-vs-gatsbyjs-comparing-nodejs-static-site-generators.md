@@ -166,7 +166,7 @@ All of these performance abstractions don't come without a cost. I think my expe
 
 Optimization is initially challenging and opaque with Gatsby. When I started, not only did I have no idea my final site would contain Javascript, I had no idea what would influence its performance.
 
-It turns out that everything I returned from my GraphQL queries is loaded at runtime, regardless of whether the site used it. I didn't understand this going in, and it influences [how I use Gatsby today](/a-performance-guide-to-gatsby). This contrasts with Hexo where the performance consequences of my development choices were obvious.
+It turns out that everything I returned from my GraphQL queries is loaded at runtime, regardless of whether the site used it. I didn't understand this going in, and it influences [how I use Gatsby today](/a-performance-guide-to-gatsbyjs). This contrasts with Hexo where the performance consequences of my development choices were obvious.
 
 ## Conclusion
 

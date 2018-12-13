@@ -16,7 +16,7 @@ If you walk away learning nothing else, this is the most important point.
 
 When you build your website, Gatsby will effectively run all of the GraphQL queries needed to load each page and save the resulting JSON. When you visit a given page on your site, requests will be made for these JSON payloads, completely unmodified.
 
-I originally thought that `gatsby build` would combine my react components and GraphQL requests, transforming them into HTML, resulting in a website that sends strictly HTML over the wire. This is not the case (unless you have Javascript disabled)! Here a small piece of the JSON payload for the homepage of my website:
+I originally thought that `gatsby build` would combine my react components and GraphQL requests, transforming them into HTML, resulting in a website that sends strictly HTML over the wire. This is not the case (unless the client has Javascript disabled)! Here a small piece of the JSON payload for the homepage of my website:
 
 ![JSON payload for the homepage website](./json-payload.png)
 
@@ -75,7 +75,7 @@ const mostRecentPosts = data.allMarkdownRemark.edges
 
 I was initially uncomfortable with GraphQL and coded everything in the former style, making broad GraphQL queries and later performing additional processing using Javascript. This strategy has numerous problems.
 
-1. As I mentioned above, instead of grabbing the html of just 5 posts, we are grabbing it for every post. This translates directly into what is sent over the wire when you load your page. To compound the problem, the performance hit grows with every single post we add to our site.
+1. As I mentioned above, instead of grabbing the html of just 5 posts, we are grabbing it for every post. This translates directly into what is sent over the wire when someone loads the page, bloating the site. To compound the problem, the performance hit grows with every single post we add to our site.
 
 2. Not only am I grabbing more posts than I need, every post includes additional information. Notice in the second example that we don't need to query the date because sorting is handled by GraphQL.
 
