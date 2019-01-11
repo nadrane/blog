@@ -10,15 +10,17 @@ At Fraight, we have an [Elasticsearch](https://www.elastic.co/) backed search in
 
 ## A Poor Solution
 
-When I worked at [Epic](https://www.epic.com/), we had a search interface that allowed us to look up patients by name, and it suffered the same problem described above. Epic solved this problem by providing additional fields like birthdate or address and used this additional identifying information to pare down the search results. This solution slows down the user's workflow and can be improved.
+When I worked at [Epic](https://www.epic.com/), we had a search interface that allowed users to look up patients by name, and it suffered the same problem described above. Epic solved this problem by providing additional fields like birthdate or address and used this additional identifying information to pare down the search results. This solution slows down the user's workflow and can be improved.
 
 ## Our Solution
 
 At Fraight, we created a solution that just works. The user enters a name, and the system returns 5-10 results, and more often than not, the first two results contain the record the user is looking for. Here's how we did it.
 
-We needed to customize the score that Elasticsearch calculates for each matched record. For the uninitiated, Elasticsearch's score is an indicator of the relevancy of a particular document (search result). Prior to our scoring customizations, given a query for a name, our Elasticsearch query for `Joe` would pare down a dataset of ~10,000,000 records to ~100 results, but each of the 100 results might have the same score if they were all named Joe! Here's how we customized our the Elasticsearch scoring system so that we could more accurately sort the 100 results based on relevancy.
+We needed to customize the score that Elasticsearch calculates for each matched record. For the uninitiated, Elasticsearch's score is an indicator of the relevancy of a particular document (search result).
 
-## Custom Scoring
+Prior to our scoring customizations, given a query for a name, a query for `Joe` would pare down a dataset of ~1,000,000 records to ~100 results, but each of the 100 results might have the same (or a very similar) score if they were all named Joe! Here's how we customized our the Elasticsearch scoring system so that we could sort the 100 results based on what the user needs.
+
+## Custom Elasticsearch Scoring
 
 We settled on two attributes that should influence the score of a particular partner:
 
@@ -27,7 +29,7 @@ We settled on two attributes that should influence the score of a particular par
 
 It's important to know that we have worked with most of the partners in our system minimally. We needed to remove this noise from the search results. Phrased differently, if we regularly work with a particular `John Doe`, we want that partner to appear above all the other `John Doe`s in the search results.
 
-Similarly, if we have recently interacted with a particular partner, there's a good chance we will interact with them again soon. These partners should rank higher.
+Similarly, if we have _recently_ interacted with a particular partner, there's a good chance we will interact with them again soon. These partners should rank higher.
 
 It's important, however, to consider the time since our last interaction. If we interacted with someone yesterday, it's important to rank them higher than an a partner we interacted with 10 days ago.
 
@@ -43,7 +45,7 @@ Elasticsearch provides [function score queries](https://www.elastic.co/guide/en/
 
 The above function score query tells Elasticsearch to multiply the calculated score by 1.2 times the square root of the `likes` field. This query effectively gives documents with more likes preference over documents with fewer `likes`.
 
-For more customization, Elasticsearch provides [script scores](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-function-score-query.html#function-script-score) that allow you to write your own scoring function using a Java-like language called [Painless](https://www.elastic.co/guide/en/elasticsearch/reference/master/modules-scripting-painless.html) (it's actually quite painful to program in)
+For more customization, Elasticsearch provides [script scores](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-function-score-query.html#function-script-score) that allow you to write your own scoring function using a Java-like language called [Painless](https://www.elastic.co/guide/en/elasticsearch/reference/master/modules-scripting-painless.html) (it's actually quite painful to program in).
 
 ![script score](script-score.png)
 
@@ -51,9 +53,9 @@ The above function specifies a query that searches for the word `elasticsearch` 
 
 It then multiplies the score of every matching result by the `script_score`:
 
-`params.a / Math.pow(params.b, doc['likes'].value)`
+`_score * Math.log(doc['likes'].value)`
 
-This particular script score completely ignores Elasticsearch's original score. It says that the resulting core will be a function of the `likes` field. Specifically, the score will be the log of 2 + the number of `likes` on each matching document.
+This particular script score augments Elasticsearch's calculated score, which is represented by `_score`. It multiplies that score by the log of the number of `likes` on each matching document.
 
 Effectively, script scores allow you to modify the score however you like.
 
@@ -150,12 +152,14 @@ Additionally, we achieve a couple less obvious but super important goals
 2. The Elasticsearch score is never drowned out. This point is subtle but distinct from the above point. We don't want a frequently used partner with the name `joe stevens` to outrank `joe smith` when the query is for `joe smith`.
 3. No one factor dominates the equation to calculate the resulting score. We consider both total interactions and time since last interaction equally (these could be weighted in a more sophisticated solution).
 
-### Other Domains
+## Other Domains
 
 You can apply these techniques to many other domains.
 
 For example, I suspect that hospital staff are more likely to look up patients who have upcoming appointments, a same-day appointment, or who have recently finished an appointment. You could write a function like the one we used to factor in the recency of interaction with our partners
 
-Or suppose you run an event website or Ticketmaster Eventbrite. I'm sure there's a correlation between the how soon an event is and how much user's care about it. You could write a scoring function that leverages this knowledge.
+Or suppose you run an event website like Ticketmaster or Eventbrite. I'm sure there's a correlation between the how soon an event is and how much user's care about it. You could write a scoring function that leverages this knowledge.
+
+Maybe you have an e-commerce site Amazon. It might be valuable to have a set of rules that determine which items are ranked above others. Perhaps affiliate products appear first? Maybe after that we sort by a combination of review rating and relevancy?
 
 _If you have search problems, I do [consulting](/hire-me) work and am currently looking for new clients. Please [contact me](mailto:nick@nickdrane.com) for more details._
