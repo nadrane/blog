@@ -2,6 +2,7 @@
 title: Regex And Automated Test Fuzzing
 categories: [Regular Expressions, Javascript, Testing]
 date: 2017-12-06
+url: regex-and-automated-test-fuzzing
 ---
 
 I posted my article [Build Your Own Regex Engine](https://nickdrane.com/build-your-own-regex/) on Reddit the other day, and one of the commenters claimed that the implementation should be trivial to break. Since I had already tested my program against a customized suite of tests, the remark got me thinking about how I could further increase my confidence in the correctness of my program. One extremely low cost however effective strategy for identifying faults in software is known as fuzzing.
@@ -17,9 +18,9 @@ Fuzzing is a automated testing technique where a program is provided a series of
 The first step is to specify the grammar that our regex engine supports.
 
 ```js
-const lowercase = 'abcdefghijklmnopqrstuvwxyz'.split('');
+const lowercase = "abcdefghijklmnopqrstuvwxyz".split("");
 const uppercase = lowercase.map(letter => letter.toUpperCase());
-const special = ['?', '*', '.'];
+const special = ["?", "*", "."];
 const regexGrammar = special.concat(lowercase, uppercase);
 ```
 
@@ -40,7 +41,7 @@ function generateRegex(n) {
   let regexString = new Array(n)
     .fill(0)
     .map(chooseOne)
-    .join('');
+    .join("");
 
   return regexString;
 }
@@ -62,14 +63,14 @@ function validRegex(regexString) {
   return (
     // None of the following sequences are properly
     // defined by my regex engine
-    regexString.indexOf('**') === -1 &&
-    regexString.indexOf('??') === -1 &&
-    regexString.indexOf('*?') === -1 &&
-    regexString.indexOf('?*') === -1 &&
-    regexString.indexOf('^?') === -1 &&
-    regexString.indexOf('^*') === -1 &&
-    !regexString.startsWith('*') &&
-    !regexString.startsWith('?')
+    regexString.indexOf("**") === -1 &&
+    regexString.indexOf("??") === -1 &&
+    regexString.indexOf("*?") === -1 &&
+    regexString.indexOf("?*") === -1 &&
+    regexString.indexOf("^?") === -1 &&
+    regexString.indexOf("^*") === -1 &&
+    !regexString.startsWith("*") &&
+    !regexString.startsWith("?")
   );
 }
 
@@ -77,7 +78,7 @@ function generateRegex(n) {
   let regexString = new Array(n)
     .fill(0)
     .map(chooseOne)
-    .join('');
+    .join("");
 
   // If the generated string is valid, return it
   if (validRegex(regexString)) {

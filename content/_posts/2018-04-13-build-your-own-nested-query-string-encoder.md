@@ -1,7 +1,8 @@
 ---
-title: 'Build Your Own Nested Query String Encoder/Decoder'
+title: "Build Your Own Nested Query String Encoder/Decoder"
 categories: [Javascript, Build Your Own]
-date: 2018-04-13 15:17:00
+date: 2018-04-13
+url: build-your-own-nested-query-string-encoder
 ---
 
 The other day at work, one of my colleagues was frated that he was unable to encode nested objects in a query string and still maintain a readable URL. I went home that night and coded up a simple solution to this problem, and I thought I'd share it here today. This [Github repo](https://github.com/nadrane/querystring-encoder) contains specs and the solution code.
@@ -75,15 +76,15 @@ Fortunately, the `.` is not considered unsafe and does not need to be escaped, m
 
 The solution is broken down into two parts. The first is _encoding_ a nested object into a query string. The second part is _decoding_ a query string back into a nested object.
 
-### Encoding Nested Objects <sup>[2](#footnote2)</sup>
+## Encoding Nested Objects <sup>[2](#footnote2)</sup>
 
 Let's write some code to encode
 
 ```js
 {
   filter: {
-    make: 'honda';
-    model: 'civic';
+    make: "honda";
+    model: "civic";
   }
 }
 ```
@@ -91,27 +92,27 @@ Let's write some code to encode
 into the query string `filter.make=honda&filter.model=civic`
 
 ```js
-const { escape } = require('querystring');
+const { escape } = require("querystring");
 
-function encode(queryObj, nesting = '') {
-  let queryString = '';
+function encode(queryObj, nesting = "") {
+  let queryString = "";
 
   const pairs = Object.entries(queryObj).map(([key, val]) => {
     // Handle the nested, recursive case, where the value to encode is an object itself
-    if (typeof val === 'object') {
+    if (typeof val === "object") {
       return encode(val, nesting + `${key}.`);
     } else {
       // Handle base case, where the value to encode is simply a string.
-      return [nesting + key, val].map(escape).join('=');
+      return [nesting + key, val].map(escape).join("=");
     }
   });
-  return pairs.join('&');
+  return pairs.join("&");
 }
 ```
 
 Notice that we use the [escape](https://nodejs.org/api/querystring.html#querystring_querystring_escape_str) function provided in Node.js core to percent encode specific characters.
 
-### Encoding Arrays as Values
+## Encoding Arrays as Values
 
 If we want to add support to encode an object with array values, like the following:
 
@@ -125,34 +126,36 @@ If we want to add support to encode an object with array values, like the follow
 then we only need to add another base case to our function
 
 ```js
-function encode(queryObj, nesting = '') {
-  let queryString = '';
+function encode(queryObj, nesting = "") {
+  let queryString = "";
 
   const pairs = Object.entries(queryObj).map(([key, val]) => {
     // Handle a second base case where the value to encode is an array
     if (Array.isArray(val)) {
-      return val.map(subVal => [nesting + key, subVal].map(escape).join('=')).join('&');
-    } else if (typeof val === 'object') {
+      return val
+        .map(subVal => [nesting + key, subVal].map(escape).join("="))
+        .join("&");
+    } else if (typeof val === "object") {
       return encode(val, nesting + `${key}.`);
     } else {
-      return [nesting + key, val].map(escape).join('=');
+      return [nesting + key, val].map(escape).join("=");
     }
   });
-  return pairs.join('&');
+  return pairs.join("&");
 }
 ```
 
 An encoding function is not very useful unless you can decode the encoded string back to it's original form.
 
-### Decoding Nested Objects
+## Decoding Nested Objects
 
 We want to write a function that will decode `filter.make=honda&filter.model=civic` back into a nested object
 
 ```js
 {
   filter: {
-    make: 'honda';
-    model: 'civic';
+    make: "honda";
+    model: "civic";
   }
 }
 ```
@@ -160,37 +163,37 @@ We want to write a function that will decode `filter.make=honda&filter.model=civ
 The code to do this is fairly straightforward if we use a [Lodash](https://lodash.com/docs) utility called [set](https://lodash.com/docs/4.17.5#set) that allows us to set an arbitrarily nested key in an object.
 
 ```js
-const set = require('lodash.set');
+const set = require("lodash.set");
 
 function decode(queryString) {
-  const queryStringPieces = queryString.split('&');
+  const queryStringPieces = queryString.split("&");
   const decodedQueryString = {};
 
   for (const piece of queryStringPieces) {
-    let [key, value] = piece.split('=');
-    value = value || ''; // If a value is not defined, it should be decoded as an empty string
+    let [key, value] = piece.split("=");
+    value = value || ""; // If a value is not defined, it should be decoded as an empty string
     set(decodedQueryString, key, value);
   }
   return decodedQueryString;
 }
 ```
 
-### Decoding Arrays as Values
+## Decoding Arrays as Values
 
 If we want to add support to decode arrays like we did above, then we need to do a little additional work. Fortunately, two additional [Lodash](https://lodash.com/docs) utilities, [has](https://lodash.com/docs/4.17.5#has) and [get](https://lodash.com/docs/4.17.5#get), allow us to check for the existence of a nested key and to get the value associated with a nested key, respectively, greatly simplifying our problem.
 
 ```js
-const set = require('lodash.set');
-const has = require('lodash.has');
-const get = require('lodash.get');
+const set = require("lodash.set");
+const has = require("lodash.has");
+const get = require("lodash.get");
 
 function decode(queryString) {
-  const queryStringPieces = queryString.split('&');
+  const queryStringPieces = queryString.split("&");
   const decodedQueryString = {};
 
   for (const piece of queryStringPieces) {
-    let [key, value] = piece.split('=');
-    value = value || '';
+    let [key, value] = piece.split("=");
+    value = value || "";
     if (has(decodedQueryString, key)) {
       const currentValueForKey = get(decodedQueryString, key);
       if (!Array.isArray(currentValueForKey)) {

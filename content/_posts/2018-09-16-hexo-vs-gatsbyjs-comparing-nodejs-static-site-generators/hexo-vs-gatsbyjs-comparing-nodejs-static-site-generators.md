@@ -2,6 +2,7 @@
 title: 'A Deep Dive into Javascript Static Site Generators: Gatsby vs. Hexo'
 date: 2018-11-24
 categories: [Javascript]
+url: hexo-vs-gatsbyjs-comparing-nodejs-static-site-generators
 ---
 
 There are two major [static site generators](https://davidwalsh.name/introduction-static-site-generators) in the Javascript ecosystem: the incumbent [Hexo](https://hexo.io) and the up-and-coming [Gatsby](https://www.gatsbyjs.org/). This site was first built with Hexo, but I've recently switched to Gatsby. Let's talk about why.

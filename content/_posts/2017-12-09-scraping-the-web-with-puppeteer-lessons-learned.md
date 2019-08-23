@@ -1,7 +1,8 @@
 ---
-title: 'Scraping the Web with Puppeteer: Lessons Learned'
+title: "Scraping the Web with Puppeteer: Lessons Learned"
 categories: [Javascript, Web Scraping]
-date: 2017-12-09 15:35:13
+date: 2017-12-09
+url: scraping-the-web-with-puppeteer-lessons-learned
 ---
 
 I'm currently contracted to create a web service using some data from a third party Angular application. I worked off a proof of concept codebase that used Chrome's new [Puppeteer](https://github.com/GoogleChrome/puppeteer) API to scrape this site. I strongly regret not starting from scratch.
@@ -27,17 +28,17 @@ After that's done, it's trivial to navigate to and begin interacting with a webp
 
 ```js
 // Navigate to the website
-await page.goto('https://website/login');
+await page.goto("https://website/login");
 
 // Provide the selector of an input box and the content to type
-await page.type('input#username', CREDENTIALS.username);
-await page.type('input#password', CREDENTIALS.password);
-await page.click('button#login'); // Click the login button
+await page.type("input#username", CREDENTIALS.username);
+await page.type("input#password", CREDENTIALS.password);
+await page.click("button#login"); // Click the login button
 
 // Wait until the screen changes and a node matching
 // the selector #logged-in-successfully appears,
 // at which point we know the login was successful
-await page.waitForSelector('#logged-in-successfully');
+await page.waitForSelector("#logged-in-successfully");
 ```
 
 We just successfully filled out a form, submitted an HTTP request containing our form data, and waited for the page to change upon successful login. This is where Puppeteer shines. Let's look at a more complicated example.

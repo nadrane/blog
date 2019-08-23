@@ -1,7 +1,8 @@
 ---
 title: Write Your Own React-Redux Connect
-date: 2017-09-29 13:14:18
+date: 2017-09-29
 categories: [React, Redux, Build Your Own]
+url: write-your-own-redux-connect
 ---
 
 _My inspiration for this blog post came from [this video](https://www.youtube.com/watch?v=VJ38wSFbM3A) where Dan Abramov walks through the source code to react-redux_
@@ -32,8 +33,8 @@ But first, what would we do without react-redux? How would React and Redux talk?
 More precisely, how do we ensure that a React component re-renders when the Redux store changes? The answer lies in Redux's [subscribe](http://redux.js.org/docs/api/Store.html#subscribe) API.
 
 ```js
-import store from './store';
-import { Component } from 'react';
+import store from "./store";
+import { Component } from "react";
 
 class MyComponent extends Component {
   constructor() {
@@ -267,9 +268,9 @@ Now the implementer of `mapStateToProps` can choose which of `WrapperComponent`'
 `mapDispatchToProps` is designed to eliminate React's dependency upon Redux. If we were to use the above implementation of `connect`, every component that dispatch's an action must import `store.dispatch`, and the implementation would look like this:
 
 ```js
-import store from './store';
-import { Component } from 'react';
-import { updateThing } from './store/actions';
+import store from "./store";
+import { Component } from "react";
+import { updateThing } from "./store/actions";
 
 class ExampleComponent extends Component {
   handleChange(e) {
@@ -330,7 +331,7 @@ So, in the above scenario, when `WrapperComponent` calls `setState`, React first
 
 ```js
 // Just a simple shallow equality function
-import shallowEqual from 'shallow-equal/objects';
+import shallowEqual from "shallow-equal/objects";
 
 function connect(mapStateToProps, mapDispatchToProps) {
   return function(WrappedComponent) {
@@ -364,7 +365,11 @@ function connect(mapStateToProps, mapDispatchToProps) {
         // mapStateToProps to use the next time
         // shouldComponentUpdate runs
         this.oldProps = mapStateToProps(this.state.storeState, this.props);
-        const newProps = Object.assign({}, this.oldProps, mapDispatchToProps(store.dispatch.bind(this)));
+        const newProps = Object.assign(
+          {},
+          this.oldProps,
+          mapDispatchToProps(store.dispatch.bind(this))
+        );
         return <WrappedComponent {...newProps} />;
       }
     };

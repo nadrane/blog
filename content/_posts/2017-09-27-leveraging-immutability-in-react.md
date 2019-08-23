@@ -1,7 +1,8 @@
 ---
 title: Leveraging Immutability in React
-date: 2017-09-27 09:30:27
+date: 2017-09-27
 categories: [React, Immutability]
+url: leveraging-immutability-in-react
 ---
 
 React has taken the web development community by a storm, and with it functional programming concepts have embedded themselves in the mainstream. One common statement you will often read is that all state in React should be immutable, and this practice is justified as necessary for performance reasons. This statement is entirely true, but it only tells half the truth. Immutability alone will not yield any performance gains in React (it'll actually make things slower).

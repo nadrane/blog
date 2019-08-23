@@ -1,5 +1,6 @@
 ---
 title: Projects
+url: projects
 ---
 
 [Web Crawler](https://github.com/nadrane/crawler)
@@ -11,7 +12,10 @@ This is a simple Regular Expression engine and corresponding tests. The associat
 [React Column Layout](https://github.com/nadrane/react-column-layout) | [npm package](https://www.npmjs.com/package/react-column-layout)
 A column based layout system (think Pinterest style) that works responsively without special configuration.
 
-### Other Major Open Source Contributions
+## Other Major Open Source Contributions
 
 [Sequelize](https://github.com/sequelize/sequelize/commits/master?author=nadrane)
 The popular Nodejs ORM.
+
+[Gatsby](https://github.com/gatsbyjs/gatsby/commits/master?author=nadrane)
+The very same static site generating framework used to build this site

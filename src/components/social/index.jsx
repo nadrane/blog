@@ -1,15 +1,15 @@
-import React from 'react';
-import { StaticQuery, graphql } from 'gatsby';
-import qs from 'qs';
-import styles from './styles.module.scss';
-import urlJoin from 'url-join';
+import React from "react";
+import { StaticQuery, graphql } from "gatsby";
+import qs from "qs";
+import styles from "./styles.module.scss";
+import urlJoin from "url-join";
 
-import facebookImage from './images/Facebook.png';
-import twitterImage from './images/Twitter.png';
-import linkedInImage from './images/LinkedIn.png';
-import emailImage from './images/Email.png';
+import facebookImage from "./images/Facebook.png";
+import twitterImage from "./images/Twitter.png";
+import linkedInImage from "./images/LinkedIn.png";
+import emailImage from "./images/Email.png";
 
-export default function Social({ title, slug }) {
+export default function Social({ title, url }) {
   return (
     <StaticQuery
       query={graphql`
@@ -22,15 +22,17 @@ export default function Social({ title, slug }) {
         }
       `}
       render={(data, errors) => {
-        const link = urlJoin(data.site.siteMetadata.siteUrl, slug);
+        const link = urlJoin(data.site.siteMetadata.siteUrl, url);
         return (
           <ul className={styles.socialButtons}>
             <li>
               <a
-                href={`https://www.facebook.com/sharer/sharer.php?${qs.stringify({
-                  u: link,
-                  quote: title
-                })}`}
+                href={`https://www.facebook.com/sharer/sharer.php?${qs.stringify(
+                  {
+                    u: link,
+                    quote: title
+                  }
+                )}`}
                 title="Share on Facebook"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -53,11 +55,13 @@ export default function Social({ title, slug }) {
             </li>
             <li>
               <a
-                href={`http://www.linkedin.com/shareArticle?mini=true&url=${qs.stringify({
-                  mini: true,
-                  url: link,
-                  title
-                })}`}
+                href={`http://www.linkedin.com/shareArticle?mini=true&url=${qs.stringify(
+                  {
+                    mini: true,
+                    url: link,
+                    title
+                  }
+                )}`}
                 target="_blank"
                 title="Share on LinkedIn"
                 rel="noopener noreferrer"

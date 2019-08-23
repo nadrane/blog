@@ -1,10 +1,10 @@
-import React from 'react';
-import Article from '../article';
+import React from "react";
+import Article from "../article";
 
 const ArticleList = ({ articles, errors }) => {
   if (errors && errors.length) {
     errors.forEach(({ message }) => {
-      console.log('error in articleList', message);
+      console.log("error in articleList", message);
     });
     return <h1>Errors found: Check the console for details</h1>;
   }
@@ -19,9 +19,16 @@ const ArticleList = ({ articles, errors }) => {
     <div>
       {sortedArticles.map(({ node }) => {
         const { excerpt } = node;
-        const { slug } = node.fields;
-        const { title, date } = node.frontmatter;
-        return <Article key={title} date={date} title={title} slug={slug} content={excerpt} />;
+        const { title, date, url } = node.frontmatter;
+        return (
+          <Article
+            key={title}
+            date={date}
+            title={title}
+            url={url}
+            content={excerpt}
+          />
+        );
       })}
     </div>
   );

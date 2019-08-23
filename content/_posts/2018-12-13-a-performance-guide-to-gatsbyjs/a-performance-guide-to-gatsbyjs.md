@@ -1,7 +1,8 @@
 ---
 date: 2018-12-13
-title: 'One Simple Performance Tip to Optimize GatsbyJS Static Sites'
+title: "One Simple Performance Tip to Optimize GatsbyJS Static Sites"
 categories: [Javascript]
+url: a-performance-guide-to-gatsbyjs
 ---
 
 In my article [comparing Gatsby to Hexo](/hexo-vs-gatsbyjs-comparing-nodejs-static-site-generators), I talked about my experience switching writing this blog using [Hexo](https://hexo.io/) and then later using [Gatsby](https://www.gatsbyjs.org/). In the process, the size of my initial page ballooned 5x.
@@ -28,7 +29,7 @@ So what does this mean for you?
 
 The second points bears explanation. Here are two functionally equivalent chunks of code to grab the html of the 5 most recent posts.
 
-### Post-Processing GraphQL results with Javascript
+## Post-Processing GraphQL results with Javascript
 
 ```graphql
 {
@@ -59,11 +60,14 @@ const mostRecentPosts = data.allMarkdownRemark.edges
   .slice(0, 5);
 ```
 
-### Everything in GraphQL
+## Everything in GraphQL
 
 ```graphql
 {
-  allMarkdownRemark(limit: 5, sort: { fields: [frontmatter___date], order: DESC }) {
+  allMarkdownRemark(
+    limit: 5
+    sort: { fields: [frontmatter___date], order: DESC }
+  ) {
     edges {
       node {
         html

@@ -1,8 +1,7 @@
 ---
 title: Testimonials
+url: testimonials
 ---
-
-# Testimonials
 
 ## [Freshwater Advisors](http://freshwateradvisors.com/)
 

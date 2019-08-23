@@ -1,7 +1,8 @@
 ---
 title: "You're Hiring Programmers Wrong: A Case for Interview Standardization"
 categories: [Technical Hiring]
-date: 2018-03-20 17:03:01
+date: 2018-03-20
+url: you're-hiring-programmers-wrong-a-case-for-interview-standardization
 ---
 
 I've conducted about 100 technical interviews over the past 6 months for a software development recruiting company called [Triplebyte](https://triplebyte.com/iv/RrzqKKw/bp). I've also been doing consulting work, which has required me to take numerous technical interviews. It's interesting contrasting the experiences to identify what works and what doesn't.

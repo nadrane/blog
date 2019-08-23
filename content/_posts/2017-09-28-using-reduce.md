@@ -1,7 +1,8 @@
 ---
 title: Using Reduce
-date: 2017-09-28 10:36:30
+date: 2017-09-28
 categories: [Functional Programming]
+url: using-reduce
 ---
 
 My first introduction to functional programming was a couple years ago when I read through the famous [SICP](https://mitpress.mit.edu/sicp/full-text/book/book.html). As someone who had up to this point worked with mostly in object oriented and imperative languages, I had rarely seen `map`, `fitler`, and `reduce` before that time. The purpose of the former two felt obvious; the latter one not so much. This blog post is geared for someone who knows how `reduce` works but feels like they struggle to use it practically.
@@ -21,10 +22,10 @@ Suppose we want to take an array of characters and concatenate them into a singl
 Let's simulate what happens when we run a solution to the problem of concatenating strings.
 
 ```js
-const arrToConcat = ['a', 'b', 'c', 'd'];
+const arrToConcat = ["a", "b", "c", "d"];
 arrToConcat.reduce(function(resultantString, nextCharacter) {
   return resultantString + nextCharacter;
-}, ''); // initial accumulator. This is the second argument to reduce!
+}, ""); // initial accumulator. This is the second argument to reduce!
 ```
 
 You can use the below table to help guide yourself along
@@ -106,7 +107,16 @@ Let's do something a little different. Suppose I have an array of words, and I w
 Consulting the table above, we know that the starting accumulator needs to be an empty object. This means that each iteration over the array returns an object as well.
 
 ```js
-const frequencyArray = ['luke', 'anakin', 'chewy', 'luke', 'chewy', 'princess', 'leia', 'chewy'];
+const frequencyArray = [
+  "luke",
+  "anakin",
+  "chewy",
+  "luke",
+  "chewy",
+  "princess",
+  "leia",
+  "chewy"
+];
 frequencyArray.reduce(function(resultantObject, nextWord) {}, {});
 ```
 

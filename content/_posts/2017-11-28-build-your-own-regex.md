@@ -2,6 +2,7 @@
 title: Build a Regex Engine in Less than 40 Lines of Code
 date: 2017-11-28
 categories: [Regular Expressions, Javascript, Build Your Own]
+url: build-your-own-regex
 ---
 
 I stumbled upon an [article](https://www.cs.princeton.edu/courses/archive/spr09/cos333/beautiful.html) the other day where Rob Pike implements a rudimentary regular expression engine in c. I converted his code to Javascript and added test specs so that someone can self-guide themselves through the creation of the regex engine. The specs and solution can be found in this [GitHub repository](https://github.com/nadrane/build-your-own-regex). This blog post walks through my solution.
@@ -15,11 +16,11 @@ Our regex engine will support the following syntax:
 | Syntax | Meaning                                     | Example | matches              |
 | ------ | ------------------------------------------- | ------- | -------------------- |
 | a      | Matches the specified character literal     | q       | q                    |
-| \*     | Matches 0 or more of the previous character | a\*     | "", a, aa, aaa       |
+| *     | Matches 0 or more of the previous character  | a*     | "", a, aa, aaa        |
 | ?      | Matches 0 or 1 of the previous character    | a?      | "", a                |
 | .      | Matches any character literal               | .       | a, b, c, d, e ...    |
 | ^      | Matches the start of a string               | ^c      | c, ca, caa, cbb ...  |
-| $      | Matches the end of a string                 | a$      | ba, baaa, qwerta ... |
+| $     | Matches the end of a string                  | a$     | ba, baaa, qwerta ...  |
 
 The goal is to provide a syntax robust enough to match a large portion of regex use cases with minimal code.
 
@@ -39,7 +40,7 @@ Here are some examples
 function matchOne(pattern, text) {
   if (!pattern) return true; // Any text matches an empty pattern
   if (!text) return false; // If the pattern is defined but the text is empty, there cannot be a match
-  if (pattern === '.') return true; // Any inputted text matches the wildcard
+  if (pattern === ".") return true; // Any inputted text matches the wildcard
   return pattern === text;
 }
 ```
@@ -50,9 +51,12 @@ Now we want to add support for patterns and text strings of greater length. For 
 
 ```js
 function match(pattern, text) {
-  if (pattern === '') return true;
+  if (pattern === "") return true;
   // Our base case - if the pattern is empty, any inputted text is a match
-  else return matchOne(pattern[0], text[0]) && match(pattern.slice(1), text.slice(1));
+  else
+    return (
+      matchOne(pattern[0], text[0]) && match(pattern.slice(1), text.slice(1))
+    );
 }
 ```
 
@@ -68,9 +72,12 @@ Let's add support for the special pattern character `$` that allows us to match 
 
 ```js
 function match(pattern, text) {
-  if (pattern === '') return true;
-  if (pattern === '$' && text === '') return true;
-  else return matchOne(pattern[0], text[0]) && match(pattern.slice(1), text.slice(1));
+  if (pattern === "") return true;
+  if (pattern === "$" && text === "") return true;
+  else
+    return (
+      matchOne(pattern[0], text[0]) && match(pattern.slice(1), text.slice(1))
+    );
 }
 ```
 
@@ -80,7 +87,7 @@ Let's add support for the special pattern character `^` that allows us to match 
 
 ```js
 function search(pattern, text) {
-  if (pattern[0] === '^') {
+  if (pattern[0] === "^") {
     return match(pattern.slice(1), text);
   }
 }
@@ -101,12 +108,12 @@ If the user does not specify that the pattern matches the beginning of the text,
 
 ```js
 function search(pattern, text) {
-  if (pattern[0] === '^') {
+  if (pattern[0] === "^") {
     return match(pattern.slice(1), text);
   } else {
     // This code will run match(pattern, text.slice(index)) on every index of the text.
     // This means that we test the pattern against every starting point of the text.
-    return text.split('').some((_, index) => {
+    return text.split("").some((_, index) => {
       return match(pattern, text.slice(index));
     });
   }
@@ -128,16 +135,18 @@ The first step is to modify `match` to detect when a `?` character is present an
 
 ```js
 function match(pattern, text) {
-  if (pattern === '') {
+  if (pattern === "") {
     return true;
-  } else if (pattern === '$' && text === '') {
+  } else if (pattern === "$" && text === "") {
     return true;
     // Notice that we are looking at pattern[1] instead of pattern[0].
     // pattern[0] is the character to match 0 or 1 of.
-  } else if (pattern[1] === '?') {
+  } else if (pattern[1] === "?") {
     return matchQuestion(pattern, text);
   } else {
-    return matchOne(pattern[0], text[0]) && match(pattern.slice(1), text.slice(1));
+    return (
+      matchOne(pattern[0], text[0]) && match(pattern.slice(1), text.slice(1))
+    );
   }
 }
 ```
@@ -182,7 +191,7 @@ function matchQuestion(pattern, text) {
 
 The one thing I like about this latter approach is that the boolean OR makes it explicitly clear that there are two cases, either of which may be true.
 
-## The \* Character
+## The * Character
 
 We want to be able to match the character before the `*` 0 or more times.
 
@@ -196,16 +205,18 @@ Similar to what we did when supporting `?`, we wan to delegate to a `matchStar` 
 
 ```js
 function match(pattern, text) {
-  if (pattern === '') {
+  if (pattern === "") {
     return true;
-  } else if (pattern === '$' && text === '') {
+  } else if (pattern === "$" && text === "") {
     return true;
-  } else if (pattern[1] === '?') {
+  } else if (pattern[1] === "?") {
     return matchQuestion(pattern, text);
-  } else if (pattern[1] === '*') {
+  } else if (pattern[1] === "*") {
     return matchStar(pattern, text);
   } else {
-    return matchOne(pattern[0], text[0]) && match(pattern.slice(1), text.slice(1));
+    return (
+      matchOne(pattern[0], text[0]) && match(pattern.slice(1), text.slice(1))
+    );
   }
 }
 ```
@@ -220,7 +231,8 @@ Since there are two cases that both result in a match (0 matches OR more matches
 ```js
 function matchStar(pattern, text) {
   return (
-    (matchOne(pattern[0], text[0]) && match(pattern, text.slice(1))) || match(pattern.slice(2), text)
+    (matchOne(pattern[0], text[0]) && match(pattern, text.slice(1))) ||
+    match(pattern.slice(2), text)
   );
 }
 ```
@@ -231,10 +243,10 @@ We can now go back and cleverly simplify `search` using a trick I learned in Pet
 
 ```js
 function search(pattern, text) {
-  if (pattern[0] === '^') {
+  if (pattern[0] === "^") {
     return match(pattern.slice(1), text);
   } else {
-    return match('.*' + pattern, text);
+    return match(".*" + pattern, text);
   }
 }
 ```
