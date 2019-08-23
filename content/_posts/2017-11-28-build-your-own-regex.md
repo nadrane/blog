@@ -31,9 +31,13 @@ The first step is to write a function that takes in a one character pattern and 
 Here are some examples
 
 `matchOne('a', 'a')` -> `true`
+
 `matchOne('.', 'z')` -> `true`
+
 `matchOne('', 'h')` -> `true`
+
 `matchOne('a', 'b')` -> `false`
+
 `matchOne('p', '')` -> `false`
 
 ```js
@@ -100,6 +104,7 @@ This function will be the new entry point to our code. Up till this point, we we
 Currently, the following return `true`
 
 `search("^abc", "abc")`
+
 `search("^abcd", "abcd")`
 
 But `search("bc", "abcd")` will just return `undefined`. We want it to return `true`
@@ -127,8 +132,11 @@ We want to be able to match 0 to 1 of the character before `?`.
 Here are some examples
 
 `search("ab?c", "ac")` -> `true`
+
 `search("ab?c", "abc")` -> `true`
+
 `search("a?b?c?", "abc")` -> `true`
+
 `search("a?b?c?", "")` -> `true`
 
 The first step is to modify `match` to detect when a `?` character is present and then delegate to the `matchQuestion` function, which we will define shortly.
@@ -198,7 +206,9 @@ We want to be able to match the character before the `*` 0 or more times.
 All of these should return `true`.
 
 `search("a*", "")`
+
 `search("a*", "aaaaaaa")`
+
 `search("a*b", "aaaaaaab")`
 
 Similar to what we did when supporting `?`, we wan to delegate to a `matchStar` function within our `match` function
@@ -239,7 +249,7 @@ function matchStar(pattern, text) {
 
 ## Refactoring
 
-We can now go back and cleverly simplify `search` using a trick I learned in Peter Norvig's [class](https://www.udacity.com/course/design-of-computer-programs--cs212).
+We can now go back and cleverly simplify `search` using a trick I learned in [Peter Norvig's class](https://www.udacity.com/course/design-of-computer-programs--cs212).
 
 ```js
 function search(pattern, text) {
