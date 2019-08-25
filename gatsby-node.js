@@ -2,12 +2,13 @@ const path = require("path");
 
 const getContentType = node => {
   const filePath = node.fileAbsolutePath;
+
   if (filePath.includes("/_posts/")) {
     return "post";
   } else if (filePath.includes("/_static/")) {
     return "static";
-  } else if (filepath.includes("/_drafts/")) {
-    return "drafts";
+  } else if (filePath.includes("/_drafts/")) {
+    return "draft";
   }
   throw new Error("unknown post type");
 };
@@ -31,55 +32,65 @@ exports.createPages = async ({ graphql, actions }) => {
   await createPostPages(graphql, createPage);
   await createCategoryPages(graphql, createPage);
   await createStaticPages(graphql, createPage);
+  process.env.NODE_ENV === "development" &&
+    (await createDraftPages(graphql, createPage));
 };
 
 async function createStaticPages(graphql, createPage) {
   const staticPageTemplate = path.resolve("./src/templates/static.js");
   const result = await graphql(`
-    query RenderPostsQuery {
-      pages: allMarkdownRemark {
-        nodes {
-          fileAbsolutePath
-          frontmatter {
-            title
-            url
-          }
-        }
-      }
-    }
-  `);
-  if (result.errors) {
-    console.log(result.errors);
-    throw new Error("Things broke, see console output above");
-  }
-  result.data.pages.nodes
-    .filter(node => node.fileAbsolutePath.includes("/_static/"))
-    .forEach(node => {
-      const { title, url } = node.frontmatter;
-      createPage({
-        path: `/${url
-          .toLowerCase()
-          .split(" ")
-          .join("-")}/`,
-        component: staticPageTemplate,
-        context: {
-          title
-        }
-      });
-    });
-  return;
-}
-
-async function createPostPages(graphql, createPage) {
-  const articleTemplate = path.resolve("./src/templates/article.js");
-  const result = await graphql(`
-    query RenderPostsQuery {
-      posts: allMarkdownRemark(
-        sort: { fields: [frontmatter___date], order: DESC }
-        filter: { frontmatter: { date: { ne: null } } }
+    query RenderStaticPages {
+      pages: allMarkdownRemark(
+        filter: { fields: { contentType: { eq: "static" } } }
       ) {
         nodes {
           frontmatter {
+            title
+            url
+          }
+        }
+      }
+    }
+  `);
+  if (result.errors) {
+    console.log(result.errors);
+    throw new Error("Could not query for static pages");
+  }
+  result.data.pages.nodes.forEach(node => {
+    const { title, url } = node.frontmatter;
+    createPage({
+      path: `/${url
+        .toLowerCase()
+        .split(" ")
+        .join("-")}/`,
+      component: staticPageTemplate,
+      context: {
+        title
+      }
+    });
+  });
+  return;
+}
+
+async function createDraftPages(graphql, createPage) {
+  createPage({
+    path: `/drafts/`,
+    component: path.resolve("./src/templates/blogIndex.js")
+  });
+}
+
+async function createPostPages(graphql, createPage) {
+  const result = await graphql(`
+    query RenderPostsQuery {
+      posts: allMarkdownRemark(
+        filter: { fields: { contentType: { in: ["draft", "post"] } } }
+        sort: { fields: [frontmatter___date], order: DESC }
+      ) {
+        nodes {
+          fields {
+            contentType
+          }
+          frontmatter {
             url
             title
           }
@@ -92,10 +103,17 @@ async function createPostPages(graphql, createPage) {
     throw new Error("Things broke, see console output above");
   }
 
+  if (process.env.NODE_ENV === "production") {
+    result.data.posts.nodes = result.data.posts.nodes.filter(
+      node => node.fields.contentType === "post"
+    );
+  }
+
   result.data.posts.nodes.forEach(node => {
+    console.log("creating", node.frontmatter.title);
     createPage({
       path: `/${node.frontmatter.url}/`,
-      component: articleTemplate,
+      component: path.resolve("./src/templates/article.js"),
       context: {
         title: node.frontmatter.title
       }
@@ -105,11 +123,10 @@ async function createPostPages(graphql, createPage) {
 }
 
 async function createCategoryPages(graphql, createPage) {
-  const categoryTemplate = path.resolve("./src/templates/category.js");
   const result = await graphql(`
     query RenderCategoriesQuery {
       posts: allMarkdownRemark(
-        filter: { frontmatter: { date: { ne: null } } }
+        filter: { fields: { contentType: { eq: "post" } } }
       ) {
         nodes {
           frontmatter {
@@ -134,7 +151,7 @@ async function createCategoryPages(graphql, createPage) {
   categories.forEach(category => {
     createPage({
       path: `/categories/${category.split(" ").join("-")}/`,
-      component: categoryTemplate,
+      component: path.resolve("./src/templates/category.js"),
       context: {
         category
       }

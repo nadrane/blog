@@ -1,7 +1,7 @@
 ---
 title: 'A Deep Dive into Javascript Static Site Generators: Gatsby vs. Hexo'
 date: 2018-11-24
-categories: [Javascript]
+categories: [Gatsby]
 url: hexo-vs-gatsbyjs-comparing-nodejs-static-site-generators
 ---
 

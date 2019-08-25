@@ -1,7 +1,7 @@
 ---
 date: 2018-12-13
 title: "One Simple Performance Tip to Optimize GatsbyJS Static Sites"
-categories: [Javascript]
+categories: [Gatsby]
 url: a-performance-guide-to-gatsbyjs
 ---
 

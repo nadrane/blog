@@ -1,5 +1,5 @@
 ---
-title: "Build Your Own Nested Query String Encoder/Decoder"
+title: Build Your Own Nested Query String Encoder/Decoder
 categories: [Javascript, Build Your Own]
 date: 2018-04-13
 url: build-your-own-nested-query-string-encoder

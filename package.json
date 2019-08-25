@@ -40,9 +40,9 @@
   ],
   "license": "MIT",
   "scripts": {
-    "build": "gatsby build",
-    "dev": "gatsby develop",
-    "prod": "gatsby build && gatsby serve",
+    "build": "NODE_ENV=production gatsby build",
+    "dev": "NODE_ENV=development gatsby develop",
+    "prod": "NODE_ENV=production gatsby build && gatsby serve",
     "format": "prettier --write '**/*.js'",
     "deploy": "gatsby build && touch public/CNAME && echo nickdrane.com > public/CNAME && gh-pages -d public"
   },

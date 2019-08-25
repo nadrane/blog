@@ -1,7 +1,8 @@
 ---
 title: 'Optimizing Elasticsearch Score: How to Rank and Differentiate Similar Records'
-date: 2018-10-11
+date: 2019-08-31
 categories: [Elasticsearch]
+url: optimizing-elasticsearch-score-with-custom-score-queries
 ---
 
 At Fraight, we have an [Elasticsearch](https://www.elastic.co/) backed search interface that allows users to type a freetext query and get a list of database records sorted by relevancy. At it's core, this is a simple problem: if the user types in `Joe`, return all people whose name contains the word `Joe`. And indeed, returning all the `Joe's` in the system is trivial; the problem is that we work with hundreds of `Joes`. We needed a way to return the particular `Joe` that the user cares about.

@@ -6,6 +6,7 @@ import { graphql } from "gatsby";
 
 const BlogIndex = ({ data, errors }) => {
   const articles = data.allMarkdownRemark.nodes;
+  console.log("drafts", articles);
   return (
     <Layout>
       <ArticleList articles={articles} errors={errors} />
@@ -13,9 +14,11 @@ const BlogIndex = ({ data, errors }) => {
   );
 };
 
-export const pageQuery = graphql`
+export default BlogIndex;
+
+export const query = graphql`
   {
-    allMarkdownRemark(filter: { fields: { contentType: { eq: "post" } } }) {
+    allMarkdownRemark(filter: { fields: { contentType: { eq: "draft" } } }) {
       nodes {
         excerpt(format: HTML)
         fileAbsolutePath
@@ -28,5 +31,3 @@ export const pageQuery = graphql`
     }
   }
 `;
-
-export default BlogIndex;

@@ -7,8 +7,12 @@ const Category = ({ data, errors }) => {
   if (errors && errors.length) {
     console.log("errors rendering article", errors);
   }
-  const articles = data.allMarkdownRemark.edges;
-  return <Layout>{<ArticleList articles={articles} errors={errors} />}</Layout>;
+  const articles = data.allMarkdownRemark.nodes;
+  return (
+    <Layout>
+      <ArticleList articles={articles} errors={errors} />
+    </Layout>
+  );
 };
 
 export default Category;
@@ -16,16 +20,18 @@ export default Category;
 export const query = graphql`
   query RenderCategoriesQuery($category: String) {
     allMarkdownRemark(
-      filter: { frontmatter: { categories: { in: [$category] } } }
+      filter: {
+        fields: { contentType: { eq: "post" } }
+        frontmatter: { categories: { in: [$category] } }
+      }
     ) {
-      edges {
-        node {
-          html
-          frontmatter {
-            title
-            date
-            url
-          }
+      nodes {
+        html
+        excerpt(format: HTML)
+        frontmatter {
+          title
+          date
+          url
         }
       }
     }
