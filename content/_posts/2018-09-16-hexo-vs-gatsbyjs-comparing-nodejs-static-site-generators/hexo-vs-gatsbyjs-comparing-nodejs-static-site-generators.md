@@ -1,11 +1,11 @@
 ---
-title: 'A Deep Dive into Javascript Static Site Generators: Gatsby vs. Hexo'
+title: 'A Deep Dive into JavaScript Static Site Generators: Gatsby vs. Hexo'
 date: 2018-11-24
 categories: [Gatsby]
 url: hexo-vs-gatsbyjs-comparing-nodejs-static-site-generators
 ---
 
-There are two major [static site generators](https://davidwalsh.name/introduction-static-site-generators) in the Javascript ecosystem: the incumbent [Hexo](https://hexo.io) and the up-and-coming [Gatsby](https://www.gatsbyjs.org/). This site was first built with Hexo, but I've recently switched to Gatsby. Let's talk about why.
+There are two major [static site generators](https://davidwalsh.name/introduction-static-site-generators) in the JavaScript ecosystem: the incumbent [Hexo](https://hexo.io) and the up-and-coming [Gatsby](https://www.gatsbyjs.org/). This site was first built with Hexo, but I've recently switched to Gatsby. Let's talk about why.
 
 <!-- more -->
 
@@ -141,15 +141,15 @@ The speed of the sites these tools produce varies quite drastically.
 
 ### Hexo
 
-With Hexo, the speed of your static site will be completely coupled to your theme. Your theme might load tons of unnecessary javascript; it also might not use any.
+With Hexo, the speed of your static site will be completely coupled to your theme. Your theme might load tons of unnecessary JavaScript; it also might not use any.
 
-The most important point here is that Hexo adds absolutely no overhead to your website. It introduces no additional dependencies into your built project. If you want a pure static site without any javascript, you can create that. If you want no page to exceed 40kb, that's entirely doable.
+The most important point here is that Hexo adds absolutely no overhead to your website. It introduces no additional dependencies into your built project. If you want a pure static site without any JavaScript, you can create that. If you want no page to exceed 40kb, that's entirely doable.
 
 ### Gatsby
 
 Gatsby takes a much different approach.
 
-For starters, it introduces a javascript dependency into your web site, clocking in around 65kb. This dependency is larger than any single page on my original Hexo website! Fortunately, Gatsby websites will continue to work on browsers with javascript disabled.
+For starters, it introduces a JavaScript dependency into your web site, clocking in around 65kb. This dependency is larger than any single page on my original Hexo website! Fortunately, Gatsby websites will continue to work on browsers with JavaScript disabled.
 
 Gatsby either automatically or through plugins applies numerous performance tricks to every website. To explain a few:
 
@@ -157,7 +157,7 @@ Gatsby either automatically or through plugins applies numerous performance tric
 
 2. When you visit a page, once it has finished loading, Gatsby will begin loading every page you can reach from the page you're on. This technique is known as prefetching and makes subsequent page loads fast.
 
-3. Gatsby does per route code/data splitting. This means that when you go to a page, Gatsby ensures that only the data and javascript needed to render that page is passed over the network.
+3. Gatsby does per route code/data splitting. This means that when you go to a page, Gatsby ensures that only the data and JavaScript needed to render that page is passed over the network.
 
 4. Gatsby uses [service workers](https://developers.google.com/web/fundamentals/primers/service-workers/) via [gatsby-plugin-offline](https://www.gatsbyjs.org/packages/gatsby-plugin-offline/) to cache all the pages you download. This allows subsequent requests for those pages to hit the cache instead of the network. It also allow for users to browse your page offline later.
 
@@ -165,7 +165,7 @@ Gatsby either automatically or through plugins applies numerous performance tric
 
 All of these performance abstractions don't come without a cost. I think my experience was quite telling. When I finished my Hexo website, the main page was ~40kb, whereas when I finished my Gatsby website, the main page was ~134kb, though it's a little difficult to be precise, which brings me to my next point.
 
-Optimization is initially challenging and opaque with Gatsby. When I started, not only did I have no idea my final site would contain Javascript, I had no idea what would influence its performance.
+Optimization is initially challenging and opaque with Gatsby. When I started, not only did I have no idea my final site would contain JavaScript, I had no idea what would influence its performance.
 
 It turns out that everything I returned from my GraphQL queries is loaded at runtime, regardless of whether the site used it. I didn't understand this going in, and it influences [how I use Gatsby today](/a-performance-guide-to-gatsbyjs). This contrasts with Hexo where the performance consequences of my development choices were obvious.
 

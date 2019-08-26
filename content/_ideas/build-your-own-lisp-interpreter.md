@@ -1,7 +1,7 @@
 ---
 title: Build Your Own Lisp Interpreter
 categories:
-  - [Javascript]
+  - [JavaScript]
   - [Build Your Own]
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: Build Your Own Nested Query String Encoder/Decoder
-categories: [Javascript, Build Your Own]
+categories: [JavaScript, Build Your Own]
 date: 2018-04-13
 url: build-your-own-nested-query-string-encoder
 ---
@@ -42,7 +42,7 @@ It's no longer clear which query parameters describe the ordering and which desc
 
 `/api/cars?order=price&filter.make=honda&filter.model=civic`
 
-If we were to represent the query string of the above URI as a Javascript object, it would probably look like this:
+If we were to represent the query string of the above URI as a JavaScript object, it would probably look like this:
 
 ```js
 {

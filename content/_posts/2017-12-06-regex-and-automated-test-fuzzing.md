@@ -1,6 +1,6 @@
 ---
 title: Regex And Automated Test Fuzzing
-categories: [Regular Expressions, Javascript, Testing]
+categories: [Regular Expressions, JavaScript, Testing]
 date: 2017-12-06
 url: regex-and-automated-test-fuzzing
 ---
@@ -11,7 +11,7 @@ I posted my article [Build Your Own Regex Engine](https://nickdrane.com/build-yo
 
 ## What is Fuzzing?
 
-Fuzzing is a automated testing technique where a program is provided a series of invalid or randomly generated inputs. If we were testing an HTTP API, we might send randomized combinations of query parameters and ensure that our server always returns a 2xx status code. Since Javascript comes with a regular expression engine, my fuzzer asserts that given the same random input, both engine's return the same output.
+Fuzzing is a automated testing technique where a program is provided a series of invalid or randomly generated inputs. If we were testing an HTTP API, we might send randomized combinations of query parameters and ensure that our server always returns a 2xx status code. Since JavaScript comes with a regular expression engine, my fuzzer asserts that given the same random input, both engine's return the same output.
 
 ## Specifying the Grammar
 

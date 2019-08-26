@@ -45,7 +45,7 @@ We just successfully filled out a form, submitted an HTTP request containing our
 
 ## A More Complicated Example
 
-Today's web uses a mix of simple html driven forms as well as more complicated, javascript-driven forms, rich with functionality like autocomplete and dynamic dropdown menus. I'm sure you've used a calendar date picker. These components each need to be treated differently.
+Today's web uses a mix of simple html driven forms as well as more complicated, JavaScript-driven forms, rich with functionality like autocomplete and dynamic dropdown menus. I'm sure you've used a calendar date picker. These components each need to be treated differently.
 
 Here is a modified version of some code I wrote for my client:
 
@@ -129,7 +129,7 @@ The page passed into this function is the same page object created above by the 
 
 ## When is Puppeteer the Right Solution
 
-I can only think of a single scenario where using Puppeteer for scraping is superior to the alternative: if the information you want is generated using a combination of API data and javascript code. After all, you would have no other way to simulate the javascript code without rewriting it.
+I can only think of a single scenario where using Puppeteer for scraping is superior to the alternative: if the information you want is generated using a combination of API data and JavaScript code. After all, you would have no other way to simulate the JavaScript code without rewriting it.
 
 If, however, all you need is data from the server, go the simple route and hit the API with an HTTP library like [axios](https://github.com/axios/axios) or [request](https://github.com/request/request). If you are scraping a server side rendered application, you can combine one of the aforementioned tools with [Cheerio](https://github.com/cheeriojs/cheerio), giving you a far more user friendly DOM manipulation API than that offered my Puppeteer.
 
