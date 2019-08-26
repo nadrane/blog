@@ -4,7 +4,6 @@ import styles from "./styles.module.scss";
 import { Link } from "gatsby";
 import Social from "../social";
 import MailChimpForm from "../mailChimpForm";
-import { parse, TextNode, HTMLElement } from "node-html-parser";
 
 export default function Article({
   showSocialTop,
@@ -16,8 +15,7 @@ export default function Article({
   showMailingListForm = false,
   makeTitleClickable = true
 }) {
-  const parsedContent = parse(content);
-  addHeaderIds(parsedContent);
+  // addHeaderIds(parsedContent);
   const month = new Date(date).getUTCMonth();
   const day = new Date(date).getUTCDate();
   const year = new Date(date).getUTCFullYear();
@@ -39,35 +37,35 @@ export default function Article({
           title
         )}
       </h1>
-      <div dangerouslySetInnerHTML={{ __html: parsedContent.toString() }} />
+      <div dangerouslySetInnerHTML={{ __html: content }} />
       {showMailingListForm && <MailChimpForm />}
       {showSocialBottom && <Social title={title} url={url} />}
     </article>
   );
 }
 
-const headerTags = ["h1", "h2", "h3", "h4", "h5", "h6"];
-function addHeaderIds(root) {
-  if (root.childNodes.length === 0) {
-    return;
-  }
-  root.childNodes.forEach(child => {
-    if (headerTags.includes(child.tagName)) {
-      const text = child.childNodes[0].text;
-      const id = text
-        .split(" ")
-        .join("-")
-        .toLowerCase();
-      const newNode = new HTMLElement(
-        child.tagName,
-        { id },
-        `id="${id}"`,
-        root
-      );
-      newNode.appendChild(new TextNode(text));
-      root.exchangeChild(child, newNode);
-    } else {
-      addHeaderIds(child);
-    }
-  });
-}
+// const headerTags = ["h1", "h2", "h3", "h4", "h5", "h6"];
+// function addHeaderIds(root) {
+//   if (root.childNodes.length === 0) {
+//     return;
+//   }
+//   root.childNodes.forEach(child => {
+//     if (headerTags.includes(child.tagName)) {
+//       const text = child.childNodes[0].text;
+//       const id = text
+//         .split(" ")
+//         .join("-")
+//         .toLowerCase();
+//       const newNode = new HTMLElement(
+//         child.tagName,
+//         { id },
+//         `id="${id}"`,
+//         root
+//       );
+//       newNode.appendChild(new TextNode(text));
+//       root.exchangeChild(child, newNode);
+//     } else {
+//       addHeaderIds(child);
+//     }
+//   });
+// }

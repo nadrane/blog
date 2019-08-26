@@ -110,7 +110,6 @@ async function createPostPages(graphql, createPage) {
   }
 
   result.data.posts.nodes.forEach(node => {
-    console.log("creating", node.frontmatter.title);
     createPage({
       path: `/${node.frontmatter.url}/`,
       component: path.resolve("./src/templates/article.js"),

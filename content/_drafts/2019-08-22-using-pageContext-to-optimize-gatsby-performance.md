@@ -5,11 +5,11 @@ categories: [Gatsby]
 url: optimizing-gatsby-build-times-for-large-websites-using-pagecontext
 ---
 
-TL;DR Check out the Bulk Requests and pageContext section below to learn how pageContext works.
+TL;DR Check out the [Bulk Requests and pageContext](#fragment1) section below to learn how pageContext works.
 
-[Gatsby](https://www.gatsbyjs.org/) has become the de facto static site generator because of its dedication to performance, near-infinite flexibility, and it's embrace of modern JavaScript, React, and GraphQL. Like any great tool, however, Gatsby is not without flaws.
+[Gatsby](https://www.gatsbyjs.org/) has become the de facto JavaScript static site generator because of its dedication to performance, near-infinite flexibility, and its embrace of React and GraphQL. Like any great tool, however, Gatsby is not without flaws.
 
-As your site grows, if you're driving your content based on an external API, your site build times will increase as you add more pages. Slow build times hinder developer workflows and make deployments challenging. In my [previous article](/a-performance-guide-to-gatsbyjs), I talked about optimizing GraphQL queries in Gatsby to decrease page load times. This article will focus on how GraphQL queries can be optimized to shorten hour-long build times to seconds.
+If your content is driven by an API, as your site grows, your Gatsby build times will likely increase with every added page. Slow build times hinder developer workflows and make deployments cumbersome. In my [previous article](/a-performance-guide-to-gatsbyjs), I discussed optimizing GraphQL queries in Gatsby to decrease page load times. This article will focus on how GraphQL queries can be optimized to shorten ten minute or even hour-long build times to seconds.
 
 <!-- more -->
 
@@ -53,7 +53,7 @@ export const query = graphql(`
 
 This GraphQL query will run at build time, and the results will be accessible in the `data` prop of the above component.
 
-Together, these two pieces comprise your template file
+Together, these two pieces comprise your template file and will likely be located at `src/templates/product.js`
 
 ```jsx
 // src/templates/product.js
@@ -80,21 +80,23 @@ export const query = graphql(`
 `);
 ```
 
-You be wondering where the above query gets run, how the component is used, and specifically how the `$productId` query parameter is defined. Let's dive into the `gatsby-node.js` file.
+You be wondering where the query gets run, where the component is used, and how the `$productId` query parameter is defined. Let's dive into the `gatsby-node.js` file.
 
 ## The gatsby-node.js File
 
 Every Gatsby project has a `gatsby-node.js` file at its root. This file gives you access to a wide range of [hooks](https://www.gatsbyjs.org/docs/node-apis/) and [APIs](https://www.gatsbyjs.org/docs/actions/) (called actions) that let you customize the bones of your application. In fact, this is the exact same API that Gatsby plugins use under the hood.
 
-We're interested in a hook called `createPages`. This hook will run during the build and will allow us to specify how many pages our site should have. Let's explore this through an example:
+We're interested in a hook called `createPages`. This hook will run during Gatsby's build and will allow us to specify which pages we want to create with the above template. Let's explore this through an example:
 
 ```js
 // gatsby-node.js
 exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions;
 
-  // Make a query to the server to get all of the productIds in the database
-  const products = await graphql(`
+  // Gatsby gives us access to a GraphQL client that we can
+  // use to query any GraphQL API. Make a query to our server
+  // to get all the product ids in our database
+  const queryResults = await graphql(`
     query AllProducts {
       AllProducts {
         nodes {
@@ -104,12 +106,12 @@ exports.createPages = async ({ graphql, actions }) => {
     }
   `);
 
-  const productTemplate = path.resolve(`src/templates/productTemplate.js`);
+  const productTemplate = path.resolve(`src/templates/product.js`);
   // Create a page for every single product ID
-  products.data.nodes.forEach(node => {
+  queryResults.data.allProducts.nodes.forEach(node => {
     createPage({
       path: `/products/${node.id}`, // The URL where this particular page will live
-      component: productTemplate, // The template we defined above
+      component: productTemplate, // The template whose component and query define this page's HTML
       context: {
         // Query parameters passed to productTemplate's GraphQL query
         productId: node.id
@@ -130,16 +132,18 @@ Note:
 - Each page will have a url like `/product/55`, where 55 is the id of the product.
 - We pass in the `productId` as `context`. You can think of `context` as the set of GraphQL query parameters associated with this template.
 
-Behind the scenes, `createPage` will execute the template's GraphQL query once for product. This can lead to performance problems.
+Behind the scenes, `createPage` will execute the template's GraphQL query once per product. If you have a lot of products, this behavior can lead to performance problems.
 
 ## Performance Issues
 
 This strategy shows its warts in two scenarios:
 
-1. If your GraphQL query is expensive, you will find yourself waiting on builds as this query is repeated once for every page for potentially thousands of pages.
+1. If your GraphQL query is expensive and you have a lot of pages, you will find yourself waiting on builds as this query is repeated once for every page for potentially thousands of pages.
 2. If two different template share any data, you might find yourself querying the same data repeatedly, when ideally you would make this query a single time.
 
 Fortunately, there is a workaround.
+
+<a name="fragment1"></a>
 
 ## Bulk Requests and pageContext
 
@@ -151,7 +155,7 @@ exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions;
 
   // Query for all the data needed by every product page
-  // in a single HTTP request
+  // in a single HTTP request.
   const products = await graphql(`
     query AllProducts {
       AllProducts {
@@ -167,16 +171,16 @@ exports.createPages = async ({ graphql, actions }) => {
 };
 ```
 
-We are now requesting all of the data we need in a single query (which translates into a single database query). As long as we can pass it down to our template's component, there is no need for the template to make a GraphQL query at all.
+We are now requesting all of the data we need in a single query (this requires server-side support to fetch many products in a single database query). As long as we can pass this data down to our template's component, there is no need for the template to make a GraphQL query at all.
 
 ```js
 // gatsby-node.js
 exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions;
 
-  const products = await graphql(`
+  const queryResults = await graphql(`
     query AllProducts {
-      AllProducts {
+      allProducts {
         nodes {
           id
           name
@@ -187,8 +191,8 @@ exports.createPages = async ({ graphql, actions }) => {
     }
   `);
 
-  const productTemplate = path.resolve(`src/templates/productTemplate.js`);
-  products.data.nodes.forEach(node => {
+  const productTemplate = path.resolve(`src/templates/product.js`);
+  queryResults.data.allProducts.nodes.forEach(node => {
     createPage({
       path: `/products/${node.id}`,
       component: productTemplate,
@@ -212,7 +216,7 @@ function Product({ pageContext }) {
     <div>
       Name: {pageContext.name}
       Price: {pageContext.price}
-      Descriptions: {pageContext.description}
+      Description: {pageContext.description}
     </div>
   );
 }
@@ -220,12 +224,14 @@ function Product({ pageContext }) {
 
 ## Tradeoffs
 
-This alternative approach can drastically improve performance, but it also has downsides. In fact, for the average application, the Gatsby maintainers [recommend against this approach](https://github.com/gatsbyjs/gatsby/issues/7373).
+This alternative approach can drastically improve performance, but it also has downsides. In fact, for the average application, the Gatsby maintainers recommend against this approach.
 
 The moment we start using `pageContext` is the moment we stop colocating our template components along with their associated GraphQL queries. You will notice that our `src/templates/product.js` file doesn't have a GraphQL query anymore (it could, if we wanted to query additional data from a more performant endpoint). This has some downsides:
 
-1. It's not immediately obvious anymore looking at the `Product` component what data is available to it. In our simple example, this is less of a problem, but in large production applications, it has a huge effect on readability and maintainability
-   - This issue can be somewhat mitigated with TypeScript interfaces or PropTypes, but there is still an opportunity for these definitions to drift from the data actually passed in.
-2. Components are usually hot reloaded when their associated GraphQL queries change. If the `gatsby-node` file changes, our website needs to be rebuilt.
+1. It's not immediately obvious anymore what the props of the `Product` component are. In our simple example, this is less of a problem, but in large production applications, it has a huge effect on readability and maintainability
+   - This issue can be somewhat mitigated with [TypeScript interfaces](https://www.typescriptlang.org/docs/handbook/interfaces.html) or [React PropTypes](https://www.npmjs.com/package/prop-types), but there is still an opportunity for these definitions to drift from the data actually passed in.
+2. Components are usually hot reloaded when their associated GraphQL queries change. Now, when we change our query (located in the `gatsby-node` file), our website needs to be rebuilt.
 
-Ultimately, my advice is to resort to `pageContext` only when absolutely necessary. I would not do this performance optimization prematurely (before you experience a problem) because it only will impair the readability of your code. When your builds get slow, however, this technique can mean the difference between sticking with Gatsby and migrating to another tool.
+## Conclusion
+
+Only resort to `pageContext` only when absolutely necessary. Do not use this performance optimization prematurely (before you experience a problem) because it only will impair the readability of your code. When your builds get slow, however, this technique can mean the difference between unacceptable build times and a smooth experience.
