@@ -6,7 +6,6 @@ import { graphql } from "gatsby";
 
 const BlogIndex = ({ data, errors }) => {
   const articles = data.allMarkdownRemark.nodes;
-  console.log("drafts", articles);
   return (
     <Layout>
       <ArticleList articles={articles} errors={errors} />
