@@ -44,7 +44,7 @@ module.exports = {
     {
       resolve: "gatsby-source-filesystem",
       options: {
-        name: "posts",
+        name: "drafts",
         path: "content/_drafts"
       }
     },
@@ -85,6 +85,14 @@ module.exports = {
         ]
       }
     },
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: "images",
+        path: `src/images`
+      }
+    },
+    `gatsby-transformer-sharp`,
     "gatsby-plugin-sharp",
     {
       resolve: `gatsby-plugin-google-analytics`,

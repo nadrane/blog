@@ -38,8 +38,8 @@ export default function Article({
         )}
       </h1>
       <div dangerouslySetInnerHTML={{ __html: content }} />
-      {showMailingListForm && <MailChimpForm />}
       {showSocialBottom && <Social title={title} url={url} />}
+      {showMailingListForm && <MailChimpForm />}
     </article>
   );
 }

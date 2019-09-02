@@ -1,0 +1,9 @@
+{
+  "name": "2019-09-02-manipulating-raw-html-in-node-with-node-hmtl-parser",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "node-html-parser": "^1.1.16"
+  }
+}
