@@ -6,6 +6,8 @@ url: manipulating-raw-html-in-node-with-the-visitor-pattern
 tags: ["visitor pattern", "parsing", "html", "nodejs"]
 ---
 
+TL;DR Check out the [Adding ids to Header Nodes](#tldr) section to see how to use the Visitor Pattern.
+
 I recently wanted to add an id to every header tag in an HTML string. This sounds like an easy task right? A little jQuery and the problem is solved: `$(":header").attr("id", "1")` is a rough solution.
 
 The catch is that this was in Node, not the browser. In most situations I would reach for [Cheerio](https://cheerio.js.org/), which replicates the [jQuery](https://jquery.com/) API inside node, but I needed something lighter weight.
@@ -16,7 +18,7 @@ This is a story of parsing, recursing, and modifying raw HTML without comfortabl
 
 ## The Problem
 
-My problem statement was quite simple: Add an id to every single header in an HTML string. I was able to assume that each header would only have a string of text as its child, so I took the text of that element and used it to construct each header's id.
+My problem statement was quite simple: Add an id to every single header in an HTML string. I was able to assume that each header would only have a string of text as its child, so I took that text and used it to construct each header's id.
 
 I translated
 
@@ -143,6 +145,8 @@ function visit(root) {
 
 Don't worry if you're unfamiliar with this depth first search; you won't need to understand it to grok the ultimate solution.
 
+## The Visitor Pattern
+
 Now that we can touch every node in the tree, we only need to go one small step further to execute a function on each node:
 
 ```js
@@ -173,7 +177,7 @@ There are 3 things worth noting:
 
 1. We pass in the parent (`root` above) as well as `child` into the user-defined function. Having the parent node of `child` is useful later.
 2. We do not appear to invoke `func` on our top-level node. The way we've written the code keeps it clean and incidentally works works perfectly since Fast HTML Parser wraps our root node in an additional node; effectively, all of our nodes are children of this top-level node. This oddity ensures the user-defined function is called even on the outermost node (or, if there are multiple outermost nodes, all are touched).
-3. We are now returning the resultant HTML as a string from `parseAndVisitNodes`. If our function were to modify the HTML tree, we want a way to access the results. We choose to return a string as opposed to the htmlRoot itself because it encapsulates the parsed HTML data structure; ideally, the caller of this function should not need to understand `HTMLELement`s.
+3. We are now returning the resultant HTML as a string from `parseAndVisitNodes`. If our function were to modify the HTML tree, we want a way to access the results. We choose to return a string as opposed to the htmlRoot itself because it helps abstract away the parsed HTML data structure; ideally, the caller of this function should not need to understand `HTMLELement`s.<sup>[1](#footnote1)</sup>
 
 Let's put `parseAndVisitNodes` to use. Suppose a user wants to print the tag name of each child in the tree:
 
@@ -195,6 +199,10 @@ parseAndVisitNodes(html, printTagName);
 If you run this, you'll notice that the `TextNode`'s print `undefined`. That's to be expected. You might also notice that there are 3 text nodes, not 1. There is a `TextNode` between the opening `div` and opening `h1` and between the closing `h1` and closing `div`. These `TextNodes` contain new lines. The browser works the same way
 
 We just used a technique called the [Visitor pattern](https://en.wikipedia.org/wiki/Visitor_pattern), dubbed by the way that we _visited_ and executed a function on every node of the tree. This patterns flexibility should be readily apparent: We can add arbitrary functionality to operate over our HTML tree without needing to modify any underlying class itself.
+
+<a name="tldr"></a>
+
+## Adding ids to Header Nodes
 
 Let's showcase the raw power of this design pattern by re-addressing the original problem: Let's write a function to add an id to every header tag.
 
@@ -255,4 +263,8 @@ This outputs HTML that looks like this:
 </div>
 ```
 
+## Conclusion
+
 Now that you have `parseAndVisitNodes`, all you need to do is write an input function that utilizes the HTML data structure as you see fit. One challenge you might encounter is what happens when you want to modify a node in the middle of a large tree. In `addHeaderIds`, we simply copied the one underlying `TextNode` and appended it to our new header node, but this technique is obviously impractical for large, dynamic HTML trees. Fortunately, we can reuse existing parts of the tree, referencing certain child subtrees with multiple HTML tree data structures.
+
+<a name="footnote1">1</a>: I recognize the irony of this statement given that the caller's input function might need to understand the internals of `HTMLElement`. Nevertheless, in my opinion, this design choice still provides a valuable degree of abstraction.
