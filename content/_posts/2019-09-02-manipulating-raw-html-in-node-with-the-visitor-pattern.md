@@ -10,7 +10,7 @@ I recently wanted to add an id to every header tag in an HTML string. This sound
 
 The catch is that this was in Node, not the browser. In most situations I would reach for [Cheerio](https://cheerio.js.org/), which replicates the [jQuery](https://jquery.com/) API inside node, but I needed something lighter weight.
 
-This is a story of parsing, recursing, and modifying raw HTML without comfortable, declarative APIs. It's surprisingly approachable with the help of the [Visitor pattern](https://en.wikipedia.org/wiki/Visitor_pattern)!
+This is a story of parsing, recursing, and modifying raw HTML without comfortable, declarative APIs. It's surprisingly approachable with the help of the [Visitor pattern](https://en.wikipedia.org/wiki/Visitor_pattern).
 
 <!-- more -->
 
