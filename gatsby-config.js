@@ -60,6 +60,7 @@ module.exports = {
       options: {
         excerpt_separator: "<!-- more -->",
         plugins: [
+          "gatsby-remark-mermaid",
           {
             resolve: `gatsby-remark-images`,
             options: {
