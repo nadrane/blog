@@ -1,5 +1,6 @@
 ---
 title: Hire Me
+url: hire-me
 ---
 
 I do software consulting work. Here are some things you can hire me for:
@@ -21,8 +22,4 @@ I do software consulting work. Here are some things you can hire me for:
 
 Please reach out at me at [nick@nickdrane.com](mailto:nick@nickdrane.com) for rates and timelines.
 
----
-
-_My consulting group hired Nick to supervise the rebuild of our core web application. The product had a history of difficulties, and Nick's efforts guiding the project - and working closely with my team to get us to the point of self-sufficiency - completely transformed our product and saved us a significant amount of money._
-
-_It would be easy to be intimidated by Nick's impressive engineering acumen and depth of expertise, but his genuine curiosity, patience, gift for teaching, and commitment to thoroughness make him both a joy to work with and a rarity in tech consulting._ &#8212; **David Machajewski**, Technology Lead, [Freshwater Advisors](http://freshwateradvisors.com/)
+You can read testimonials [here](/testimonials)

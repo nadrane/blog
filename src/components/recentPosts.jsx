@@ -1,6 +1,6 @@
-import React from 'react';
-import { StaticQuery, graphql } from 'gatsby';
-import SideBarList from './sideBarList';
+import React from "react";
+import { StaticQuery, graphql } from "gatsby";
+import SideBarList from "./sideBarList";
 
 const RecentPosts = () => (
   <StaticQuery
@@ -11,23 +11,20 @@ const RecentPosts = () => (
           filter: { fields: { contentType: { eq: "post" } } }
           sort: { fields: [frontmatter___date], order: DESC }
         ) {
-          edges {
-            node {
-              fields {
-                slug
-              }
-              frontmatter {
-                title
-              }
+          nodes {
+            frontmatter {
+              title
+              url
             }
           }
         }
       }
     `}
     render={data => {
-      const formattedLinks = data.allMarkdownRemark.edges
-        .map(edge => edge.node)
-        .map(node => ({ name: node.frontmatter.title, link: node.fields.slug }));
+      const formattedLinks = data.allMarkdownRemark.nodes.map(node => ({
+        name: node.frontmatter.title,
+        link: node.frontmatter.url
+      }));
 
       return <SideBarList items={formattedLinks} label="Most Recent Posts" />;
     }}

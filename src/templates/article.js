@@ -1,20 +1,19 @@
-import React from 'react';
-import Layout from '../components/layout';
-import Article from '../components/article';
-import { graphql } from 'gatsby';
+import React from "react";
+import Layout from "../components/layout";
+import Article from "../components/article";
+import { graphql } from "gatsby";
 
 const ArticleTemplate = ({ data, errors }) => {
   if (errors && errors.length) {
-    console.log('errors rendering article', errors);
+    console.log("errors rendering article", errors);
   }
 
-  const { date, title } = data.markdownRemark.frontmatter;
+  const { date, title, url } = data.markdownRemark.frontmatter;
   const { html } = data.markdownRemark;
-  const { slug } = data.markdownRemark.fields;
   return (
     <Layout>
       <Article
-        slug={slug}
+        url={url}
         makeTitleClickable={false}
         showMailingListForm
         showSocialTop
@@ -30,15 +29,13 @@ const ArticleTemplate = ({ data, errors }) => {
 export default ArticleTemplate;
 
 export const query = graphql`
-  query($slug: String!) {
-    markdownRemark(fields: { slug: { eq: $slug } }) {
+  query($title: String!) {
+    markdownRemark(frontmatter: { title: { eq: $title } }) {
       html
-      fields {
-        slug
-      }
       frontmatter {
         title
         date
+        url
       }
     }
   }

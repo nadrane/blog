@@ -1,25 +1,22 @@
-import React from 'react';
-import { StaticQuery, graphql } from 'gatsby';
-import SideBarList from './sideBarList';
+import React from "react";
+import { StaticQuery, graphql } from "gatsby";
+import SideBarList from "./sideBarList";
 
 const CategoryList = () => (
   <StaticQuery
     query={graphql`
       {
-        allMarkdownRemark {
-          edges {
-            node {
-              frontmatter {
-                categories
-              }
+        allMarkdownRemark(filter: { fields: { contentType: { eq: "post" } } }) {
+          nodes {
+            frontmatter {
+              categories
             }
           }
         }
       }
     `}
     render={data => {
-      const categoriesWithCounts = data.allMarkdownRemark.edges
-        .map(edge => edge.node)
+      const categoriesWithCounts = data.allMarkdownRemark.nodes
         .filter(node => node.frontmatter.categories)
         .reduce((accum, node) => {
           for (const category of node.frontmatter.categories) {
@@ -37,7 +34,7 @@ const CategoryList = () => (
         .sort((a, b) => (a.name > b.name ? 1 : a.name < b.name ? -1 : 0))
         .map(({ name, count }) => ({
           name: `${name} (${count})`,
-          link: `categories/${name.split(' ').join('-')}`
+          link: `categories/${name.split(" ").join("-")}`
         }));
 
       return <SideBarList items={sortedCategories} label="categories" />;

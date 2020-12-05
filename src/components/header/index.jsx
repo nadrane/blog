@@ -18,9 +18,9 @@ const Header = ({ siteTitle }) => (
       </h1>
       <div style={{ flexGrow: 1 }} />
       <ul className={styles.headerLinks}>
-        <li>
+        {/* <li>
           <Link to="/projects">Projects</Link>
-        </li>
+        </li> */}
         <li>
           <Link to="/hire-me">Hire Me</Link>
         </li>
