@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install Gatsby
+        run: |
+          sudo chown -R $USER /usr/local/lib/node_modules
+          npm install -g gatsby-cli
+
+      - name: Build Gatsby
+        run: |
+          yarn build
+
+      - name: Deploy to Staging
+        run: |
+          touch public/CNAME && echo nickdrane.com > public/CNAME
