@@ -17,6 +17,7 @@ jobs:
 
       - name: Install Gatsby
         run: |
+          sudo chown -R $USER /usr/local/lib/node_modules
           npm install -g gatsby-cli
 
       - name: Build Gatsby
